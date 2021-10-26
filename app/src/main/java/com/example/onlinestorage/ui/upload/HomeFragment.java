@@ -42,12 +42,14 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class HomeFragment extends Fragment {
 
     private static final int SELECT_VIDEO = 3;
+    private static final String TAG = "";
     EditText txt_directorate;
     EditText txt_rdsospecs;
     EditText txt_vendor;
@@ -74,6 +76,9 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private String selectedPath;
     private Bitmap bitmap;
+    ArrayList<Uri> arrayList = new ArrayList<>();
+
+    ArrayList<Bitmap> images = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -147,7 +152,6 @@ public class HomeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null) {
 
-            //getting the image Uri
             Uri imageUri = data.getData();
             try {
                 //getting bitmap object from uri
@@ -159,6 +163,7 @@ public class HomeFragment extends Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         }
     }
 
@@ -252,8 +257,7 @@ public class HomeFragment extends Fragment {
             @Override
             protected Map<String, VolleyMultipartRequest.DataPart> getByteData() {
                 Map<String, DataPart> params = new HashMap<>();
-                long imagename = System.currentTimeMillis();
-                //params.put("pic", new DataPart(imagename + ".png", getFileDataFromDrawable(bitmap)));
+
                 params.put("file_data", new DataPart(get_filename, getFileDataFromDrawable(bitmap)));
                 return params;
             }
@@ -278,7 +282,8 @@ public class HomeFragment extends Fragment {
 
     void imageChooser() {
 
-        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent i = new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        i.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(i, 100);
     }
 
