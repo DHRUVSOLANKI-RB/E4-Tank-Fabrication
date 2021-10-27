@@ -43,7 +43,6 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -196,22 +195,29 @@ public class HomeFragment extends Fragment {
         try {
 
             iStream = getContext().getContentResolver().openInputStream(pdffile);
+
+            System.out.println("source path " + pdffile);
+
             final byte[] inputData = getBytes(iStream);
 
-            VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, EndPoints.UPLOAD_URL,
-                    new Response.Listener<NetworkResponse>() {
-                        @Override
-                        public void onResponse(NetworkResponse response) {
-                            Log.d("ressssssoo", new String(response.data));
-                            rQueue.getCache().clear();
+            VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, EndPoints.UPLOAD_URL, new Response.Listener<NetworkResponse>() {
+                @Override
+                public void onResponse(NetworkResponse response) {
+                    Log.d("ressssssoo", new String(response.data));
+                    rQueue.getCache().clear();
 
-                            progressDialog.dismiss();
+                    progressDialog.dismiss();
 
+                    try {
+                        JSONObject jsonObject = new JSONObject(new String(response.data));
+
+                        new MaterialAlertDialogBuilder(getContext()).setTitle(jsonObject.getString("message")).setPositiveButton("Ok", (dialogInterface, i) -> {
+
+                            String error = null;
                             try {
-                                JSONObject jsonObject = new JSONObject(new String(response.data));
-                                //Toast.makeText(getContext().getApplicationContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                error = jsonObject.getString("error");
 
-                                new MaterialAlertDialogBuilder(getContext()).setTitle("File Uploaded Successfully.").setPositiveButton("Ok", (dialogInterface, i) -> {
+                                if (error.equals("false")) {
 
                                     filename.setText("");
                                     txt_rdsospecs.getText().clear();
@@ -219,7 +225,13 @@ public class HomeFragment extends Fragment {
                                     txt_vendorid.getText().clear();
                                     txt_fileno.getText().clear();
                                     txt_itemname.getText().clear();
-                                }).show();
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }).show();
 
 //                                jsonObject.toString().replace("\\\\","");
 //
@@ -279,8 +291,6 @@ public class HomeFragment extends Fragment {
             progressDialog = ProgressDialog.show(getContext(), "Loading Data", null, true, true);
 
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -300,8 +310,8 @@ public class HomeFragment extends Fragment {
     void imageChooser() {
 
         Intent intent = new Intent();
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         intent.setType("*/*");
         startActivityForResult(intent, 100);
 
