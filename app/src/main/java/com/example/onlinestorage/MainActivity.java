@@ -1,6 +1,8 @@
 package com.example.onlinestorage;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,9 +17,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -68,6 +67,12 @@ public class MainActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.logout:
+
+                SharedPreferences sharedpreferences = getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.clear();
+                editor.apply();
+
                 Intent intent1 = new Intent(MainActivity.this, UserLoginActivity.class);
                 startActivity(intent1);
                 return true;
@@ -76,31 +81,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public Map<String, String> getUserData() {
-
-        Intent intentData = getIntent();
-
-        String userEmail = intentData.getStringExtra("UserEmail");
-        String directorate = intentData.getStringExtra("Directorate");
-        String user = intentData.getStringExtra("User");
-
-        Map<String, String> data = new HashMap<>();
-
-        data.put("UserEmail", userEmail);
-        data.put("Directorate", directorate);
-        data.put("User", user);
-
-        return data;
-    }
-
     @Override
     public void onBackPressed() {
 
-        new MaterialAlertDialogBuilder(MainActivity.this)
-                .setTitle("Confirm Exit")
-                .setMessage("Are you sure you want to exit?")
-                .setPositiveButton("Exit", (dialogInterface, i) -> finish())
-                .setNegativeButton("CANCEL", null)
-                .show();
+        new MaterialAlertDialogBuilder(MainActivity.this).setTitle("Confirm Exit").setMessage("Are you sure you want to exit?").setPositiveButton("Exit", (dialogInterface, i) -> {
+            moveTaskToBack(true);
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(1);
+        }).setNegativeButton("CANCEL", null).show();
     }
 }

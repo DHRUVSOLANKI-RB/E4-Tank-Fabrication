@@ -2,7 +2,9 @@ package com.example.onlinestorage;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -27,6 +29,8 @@ public class UserLoginActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     HashMap<String, String> hashMap = new HashMap<>();
     com.example.onlinestorage.HttpParse httpParse = new com.example.onlinestorage.HttpParse();
+    public static final String MyPREFERENCES = "MyPrefs";
+    SharedPreferences sp_login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,12 @@ public class UserLoginActivity extends AppCompatActivity {
         Email = findViewById(R.id.email);
         Password = findViewById(R.id.password);
         LogIn = findViewById(R.id.Login);
+
+        sp_login = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+        if (sp_login.getBoolean("logged", false)) {
+            goToMainActivity();
+        }
 
         LogIn.setOnClickListener(view -> {
 
@@ -64,6 +74,11 @@ public class UserLoginActivity extends AppCompatActivity {
                 hideKeyboard(v);
             }
         });
+    }
+
+    public void goToMainActivity() {
+        Intent intent = new Intent(com.example.onlinestorage.UserLoginActivity.this, com.example.onlinestorage.MainActivity.class);
+        startActivity(intent);
     }
 
     public void CheckEditTextIsEmptyOrNot() {
@@ -100,14 +115,15 @@ public class UserLoginActivity extends AppCompatActivity {
 
                     finish();
 
-//                    Intent intent = new Intent(com.example.onlinestorage.UserLoginActivity.this, com.example.onlinestorage.DashboardActivity.class);
-                    Intent intent = new Intent(com.example.onlinestorage.UserLoginActivity.this, com.example.onlinestorage.MainActivity.class);
+                    SharedPreferences.Editor editor = sp_login.edit();
 
-                    intent.putExtra("UserEmail", email);
-                    intent.putExtra("Directorate", response[1]);
-                    intent.putExtra("User", response[2]);
+                    editor.putBoolean("logged", true);
+                    editor.putString("UserEmail", email);
+                    editor.putString("Directorate", response[1]);
+                    editor.putString("User", response[2]);
+                    editor.apply();
 
-                    startActivity(intent);
+                    goToMainActivity();
 
                 } else {
 

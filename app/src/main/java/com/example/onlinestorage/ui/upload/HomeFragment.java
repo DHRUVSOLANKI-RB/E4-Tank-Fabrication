@@ -2,7 +2,9 @@ package com.example.onlinestorage.ui.upload;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -31,9 +33,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinestorage.EndPoints;
-import com.example.onlinestorage.HttpParse;
-import com.example.onlinestorage.MainActivity;
 import com.example.onlinestorage.R;
+import com.example.onlinestorage.UserLoginActivity;
 import com.example.onlinestorage.VolleyMultipartRequest;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -74,7 +75,6 @@ public class HomeFragment extends Fragment {
     String HttpURL = "http://192.168.1.100:8585/OnlineStorage/UserRegistration.php";
     private final String upload_URL = "http://192.168.1.100:8585/OnlineStorage/uploadfile.php?";
     HashMap<String, String> hashMap = new HashMap<>();
-    HttpParse httpParse = new HttpParse();
     ProgressDialog progressDialog;
     String get_filename;
     private HomeViewModel homeViewModel;
@@ -106,11 +106,10 @@ public class HomeFragment extends Fragment {
 
         select_file.setOnClickListener(v -> imageChooser());
 
-        MainActivity activity = (MainActivity) getActivity();
-        Map<String, String> myDataFromActivity = activity.getUserData();
+        SharedPreferences sharedpreferences = getActivity().getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
 
-        User = myDataFromActivity.get("User");
-        Directorate = myDataFromActivity.get("Directorate");
+        User = sharedpreferences.getString("User", "");
+        Directorate = sharedpreferences.getString("Directorate", "");
 
         txt_directorate.setText(Directorate);
 
