@@ -2,15 +2,14 @@ package com.example.onlinestorage.ui.upload;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +24,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.onlinestorage.EndPoints;
 import com.example.onlinestorage.HttpParse;
@@ -41,7 +41,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -69,6 +72,7 @@ public class HomeFragment extends Fragment {
     String rdsospecs;
     Boolean CheckEditText;
     String HttpURL = "http://192.168.1.100:8585/OnlineStorage/UserRegistration.php";
+    private final String upload_URL = "http://192.168.1.100:8585/OnlineStorage/uploadfile.php?";
     HashMap<String, String> hashMap = new HashMap<>();
     HttpParse httpParse = new HttpParse();
     ProgressDialog progressDialog;
@@ -76,7 +80,12 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private String selectedPath;
     private Bitmap bitmap;
+    String url = "https://www.google.com";
+    Uri uri;
     ArrayList<Uri> arrayList = new ArrayList<>();
+    String displayName = null;
+    private ArrayList<HashMap<String, String>> arraylist;
+    private RequestQueue rQueue;
 
     ArrayList<Bitmap> images = new ArrayList<>();
 
@@ -94,19 +103,6 @@ public class HomeFragment extends Fragment {
         txt_rdsospecs = root.findViewById(R.id.rdsospecs);
         upload = root.findViewById(R.id.upload);
         filename = root.findViewById(R.id.filename);
-
-        upload.setOnClickListener(view -> {
-
-            CheckEditTextIsEmptyOrNot();
-
-            if (CheckEditText) {
-
-                uploadBitmap(bitmap);
-            } else {
-
-                Toast.makeText(getContext(), "Please fill all form fields.", Toast.LENGTH_LONG).show();
-            }
-        });
 
         select_file.setOnClickListener(v -> imageChooser());
 
@@ -144,6 +140,20 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        upload.setOnClickListener(view -> {
+
+            CheckEditTextIsEmptyOrNot();
+
+            if (CheckEditText) {
+
+                //uploadBitmap(bitmap);
+                uploadPDF(displayName, uri);
+            } else {
+
+                Toast.makeText(getContext(), "Please fill all form fields.", Toast.LENGTH_LONG).show();
+            }
+        });
+
         return root;
     }
 
@@ -152,69 +162,57 @@ public class HomeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null) {
 
-            Uri imageUri = data.getData();
-            try {
-                //getting bitmap object from uri
-                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageUri);
-
-                get_filename = getFileName(imageUri);
-                filename.setText(get_filename);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
-
-    public String getFileName(Uri uri) {
-        String result = null;
-        if (uri.getScheme().equals("content")) {
-            Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null);
-            try {
-                if (cursor != null && cursor.moveToFirst()) {
-                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                }
-            } finally {
-                cursor.close();
-            }
-        }
-        if (result == null) {
-            result = uri.getPath();
-            int cut = result.lastIndexOf('/');
-            if (cut != -1) {
-                result = result.substring(cut + 1);
-            }
-        }
-        return result;
-    }
+            uri = data.getData();
+            String uriString = uri.toString();
+            File myFile = new File(uriString);
+            String path = myFile.getAbsolutePath();
 
 
-    public byte[] getFileDataFromDrawable(Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
-        return byteArrayOutputStream.toByteArray();
-    }
-
-    private void uploadBitmap(final Bitmap bitmap) {
-
-        //our custom volley request
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, EndPoints.UPLOAD_URL, new Response.Listener<NetworkResponse>() {
-            @Override
-            public void onResponse(NetworkResponse response) {
+            if (uriString.startsWith("content://")) {
+                Cursor cursor = null;
                 try {
+                    cursor = getContext().getContentResolver().query(uri, null, null, null, null);
+                    if (cursor != null && cursor.moveToFirst()) {
+                        displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                        Log.d("nameeeee>>>>  ", displayName);
 
-                    progressDialog.dismiss();
+                        get_filename = displayName;
+                        filename.setText(displayName);
+                        //uploadPDF(displayName,uri);
+                    }
+                } finally {
+                    cursor.close();
+                }
+            } else if (uriString.startsWith("file://")) {
+                displayName = myFile.getName();
+                Log.d("nameeeee>>>>  ", displayName);
+            }
 
-                    JSONObject obj = new JSONObject(new String(response.data));
-                    //Toast.makeText(getContext().getApplicationContext(), obj.getString("message"), Toast.LENGTH_LONG).show();
+        }
+    }
 
-                    new MaterialAlertDialogBuilder(getContext())
-                            .setTitle("File Uploaded Successfully.")
-                            //.setMessage("File Uploaded Successfully.")
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
+    private void uploadPDF(final String pdfname, Uri pdffile) {
+
+        InputStream iStream = null;
+        try {
+
+            iStream = getContext().getContentResolver().openInputStream(pdffile);
+            final byte[] inputData = getBytes(iStream);
+
+            VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, EndPoints.UPLOAD_URL,
+                    new Response.Listener<NetworkResponse>() {
+                        @Override
+                        public void onResponse(NetworkResponse response) {
+                            Log.d("ressssssoo", new String(response.data));
+                            rQueue.getCache().clear();
+
+                            progressDialog.dismiss();
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(new String(response.data));
+                                //Toast.makeText(getContext().getApplicationContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+
+                                new MaterialAlertDialogBuilder(getContext()).setTitle("File Uploaded Successfully.").setPositiveButton("Ok", (dialogInterface, i) -> {
 
                                     filename.setText("");
                                     txt_rdsospecs.getText().clear();
@@ -222,51 +220,71 @@ public class HomeFragment extends Fragment {
                                     txt_vendorid.getText().clear();
                                     txt_fileno.getText().clear();
                                     txt_itemname.getText().clear();
-                                }
-                            })
-                            .show();
+                                }).show();
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
+//                                jsonObject.toString().replace("\\\\","");
+//
+//                                if (jsonObject.getString("status").equals("true")) {
+//                                    Log.d("come::: >>>  ","yessssss");
+//                                    arraylist = new ArrayList<HashMap<String, String>>();
+//                                    JSONArray dataArray = jsonObject.getJSONArray("data");
+//
+//
+//                                    for (int i = 0; i < dataArray.length(); i++) {
+//                                        JSONObject dataobj = dataArray.getJSONObject(i);
+//                                        url = dataobj.optString("pathToFile");
+//                                        //tv.setText(url);
+//                                    }
+//
+//
+//                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    error -> Toast.makeText(getContext().getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show()) {
+
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+
+                    params.put("vendor", vendor);
+                    params.put("vendorid", vendorid);
+                    params.put("fileno", fileno);
+                    params.put("itemname", itemname);
+                    params.put("rdsospecs", rdsospecs);
+                    params.put("directorate", Directorate);
+                    params.put("user", User);
+
+                    return params;
                 }
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext().getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }) {
 
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("vendor", vendor);
-                params.put("vendorid", vendorid);
-                params.put("fileno", fileno);
-                params.put("itemname", itemname);
-                params.put("rdsospecs", rdsospecs);
-                params.put("directorate", Directorate);
-                params.put("user", User);
-                return params;
-            }
+                @Override
+                protected Map<String, DataPart> getByteData() {
+                    Map<String, DataPart> params = new HashMap<>();
 
-            /*
-             * Here we are passing image by renaming it with a unique name
-             * */
-            @Override
-            protected Map<String, VolleyMultipartRequest.DataPart> getByteData() {
-                Map<String, DataPart> params = new HashMap<>();
+                    params.put("file_data", new DataPart(pdfname, inputData));
+                    return params;
+                }
+            };
 
-                params.put("file_data", new DataPart(get_filename, getFileDataFromDrawable(bitmap)));
-                return params;
-            }
-        };
 
-        //adding the request to volley
-        Volley.newRequestQueue(getContext()).add(volleyMultipartRequest);
+            volleyMultipartRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    0,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            rQueue = Volley.newRequestQueue(HomeFragment.this.getContext());
+            rQueue.add(volleyMultipartRequest);
 
-        progressDialog = ProgressDialog.show(getContext(), "Loading Data", null, true, true);
+            progressDialog = ProgressDialog.show(getContext(), "Loading Data", null, true, true);
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void CheckEditTextIsEmptyOrNot() {
@@ -282,14 +300,29 @@ public class HomeFragment extends Fragment {
 
     void imageChooser() {
 
-        Intent i = new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        i.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        startActivityForResult(i, 100);
+        Intent intent = new Intent();
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        startActivityForResult(intent, 100);
+
     }
 
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024 * 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
     }
 
 }
