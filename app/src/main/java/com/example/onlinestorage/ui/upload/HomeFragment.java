@@ -2,11 +2,11 @@ package com.example.onlinestorage.ui.upload;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
@@ -51,8 +51,6 @@ import java.util.Map;
 
 public class HomeFragment extends Fragment {
 
-    private static final int SELECT_VIDEO = 3;
-    private static final String TAG = "";
     EditText txt_directorate;
     EditText txt_rdsospecs;
     EditText txt_vendor;
@@ -60,7 +58,6 @@ public class HomeFragment extends Fragment {
     EditText txt_fileno;
     EditText txt_itemname;
     TextView filename;
-    String EmailHolder;
     String Directorate;
     String User;
     Button select_file;
@@ -71,26 +68,17 @@ public class HomeFragment extends Fragment {
     String itemname;
     String rdsospecs;
     Boolean CheckEditText;
-    String HttpURL = "http://192.168.1.100:8585/OnlineStorage/UserRegistration.php";
-    private final String upload_URL = "http://192.168.1.100:8585/OnlineStorage/uploadfile.php?";
-    HashMap<String, String> hashMap = new HashMap<>();
     ProgressDialog progressDialog;
-    String get_filename;
-    private HomeViewModel homeViewModel;
-    private String selectedPath;
-    private Bitmap bitmap;
-    String url = "https://www.google.com";
+    String get_filename = "";
+    String all_filename = "";
     Uri uri;
-    ArrayList<Uri> arrayList = new ArrayList<>();
     String displayName = null;
     private ArrayList<HashMap<String, String>> arraylist;
     private RequestQueue rQueue;
 
-    ArrayList<Bitmap> images = new ArrayList<>();
-
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_upload, container, false);
 
         select_file = root.findViewById(R.id.select_file);
@@ -160,31 +148,110 @@ public class HomeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null) {
 
-            uri = data.getData();
-            String uriString = uri.toString();
-            File myFile = new File(uriString);
-            String path = myFile.getAbsolutePath();
+            all_filename = "";
+            if (data.getClipData() != null) {
+                ClipData mClipData = data.getClipData();
+                for (int i = 0; i < mClipData.getItemCount(); i++) {
+                    ClipData.Item item = mClipData.getItemAt(i);
+                    uri = item.getUri();
+                    String uriString = uri.toString();
+                    File myFile = new File(uriString);
+                    String path = myFile.getAbsolutePath();
 
+                    if (uriString.startsWith("content://")) {
+                        Cursor cursor = null;
+                        try {
+                            cursor = getContext().getContentResolver().query(uri, null, null, null, null);
+                            if (cursor != null && cursor.moveToFirst()) {
+                                displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
 
-            if (uriString.startsWith("content://")) {
-                Cursor cursor = null;
-                try {
-                    cursor = getContext().getContentResolver().query(uri, null, null, null, null);
-                    if (cursor != null && cursor.moveToFirst()) {
-                        displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                        Log.d("nameeeee>>>>  ", displayName);
+                                if (all_filename.equals("")) {
 
-                        get_filename = displayName;
-                        filename.setText(displayName);
-                        //uploadPDF(displayName,uri);
+                                    get_filename = displayName;
+
+                                    all_filename = (i + 1) + ". " + displayName;
+                                    filename.setText(all_filename);
+                                } else {
+
+                                    get_filename = get_filename + "," + displayName;
+
+                                    all_filename = all_filename + "\n" + (i + 1) + ". " + displayName;
+                                    filename.setText(all_filename);
+                                }
+
+                                Log.d("nameeeee>>>>  ", get_filename);
+                                //uploadPDF(displayName,uri);
+                            }
+                        } finally {
+                            cursor.close();
+                        }
+                    } else if (uriString.startsWith("file://")) {
+                        displayName = myFile.getName();
+                        Log.d("nameeeee>>>>  ", get_filename);
                     }
-                } finally {
-                    cursor.close();
+
                 }
-            } else if (uriString.startsWith("file://")) {
-                displayName = myFile.getName();
-                Log.d("nameeeee>>>>  ", displayName);
+
+            } else if (data.getData() != null) {
+                Uri uri = data.getData();
+                String uriString = uri.toString();
+                File myFile = new File(uriString);
+                String path = myFile.getAbsolutePath();
+
+
+                if (uriString.startsWith("content://")) {
+                    Cursor cursor = null;
+                    try {
+                        cursor = getContext().getContentResolver().query(uri, null, null, null, null);
+                        if (cursor != null && cursor.moveToFirst()) {
+                            displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                            Log.d("nameeeee>>>>  ", get_filename);
+
+                            get_filename = get_filename + displayName;
+
+                            if (all_filename.equals("")) {
+
+                                all_filename = displayName;
+                                filename.setText(all_filename);
+                            }
+
+                            Log.d("nameeeee>>>>  ", get_filename);
+                        }
+                    } finally {
+                        cursor.close();
+                    }
+                } else if (uriString.startsWith("file://")) {
+                    displayName = myFile.getName();
+                    Log.d("nameeeee>>>>  ", get_filename);
+                }
+
             }
+
+//            uri = data.getData();
+//            String uriString = uri.toString();
+//            File myFile = new File(uriString);
+//            String path = myFile.getAbsolutePath();
+//
+//
+//            if (uriString.startsWith("content://")) {
+//                Cursor cursor = null;
+//                try {
+//                    cursor = getContext().getContentResolver().query(uri, null, null, null, null);
+//                    if (cursor != null && cursor.moveToFirst()) {
+//                        displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+//                        Log.d("nameeeee>>>>  ", displayName);
+//
+//                        get_filename = displayName;
+//                        filename.setText(displayName);
+//                        //uploadPDF(displayName,uri);
+//                    }
+//                } finally {
+//                    cursor.close();
+//                }
+//            } else if (uriString.startsWith("file://")) {
+//                displayName = myFile.getName();
+//                Log.d("nameeeee>>>>  ", displayName);
+//            }
 
         }
     }
