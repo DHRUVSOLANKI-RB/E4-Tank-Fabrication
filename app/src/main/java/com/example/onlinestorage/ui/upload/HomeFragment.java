@@ -49,7 +49,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment<array_uri> extends Fragment {
 
     EditText txt_directorate;
     EditText txt_rdsospecs;
@@ -72,6 +72,10 @@ public class HomeFragment extends Fragment {
     String get_filename = "";
     String all_filename = "";
     Uri uri;
+    HashMap<String, String> array_file_uri = new HashMap<>();
+
+    String add_uri = "";
+
     String displayName = null;
     private ArrayList<HashMap<String, String>> arraylist;
     private RequestQueue rQueue;
@@ -92,6 +96,7 @@ public class HomeFragment extends Fragment {
         filename = root.findViewById(R.id.filename);
 
         select_file.setOnClickListener(v -> imageChooser());
+        progressDialog = new ProgressDialog(getActivity());
 
         SharedPreferences sharedpreferences = getActivity().getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
 
@@ -132,8 +137,12 @@ public class HomeFragment extends Fragment {
 
             if (CheckEditText) {
 
-                //uploadBitmap(bitmap);
-                uploadPDF(displayName, uri);
+                for (Map.Entry m : array_file_uri.entrySet()) {
+                    System.out.println(m.getKey() + " " + m.getValue());
+
+                    uploadPDF(m.getKey().toString(), Uri.parse(m.getValue().toString()));
+                }
+
             } else {
 
                 Toast.makeText(getContext(), "Please fill all form fields.", Toast.LENGTH_LONG).show();
@@ -149,6 +158,9 @@ public class HomeFragment extends Fragment {
         if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null) {
 
             all_filename = "";
+            get_filename = "";
+            array_file_uri.clear();
+
             if (data.getClipData() != null) {
                 ClipData mClipData = data.getClipData();
                 for (int i = 0; i < mClipData.getItemCount(); i++) {
@@ -190,14 +202,15 @@ public class HomeFragment extends Fragment {
                         Log.d("nameeeee>>>>  ", get_filename);
                     }
 
+                    array_file_uri.put(displayName, uri.toString());
+
                 }
 
             } else if (data.getData() != null) {
-                Uri uri = data.getData();
+                uri = data.getData();
                 String uriString = uri.toString();
                 File myFile = new File(uriString);
                 String path = myFile.getAbsolutePath();
-
 
                 if (uriString.startsWith("content://")) {
                     Cursor cursor = null;
@@ -224,6 +237,8 @@ public class HomeFragment extends Fragment {
                     displayName = myFile.getName();
                     Log.d("nameeeee>>>>  ", get_filename);
                 }
+
+                array_file_uri.put(displayName, uri.toString());
 
             }
 
@@ -286,12 +301,12 @@ public class HomeFragment extends Fragment {
 
                                 if (error.equals("false")) {
 
-                                    filename.setText("");
-                                    txt_rdsospecs.getText().clear();
-                                    txt_vendor.getText().clear();
-                                    txt_vendorid.getText().clear();
-                                    txt_fileno.getText().clear();
-                                    txt_itemname.getText().clear();
+//                                    filename.setText("");
+//                                    txt_rdsospecs.getText().clear();
+//                                    txt_vendor.getText().clear();
+//                                    txt_vendorid.getText().clear();
+//                                    txt_fileno.getText().clear();
+//                                    txt_itemname.getText().clear();
                                 }
 
                             } catch (JSONException e) {
@@ -334,6 +349,7 @@ public class HomeFragment extends Fragment {
                     params.put("rdsospecs", rdsospecs);
                     params.put("directorate", Directorate);
                     params.put("user", User);
+                    params.put("filename", get_filename);
 
                     return params;
                 }
@@ -355,7 +371,7 @@ public class HomeFragment extends Fragment {
             rQueue = Volley.newRequestQueue(HomeFragment.this.getContext());
             rQueue.add(volleyMultipartRequest);
 
-            progressDialog = ProgressDialog.show(getContext(), "Loading Data", null, true, true);
+            ProgressDialog.show(getActivity(), "Loading Data", null, true, true);
 
 
         } catch (IOException e) {
