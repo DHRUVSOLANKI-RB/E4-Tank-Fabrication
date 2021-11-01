@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +48,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class HomeFragment<array_uri> extends Fragment {
@@ -73,8 +75,10 @@ public class HomeFragment<array_uri> extends Fragment {
     String all_filename = "";
     Uri uri;
     HashMap<String, String> array_file_uri = new HashMap<>();
+    float file_size = (float) 0.00;
+    boolean file_alert = false;
 
-    String add_uri = "";
+    String count_loop = "";
 
     String displayName = null;
     private ArrayList<HashMap<String, String>> arraylist;
@@ -95,8 +99,9 @@ public class HomeFragment<array_uri> extends Fragment {
         upload = root.findViewById(R.id.upload);
         filename = root.findViewById(R.id.filename);
 
+        filename.setMovementMethod(new ScrollingMovementMethod());
+
         select_file.setOnClickListener(v -> imageChooser());
-        progressDialog = new ProgressDialog(getActivity());
 
         SharedPreferences sharedpreferences = getActivity().getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
 
@@ -135,12 +140,26 @@ public class HomeFragment<array_uri> extends Fragment {
 
             CheckEditTextIsEmptyOrNot();
 
+            count_loop = "";
+
             if (CheckEditText) {
 
-                for (Map.Entry m : array_file_uri.entrySet()) {
-                    System.out.println(m.getKey() + " " + m.getValue());
+                progressDialog = ProgressDialog.show(getContext(), "Loading Data", null, true, true);
 
-                    uploadPDF(m.getKey().toString(), Uri.parse(m.getValue().toString()));
+                Iterator it = array_file_uri.entrySet().iterator();
+                while (it.hasNext()) {
+
+                    Map.Entry pair = (Map.Entry) it.next();
+
+                    if (!it.hasNext()) {
+                        count_loop = "last";
+                    }
+
+                    System.out.println("count_loop " + count_loop);
+
+                    uploadPDF(pair.getKey().toString(), Uri.parse(pair.getValue().toString()));
+                    it.remove();
+
                 }
 
             } else {
@@ -160,6 +179,7 @@ public class HomeFragment<array_uri> extends Fragment {
             all_filename = "";
             get_filename = "";
             array_file_uri.clear();
+            file_alert = false;
 
             if (data.getClipData() != null) {
                 ClipData mClipData = data.getClipData();
@@ -177,6 +197,21 @@ public class HomeFragment<array_uri> extends Fragment {
                             if (cursor != null && cursor.moveToFirst()) {
                                 displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
 
+                                float fileSizeInBytes = Float.parseFloat(cursor.getString(cursor.getColumnIndex(OpenableColumns.SIZE)));
+                                float fileSizeInKB = fileSizeInBytes / 1024;
+                                float fileSizeInMB = fileSizeInKB / 1024;
+
+                                file_size = file_size + fileSizeInMB;
+                                //String[] mimeType = getActivity().getContentResolver().getType(uri).split("/");
+
+                                if (file_size > 499 && !file_alert) {
+
+                                    new MaterialAlertDialogBuilder(getContext()).setTitle("File size is greater than 500MB!").setMessage("Please upload with web portal.").setPositiveButton("Ok", (dialogInterface, k) -> {
+
+                                        filename.setText("");
+                                    }).show();
+                                }
+
                                 if (all_filename.equals("")) {
 
                                     get_filename = displayName;
@@ -192,7 +227,7 @@ public class HomeFragment<array_uri> extends Fragment {
                                 }
 
                                 Log.d("nameeeee>>>>  ", get_filename);
-                                //uploadPDF(displayName,uri);
+
                             }
                         } finally {
                             cursor.close();
@@ -203,7 +238,7 @@ public class HomeFragment<array_uri> extends Fragment {
                     }
 
                     array_file_uri.put(displayName, uri.toString());
-
+                    file_alert = true;
                 }
 
             } else if (data.getData() != null) {
@@ -219,6 +254,23 @@ public class HomeFragment<array_uri> extends Fragment {
                         if (cursor != null && cursor.moveToFirst()) {
                             displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
                             Log.d("nameeeee>>>>  ", get_filename);
+
+                            float fileSizeInBytes = Float.parseFloat(cursor.getString(cursor.getColumnIndex(OpenableColumns.SIZE)));
+                            float fileSizeInKB = fileSizeInBytes / 1024;
+                            float fileSizeInMB = fileSizeInKB / 1024;
+
+                            file_size = fileSizeInMB;
+                            //String[] mimeType = getActivity().getContentResolver().getType(uri).split("/");
+
+                            if (file_size > 499) {
+
+                                file_alert = true;
+
+                                new MaterialAlertDialogBuilder(getContext()).setTitle("File size is greater than 500MB!").setMessage("Please upload with web portal.").setPositiveButton("Ok", (dialogInterface, i) -> {
+
+                                    filename.setText("");
+                                }).show();
+                            }
 
                             get_filename = get_filename + displayName;
 
@@ -242,32 +294,6 @@ public class HomeFragment<array_uri> extends Fragment {
 
             }
 
-//            uri = data.getData();
-//            String uriString = uri.toString();
-//            File myFile = new File(uriString);
-//            String path = myFile.getAbsolutePath();
-//
-//
-//            if (uriString.startsWith("content://")) {
-//                Cursor cursor = null;
-//                try {
-//                    cursor = getContext().getContentResolver().query(uri, null, null, null, null);
-//                    if (cursor != null && cursor.moveToFirst()) {
-//                        displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-//                        Log.d("nameeeee>>>>  ", displayName);
-//
-//                        get_filename = displayName;
-//                        filename.setText(displayName);
-//                        //uploadPDF(displayName,uri);
-//                    }
-//                } finally {
-//                    cursor.close();
-//                }
-//            } else if (uriString.startsWith("file://")) {
-//                displayName = myFile.getName();
-//                Log.d("nameeeee>>>>  ", displayName);
-//            }
-
         }
     }
 
@@ -288,7 +314,7 @@ public class HomeFragment<array_uri> extends Fragment {
                     Log.d("ressssssoo", new String(response.data));
                     rQueue.getCache().clear();
 
-                    progressDialog.dismiss();
+                    //progressDialog.dismiss();
 
                     try {
                         JSONObject jsonObject = new JSONObject(new String(response.data));
@@ -301,12 +327,14 @@ public class HomeFragment<array_uri> extends Fragment {
 
                                 if (error.equals("false")) {
 
-//                                    filename.setText("");
-//                                    txt_rdsospecs.getText().clear();
-//                                    txt_vendor.getText().clear();
-//                                    txt_vendorid.getText().clear();
-//                                    txt_fileno.getText().clear();
-//                                    txt_itemname.getText().clear();
+                                    progressDialog.dismiss();
+
+                                    filename.setText("");
+                                    txt_rdsospecs.getText().clear();
+                                    txt_vendor.getText().clear();
+                                    txt_vendorid.getText().clear();
+                                    txt_fileno.getText().clear();
+                                    txt_itemname.getText().clear();
                                 }
 
                             } catch (JSONException e) {
@@ -350,6 +378,7 @@ public class HomeFragment<array_uri> extends Fragment {
                     params.put("directorate", Directorate);
                     params.put("user", User);
                     params.put("filename", get_filename);
+                    params.put("count_loop", count_loop);
 
                     return params;
                 }
@@ -371,7 +400,7 @@ public class HomeFragment<array_uri> extends Fragment {
             rQueue = Volley.newRequestQueue(HomeFragment.this.getContext());
             rQueue.add(volleyMultipartRequest);
 
-            ProgressDialog.show(getActivity(), "Loading Data", null, true, true);
+            //progressDialog = ProgressDialog.show(getContext(), "Loading Data", null, true, true);
 
 
         } catch (IOException e) {

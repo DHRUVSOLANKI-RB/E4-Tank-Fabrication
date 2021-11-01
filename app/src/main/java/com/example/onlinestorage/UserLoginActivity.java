@@ -24,7 +24,7 @@ public class UserLoginActivity extends AppCompatActivity {
     Button LogIn;
     String PasswordHolder, EmailHolder;
     String finalResult;
-    String HttpURL = "http://192.168.1.100:8585/OnlineStorage/UserLogin.php";
+    String HttpURL = "http://rdso.rcil.gov.in:8090/OnlineStorage/UserLogin.php";
     Boolean CheckEditText;
     ProgressDialog progressDialog;
     HashMap<String, String> hashMap = new HashMap<>();

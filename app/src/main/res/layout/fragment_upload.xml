@@ -137,8 +137,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/select_file"
+        android:layout_above="@+id/upload"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
+        android:scrollbars="vertical"
         android:hint="@string/file_name">
 
     </com.google.android.material.textview.MaterialTextView>
