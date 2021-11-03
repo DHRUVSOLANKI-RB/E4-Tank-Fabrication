@@ -8,7 +8,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:padding="5dp"
-    tools:context="com.example.onlinestorage.DashboardActivity">
+    tools:context="com.example.onlinestorage.MainActivity">
 
     <!--    Directorate -->
     <com.google.android.material.textfield.TextInputLayout
@@ -149,36 +149,12 @@
         android:id="@+id/upload"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/layout_logout"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:padding="10dp"
         android:shadowColor="@android:color/transparent"
-        android:text="Upload" />
-
-
-    <LinearLayout
-        android:id="@+id/layout_logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
-
-        <!--        <Button-->
-        <!--            android:layout_width="fill_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:id="@+id/button"-->
-        <!--            android:layout_marginLeft="10dp"-->
-        <!--            android:layout_marginTop="30dp"-->
-        <!--            android:layout_marginRight="10dp"-->
-        <!--            android:layout_marginBottom="10dp"-->
-        <!--            android:background="@drawable/rounded_corner_login"-->
-        <!--            android:padding="10dp"-->
-        <!--            android:shadowColor="@android:color/transparent"-->
-        <!--            android:text="@string/log_out" />-->
-
-    </LinearLayout>
+        android:text="@string/upload" />
 
 </RelativeLayout>

@@ -30,5 +30,6 @@
     <string name="menu_report">Report / View</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="file_name">File Name</string>
+    <string name="upload">Upload</string>
 
 </resources>
