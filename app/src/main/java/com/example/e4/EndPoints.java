@@ -1,4 +1,4 @@
-package com.example.onlinestorage;
+package com.example.e4;
 
 public class EndPoints {
 

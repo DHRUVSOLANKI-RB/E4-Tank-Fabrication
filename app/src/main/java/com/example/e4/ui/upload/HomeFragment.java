@@ -1,4 +1,4 @@
-package com.example.onlinestorage.ui.upload;
+package com.example.e4.ui.upload;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -35,10 +35,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
-import com.example.onlinestorage.EndPoints;
-import com.example.onlinestorage.R;
-import com.example.onlinestorage.UserLoginActivity;
-import com.example.onlinestorage.VolleyMultipartRequest;
+import com.example.e4.EndPoints;
+import com.example.e4.R;
+import com.example.e4.UserLoginActivity;
+import com.example.e4.VolleyMultipartRequest;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.json.JSONException;

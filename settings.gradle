@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "Online Storage"
+rootProject.name = "E4-Prodmag"

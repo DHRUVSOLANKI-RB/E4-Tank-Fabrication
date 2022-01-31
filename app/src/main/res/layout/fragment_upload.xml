@@ -8,7 +8,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:padding="5dp"
-    tools:context="com.example.onlinestorage.MainActivity">
+    tools:context="com.example.e4.MainActivity">
 
     <!--    Directorate -->
     <com.google.android.material.textfield.TextInputLayout

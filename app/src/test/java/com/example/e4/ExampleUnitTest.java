@@ -1,8 +1,8 @@
-package com.example.onlinestorage;
-
-import org.junit.Test;
+package com.example.e4;
 
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 /**
  * Example local unit test, which will execute on the development machine (host).

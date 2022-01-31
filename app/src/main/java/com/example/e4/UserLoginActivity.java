@@ -1,4 +1,4 @@
-package com.example.onlinestorage;
+package com.example.e4;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -28,7 +28,7 @@ public class UserLoginActivity extends AppCompatActivity {
     Boolean CheckEditText;
     ProgressDialog progressDialog;
     HashMap<String, String> hashMap = new HashMap<>();
-    com.example.onlinestorage.HttpParse httpParse = new com.example.onlinestorage.HttpParse();
+    com.example.e4.HttpParse httpParse = new com.example.e4.HttpParse();
     public static final String MyPREFERENCES = "MyPrefs";
     SharedPreferences sp_login;
 
@@ -77,7 +77,7 @@ public class UserLoginActivity extends AppCompatActivity {
     }
 
     public void goToMainActivity() {
-        Intent intent = new Intent(com.example.onlinestorage.UserLoginActivity.this, com.example.onlinestorage.MainActivity.class);
+        Intent intent = new Intent(com.example.e4.UserLoginActivity.this, com.example.e4.MainActivity.class);
         startActivity(intent);
     }
 
@@ -97,7 +97,7 @@ public class UserLoginActivity extends AppCompatActivity {
             protected void onPreExecute() {
                 super.onPreExecute();
 
-                progressDialog = ProgressDialog.show(com.example.onlinestorage.UserLoginActivity.this, "Loading Data", null, true, true);
+                progressDialog = ProgressDialog.show(com.example.e4.UserLoginActivity.this, "Loading Data", null, true, true);
             }
 
             @Override
@@ -127,7 +127,7 @@ public class UserLoginActivity extends AppCompatActivity {
 
                 } else {
 
-                    Toast.makeText(com.example.onlinestorage.UserLoginActivity.this, httpResponseMsg, Toast.LENGTH_LONG).show();
+                    Toast.makeText(com.example.e4.UserLoginActivity.this, httpResponseMsg, Toast.LENGTH_LONG).show();
                 }
 
             }
