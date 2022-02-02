@@ -24,7 +24,7 @@ public class UserLoginActivity extends AppCompatActivity {
     Button LogIn;
     String PasswordHolder, EmailHolder;
     String finalResult;
-    String HttpURL = "http://rdso.rcil.gov.in:8090/OnlineStorage/UserLogin.php";
+    String HttpURL = "http://3.222.104.176/index.php/userlogin";
     Boolean CheckEditText;
     ProgressDialog progressDialog;
     HashMap<String, String> hashMap = new HashMap<>();
@@ -107,20 +107,22 @@ public class UserLoginActivity extends AppCompatActivity {
 
                 progressDialog.dismiss();
 
-                String[] response = httpResponseMsg.split("-");
+                //Toast.makeText(com.example.e4.UserLoginActivity.this,httpResponseMsg, Toast.LENGTH_LONG).show();
 
-                //Toast.makeText(com.example.onlinestorage.UserLoginActivity.this,response[0] +" - "+ response[1] +" - "+ response[2], Toast.LENGTH_LONG).show();
+                String get_response = httpResponseMsg.replaceAll("\"", "");
 
-                if (response[0].equalsIgnoreCase("Data Matched")) {
+                String[] response = get_response.split("-");
+
+                if (response[0].equalsIgnoreCase("Response")) {
 
                     finish();
 
                     SharedPreferences.Editor editor = sp_login.edit();
 
                     editor.putBoolean("logged", true);
-                    editor.putString("UserEmail", email);
-                    editor.putString("Directorate", response[1]);
-                    editor.putString("User", response[2]);
+                    //editor.putString("UserEmail", email);
+                    //editor.putString("Directorate", response[1]);
+                    //editor.putString("User", response[2]);
                     editor.apply();
 
                     goToMainActivity();

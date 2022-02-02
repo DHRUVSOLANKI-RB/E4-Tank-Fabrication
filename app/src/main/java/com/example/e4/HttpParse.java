@@ -46,9 +46,7 @@ public class HttpParse {
 
             outputStream = httpURLConnection.getOutputStream();
 
-            bufferedWriter = new BufferedWriter(
-
-                    new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+            bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
 
             bufferedWriter.write(FinalDataParse(Data));
 
@@ -58,17 +56,22 @@ public class HttpParse {
 
             outputStream.close();
 
-            if (httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            System.out.println("Result-" + httpURLConnection.getResponseCode());
 
-                bufferedReader = new BufferedReader(
-                        new InputStreamReader(
-                                httpURLConnection.getInputStream()
-                        )
-                );
-                FinalHttpData = bufferedReader.readLine();
-            } else {
-                FinalHttpData = "Something Went Wrong";
-            }
+            bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+            FinalHttpData = bufferedReader.readLine();
+
+//            if (httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+//
+//                bufferedReader = new BufferedReader(
+//                        new InputStreamReader(
+//                                httpURLConnection.getInputStream()
+//                        )
+//                );
+//                FinalHttpData = bufferedReader.readLine();
+//            } else {
+//                FinalHttpData = "Something Went Wrong";
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,6 +94,8 @@ public class HttpParse {
         }
 
         Result = stringBuilder.toString();
+
+        System.out.println("Result URL- " + Result);
 
         return Result;
     }

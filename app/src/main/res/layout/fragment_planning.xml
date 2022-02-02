@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_dashboard"
+    android:id="@+id/activity_planning"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
@@ -10,31 +10,10 @@
     android:padding="5dp"
     tools:context="com.example.e4.MainActivity">
 
-    <!--    Category    -->
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/main_category"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="12dp"
-        android:hint="@string/category">
-
-        <com.google.android.material.textfield.MaterialAutoCompleteTextView
-            android:id="@+id/category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:ignore="MissingClass" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
     <LinearLayout
         android:id="@+id/vehicle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/main_category"
         android:layout_marginStart="12dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="12dp">
@@ -43,8 +22,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:text="@string/vehicle_details"
+            android:text="@string/planning_procurement"
             android:textSize="20sp"
             android:textStyle="bold">
 
@@ -52,9 +30,9 @@
     </LinearLayout>
 
 
-    <!--    Directorate -->
+    <!--    Drawing No -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/main_make"
+        android:id="@+id/main_drawing_no"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,10 +40,10 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="12dp"
-        android:hint="@string/make">
+        android:hint="@string/drawing_no">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/make"
+            android:id="@+id/drawing_no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -73,17 +51,17 @@
 
     <!--    Vendor  -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/main_model"
+        android:id="@+id/main_need_to_apply"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/main_make"
+        android:layout_below="@+id/main_drawing_no"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        android:hint="@string/model">
+        android:hint="@string/need_to_apply">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/model"
+            android:id="@+id/need_to_apply"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -91,17 +69,17 @@
 
     <!--    Vendor id  -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/main_bs_type"
+        android:id="@+id/main_die_availability"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/main_model"
+        android:layout_below="@+id/main_need_to_apply"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        android:hint="@string/bs_type">
+        android:hint="@string/die_availability">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/bs_type"
+            android:id="@+id/die_availability"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -109,17 +87,17 @@
 
     <!--    File No  -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/main_wheelbase"
+        android:id="@+id/main_payment_confirmation"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/main_bs_type"
+        android:layout_below="@+id/main_die_availability"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        android:hint="@string/wheelbase">
+        android:hint="@string/payment_confirmation">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/wheelbase"
+            android:id="@+id/payment_confirmation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -127,17 +105,17 @@
 
     <!--    Item Name  -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/main_ladenwgt"
+        android:id="@+id/main_procurement"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/main_wheelbase"
+        android:layout_below="@+id/main_payment_confirmation"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        android:hint="@string/ladenwgt">
+        android:hint="@string/procurement">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ladenwgt"
+            android:id="@+id/procurement"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -145,17 +123,17 @@
 
     <!--    Item Name  -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/main_unladenwgt"
+        android:id="@+id/main_cutting_bending_drawings"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/main_ladenwgt"
+        android:layout_below="@+id/main_procurement"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        android:hint="@string/unladenwgt">
+        android:hint="@string/cutting_bending_drawings">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/unladenwgt"
+            android:id="@+id/cutting_bending_drawings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

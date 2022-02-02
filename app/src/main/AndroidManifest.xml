@@ -12,7 +12,7 @@
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="false"
-        android:icon="@mipmap/e4_applogo"
+        android:icon="@mipmap/transparent_logo"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
@@ -22,7 +22,9 @@
             android:name="com.example.e4.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="com.example.e4.UserLoginActivity">
+        <activity
+            android:name="com.example.e4.UserLoginActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
