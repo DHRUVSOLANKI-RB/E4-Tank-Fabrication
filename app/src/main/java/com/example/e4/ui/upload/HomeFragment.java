@@ -17,7 +17,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,14 +32,15 @@ import java.util.HashMap;
 
 public class HomeFragment<array_uri> extends Fragment {
 
-    EditText txt_directorate;
-    EditText txt_rdsospecs;
-    EditText txt_vendor;
-    EditText txt_vendorid;
-    EditText txt_fileno;
-    EditText txt_itemname;
+    EditText make;
+    EditText unladenwgt;
+    EditText model;
+    EditText bs_type;
+    EditText wheelbase;
+    EditText ladenwgt;
     TextView filename;
     String Directorate;
+    AutoCompleteTextView category;
     String User;
     Button select_file;
     Button upload;
@@ -63,68 +63,69 @@ public class HomeFragment<array_uri> extends Fragment {
     String displayName = null;
     private ArrayList<HashMap<String, String>> arraylist;
     private RequestQueue rQueue;
-    Spinner AMC_section;
 
-    String[] fruits = {"Apple", "Banana", "Cherry", "Date", "Grape", "Kiwi", "Mango", "Pear"};
+    String[] arr_category = {"Bio MRO", "Mobile Bowser", "DD Bowser", "TL Tank", "BL Tank", "Tank Shifting", "Storage Tank"};
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_upload, container, false);
+        View root = inflater.inflate(R.layout.fragment_vehicle, container, false);
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         //select_file = root.findViewById(R.id.select_file);
-        txt_directorate = root.findViewById(R.id.make);
-        txt_vendor = root.findViewById(R.id.model);
-        txt_vendorid = root.findViewById(R.id.bs_type);
-        txt_fileno = root.findViewById(R.id.wheelbase);
-        txt_itemname = root.findViewById(R.id.ladenwgt);
-        txt_rdsospecs = root.findViewById(R.id.unladenwgt);
+        make = root.findViewById(R.id.make);
+        model = root.findViewById(R.id.model);
+        bs_type = root.findViewById(R.id.bs_type);
+        wheelbase = root.findViewById(R.id.wheelbase);
+        ladenwgt = root.findViewById(R.id.ladenwgt);
+        unladenwgt = root.findViewById(R.id.unladenwgt);
         upload = root.findViewById(R.id.upload);
 
-        //Creating the instance of ArrayAdapter containing list of fruit names
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, fruits);
-        //Getting the instance of AutoCompleteTextView
-        AutoCompleteTextView actv = (AutoCompleteTextView) root.findViewById(R.id.category);
-        actv.setThreshold(1);//will start working from first character
-        actv.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
-        actv.setTextColor(Color.RED);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, arr_category);
+        category = (AutoCompleteTextView) root.findViewById(R.id.category);
+        category.setThreshold(1);
+        category.setAdapter(adapter);
+        category.setTextColor(Color.BLACK);
 
 
-//
-//        ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, tss_list);
+//        ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, arr_category);
 //        dataAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        AMC_section.setAdapter(dataAdapter1);
+//        category.setAdapter(dataAdapter1);
 
         SharedPreferences sharedpreferences = getActivity().getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
 
         //User = sharedpreferences.getString("User", "");
         //Directorate = sharedpreferences.getString("Directorate", "");
 
-        txt_directorate.setText(Directorate);
+        make.setText(Directorate);
 
-        txt_vendor.setOnFocusChangeListener((v, hasFocus) -> {
+        model.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 hideKeyboard(v);
             }
         });
-        txt_vendorid.setOnFocusChangeListener((v, hasFocus) -> {
+        bs_type.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 hideKeyboard(v);
             }
         });
-        txt_fileno.setOnFocusChangeListener((v, hasFocus) -> {
+        wheelbase.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 hideKeyboard(v);
             }
         });
-        txt_itemname.setOnFocusChangeListener((v, hasFocus) -> {
+        ladenwgt.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 hideKeyboard(v);
             }
         });
-        txt_rdsospecs.setOnFocusChangeListener((v, hasFocus) -> {
+        unladenwgt.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                hideKeyboard(v);
+            }
+        });
+        category.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 hideKeyboard(v);
             }
@@ -142,11 +143,11 @@ public class HomeFragment<array_uri> extends Fragment {
 
     public void CheckEditTextIsEmptyOrNot() {
 
-        vendor = txt_vendor.getText().toString();
-        vendorid = txt_vendorid.getText().toString();
-        fileno = txt_fileno.getText().toString();
-        itemname = txt_itemname.getText().toString();
-        rdsospecs = txt_rdsospecs.getText().toString();
+        vendor = model.getText().toString();
+        vendorid = bs_type.getText().toString();
+        fileno = wheelbase.getText().toString();
+        itemname = ladenwgt.getText().toString();
+        rdsospecs = unladenwgt.getText().toString();
 
         CheckEditText = !TextUtils.isEmpty(vendor) && !TextUtils.isEmpty(vendorid) && !TextUtils.isEmpty(fileno) && !TextUtils.isEmpty(itemname) && !TextUtils.isEmpty(get_filename);
     }

@@ -9,7 +9,7 @@
         android:id="@+id/nav_home"
         android:name="com.example.e4.ui.upload.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_upload" />
+        tools:layout="@layout/fragment_vehicle" />
 
     <fragment
         android:id="@+id/nav_gallery"

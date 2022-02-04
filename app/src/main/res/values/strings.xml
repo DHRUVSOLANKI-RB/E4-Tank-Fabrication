@@ -42,5 +42,19 @@
     <string name="payment_confirmation">Payment Confirmation</string>
     <string name="procurement">Procurement</string>
     <string name="cutting_bending_drawings">Cutting Bending Drawings</string>
+    <string name="registration_number">Registration Number</string>
+    <string name="chessis_number">Chessis Number</string>
+    <string name="engine_number">Engine Number</string>
+    <string name="delivered_by">Delivered By</string>
+    <string name="name">Name</string>
+    <string name="mobile_no">Mobile No</string>
+    <string name="received_by">Received By</string>
+    <string name="customer_details">Customer Details</string>
+    <string name="address">Address</string>
+    <string name="company_name">Company Name</string>
+    <string name="contact_details">Contact Details</string>
+    <string name="contact_no">Contact No</string>
+    <string name="tank_details">Tank Details</string>
+    <string name="vehicle_type">Vehicle Type</string>
 
 </resources>
