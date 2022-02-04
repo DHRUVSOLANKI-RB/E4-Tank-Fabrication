@@ -14,7 +14,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/main_category"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -25,31 +25,31 @@
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/category"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             tools:ignore="MissingClass" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
-        android:id="@+id/vehicle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/main_category"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="12dp">
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/vehicle"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@+id/main_category"-->
+    <!--        android:layout_marginStart="12dp"-->
+    <!--        android:layout_marginTop="20dp"-->
+    <!--        android:layout_marginEnd="12dp">-->
 
-        <TextView
+    <!--        <TextView-->
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
 
-            android:text="@string/vehicle_details"
-            android:textSize="20sp"
-            android:textStyle="bold">
+    <!--            android:text="@string/vehicle_details"-->
+    <!--            android:textSize="20sp"-->
+    <!--            android:textStyle="bold">-->
 
-        </TextView>
-    </LinearLayout>
+    <!--        </TextView>-->
+    <!--    </LinearLayout>-->
 
 
     <!--    Directorate -->
@@ -58,7 +58,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/vehicle"
+        android:layout_below="@+id/main_category"
         android:layout_marginStart="12dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="12dp"

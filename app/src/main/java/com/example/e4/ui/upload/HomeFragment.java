@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,8 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -59,6 +63,9 @@ public class HomeFragment<array_uri> extends Fragment {
     String displayName = null;
     private ArrayList<HashMap<String, String>> arraylist;
     private RequestQueue rQueue;
+    Spinner AMC_section;
+
+    String[] fruits = {"Apple", "Banana", "Cherry", "Date", "Grape", "Kiwi", "Mango", "Pear"};
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -75,11 +82,20 @@ public class HomeFragment<array_uri> extends Fragment {
         txt_itemname = root.findViewById(R.id.ladenwgt);
         txt_rdsospecs = root.findViewById(R.id.unladenwgt);
         upload = root.findViewById(R.id.upload);
-        //filename = root.findViewById(R.id.filename);
 
-        //filename.setMovementMethod(new ScrollingMovementMethod());
+        //Creating the instance of ArrayAdapter containing list of fruit names
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, fruits);
+        //Getting the instance of AutoCompleteTextView
+        AutoCompleteTextView actv = (AutoCompleteTextView) root.findViewById(R.id.category);
+        actv.setThreshold(1);//will start working from first character
+        actv.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
+        actv.setTextColor(Color.RED);
 
-        //select_file.setOnClickListener(v -> imageChooser());
+
+//
+//        ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, tss_list);
+//        dataAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        AMC_section.setAdapter(dataAdapter1);
 
         SharedPreferences sharedpreferences = getActivity().getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
 
