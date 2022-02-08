@@ -56,5 +56,32 @@
     <string name="contact_no">Contact No</string>
     <string name="tank_details">Tank Details</string>
     <string name="vehicle_type">Vehicle Type</string>
+    <string name="expected_delivery_date">Expected Delivery Date</string>
+    <string name="in_date">In Date</string>
+    <string name="delivery_schedule">Delivery Schedule</string>
+    <string name="depot_name">Depot Name</string>
+    <string name="oil_company">Oil Company</string>
+    <string name="compartment_distribution">Compartment Distribution</string>
+    <string name="capacity">Capacity</string>
+    <string name="photo">Photo</string>
+    <string name="acccesories_received">Acccesories Received</string>
+    <string name="spare_wheel">Spare Wheel</string>
+    <string name="jack">Jack</string>
+    <string name="jack_rod">Jack Rod</string>
+    <string name="tool_kit">Tool Kit</string>
+    <string name="back_sensors">Back Sensors</string>
+    <string name="reflector">Reflector</string>
+    <string name="cabin_fire_extingusher">Cabin Fire Extingusher</string>
+    <string name="rear_lights">Rear Lights</string>
+    <string name="battery_serial_number">Battery Serial Number</string>
+    <string name="diesel_in_tank_liters">Diesel in Tank (Liters)</string>
+    <string name="deal_includes">Deal Includes</string>
+    <string name="fire_extinguisher">Fire Extinguisher</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="dip_rod">Dip Rod</string>
+    <string name="delivery_hose">Delivery Hose</string>
+    <string name="parking_cone">Parking Cone</string>
+    <string name="additional_work">Additional Work (if any)</string>
 
 </resources>

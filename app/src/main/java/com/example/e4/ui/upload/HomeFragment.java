@@ -35,12 +35,12 @@ public class HomeFragment<array_uri> extends Fragment {
     EditText make;
     EditText unladenwgt;
     EditText model;
-    EditText bs_type;
     EditText wheelbase;
     EditText ladenwgt;
     TextView filename;
     String Directorate;
     AutoCompleteTextView category;
+    AutoCompleteTextView bs_type;
     String User;
     Button select_file;
     Button upload;
@@ -66,6 +66,8 @@ public class HomeFragment<array_uri> extends Fragment {
 
     String[] arr_category = {"Bio MRO", "Mobile Bowser", "DD Bowser", "TL Tank", "BL Tank", "Tank Shifting", "Storage Tank"};
 
+    String[] arr_bstype = {"BSIII", "BSIV", "BSVI"};
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -76,7 +78,6 @@ public class HomeFragment<array_uri> extends Fragment {
         //select_file = root.findViewById(R.id.select_file);
         make = root.findViewById(R.id.make);
         model = root.findViewById(R.id.model);
-        bs_type = root.findViewById(R.id.bs_type);
         wheelbase = root.findViewById(R.id.wheelbase);
         ladenwgt = root.findViewById(R.id.ladenwgt);
         unladenwgt = root.findViewById(R.id.unladenwgt);
@@ -87,6 +88,12 @@ public class HomeFragment<array_uri> extends Fragment {
         category.setThreshold(1);
         category.setAdapter(adapter);
         category.setTextColor(Color.BLACK);
+
+//        ArrayAdapter<String> adapter_bs_type = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, arr_bstype);
+//        bs_type = (AutoCompleteTextView) root.findViewById(R.id.bs_type);
+//        bs_type.setThreshold(1);
+//        bs_type.setAdapter(adapter_bs_type);
+//        bs_type.setTextColor(Color.BLACK);
 
 
 //        ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, arr_category);
@@ -105,11 +112,11 @@ public class HomeFragment<array_uri> extends Fragment {
                 hideKeyboard(v);
             }
         });
-        bs_type.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                hideKeyboard(v);
-            }
-        });
+//        bs_type.setOnFocusChangeListener((v, hasFocus) -> {
+//            if (!hasFocus) {
+//                hideKeyboard(v);
+//            }
+//        });
         wheelbase.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 hideKeyboard(v);
@@ -125,14 +132,13 @@ public class HomeFragment<array_uri> extends Fragment {
                 hideKeyboard(v);
             }
         });
-        category.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                hideKeyboard(v);
-            }
-        });
+//        category.setOnFocusChangeListener((v, hasFocus) -> {
+//            if (!hasFocus) {
+//                hideKeyboard(v);
+//            }
+//        });
 
         upload.setOnClickListener(view -> {
-
 
 
         });
