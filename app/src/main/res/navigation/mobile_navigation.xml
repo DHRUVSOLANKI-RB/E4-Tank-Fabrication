@@ -17,4 +17,10 @@
         android:label="@string/add_drawing"
         tools:layout="@layout/fragment_report" />
 
+    <fragment
+        android:id="@+id/nav_planning"
+        android:name="com.example.e4.PlanningFragment"
+        android:label="@string/planning_amp_procurement"
+        tools:layout="@layout/fragment_report" />
+
 </navigation>

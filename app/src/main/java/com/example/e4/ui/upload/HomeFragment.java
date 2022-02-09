@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.android.volley.RequestQueue;
 import com.example.e4.R;
@@ -47,7 +47,6 @@ public class HomeFragment<array_uri> extends Fragment {
     AutoCompleteTextView vehicle_type;
     String User;
     Button select_file;
-    Button upload;
     String vendor;
     String vendorid;
     String fileno;
@@ -68,9 +67,6 @@ public class HomeFragment<array_uri> extends Fragment {
     private ArrayList<HashMap<String, String>> arraylist;
     private RequestQueue rQueue;
 
-    private Button select_in_date;
-    private Button select_delivery_date;
-
     String[] arr_category = {"Bio MRO", "Mobile Bowser", "DD Bowser", "TL Tank", "BL Tank", "Tank Shifting", "Storage Tank"};
 
     String[] arr_bstype = {"BSIII", "BSIV", "BSVI"};
@@ -78,7 +74,7 @@ public class HomeFragment<array_uri> extends Fragment {
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        //HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_vehicle, container, false);
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -89,11 +85,14 @@ public class HomeFragment<array_uri> extends Fragment {
         wheelbase = root.findViewById(R.id.wheelbase);
         ladenwgt = root.findViewById(R.id.ladenwgt);
         unladenwgt = root.findViewById(R.id.unladenwgt);
-        upload = root.findViewById(R.id.upload);
+        //upload = root.findViewById(R.id.upload);
         indate = root.findViewById(R.id.indate);
-        select_in_date = root.findViewById(R.id.select_in_date);
-        select_delivery_date = root.findViewById(R.id.select_delivery_date);
+        Button select_in_date = root.findViewById(R.id.select_in_date);
+        Button select_delivery_date = root.findViewById(R.id.select_delivery_date);
         delivery_date = root.findViewById(R.id.delivery_date);
+
+        final Button upload = (Button) root.findViewById(R.id.upload);
+
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, arr_category);
         category = (AutoCompleteTextView) root.findViewById(R.id.category);
@@ -142,9 +141,11 @@ public class HomeFragment<array_uri> extends Fragment {
 
         SharedPreferences sharedpreferences = getActivity().getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
 
-
         upload.setOnClickListener(view -> {
 
+            //Toast.makeText(getActivity(), "Please fill all form fields.", Toast.LENGTH_LONG).show();
+
+            Navigation.findNavController(view).navigate(R.id.nav_planning);
 
         });
 

@@ -89,5 +89,6 @@
     <string name="remarks">Remarks</string>
     <string name="select_in_date">Select In Date</string>
     <string name="delivery_date">Delivery Date</string>
+    <string name="planning_amp_procurement"><![CDATA[Planning & Procurement]]></string>
 
 </resources>

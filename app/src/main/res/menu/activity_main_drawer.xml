@@ -13,5 +13,11 @@
             android:icon="@android:drawable/ic_input_add"
             android:title="@string/add_drawing" />
 
+        <item
+            android:id="@+id/nav_planning"
+            android:icon="@android:drawable/ic_input_add"
+            android:title="@string/planning_amp_procurement"
+            android:visible="false" />
+
     </group>
 </menu>
