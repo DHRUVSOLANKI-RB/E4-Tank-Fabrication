@@ -83,5 +83,11 @@
     <string name="delivery_hose">Delivery Hose</string>
     <string name="parking_cone">Parking Cone</string>
     <string name="additional_work">Additional Work (if any)</string>
+    <string name="cabin_color">Cabin Color</string>
+    <string name="denting_painting">Denting Painting</string>
+    <string name="existing_fault">Existing Fault</string>
+    <string name="remarks">Remarks</string>
+    <string name="select_in_date">Select In Date</string>
+    <string name="delivery_date">Delivery Date</string>
 
 </resources>

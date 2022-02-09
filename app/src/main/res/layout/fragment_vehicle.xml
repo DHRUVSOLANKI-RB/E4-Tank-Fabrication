@@ -10,15 +10,16 @@
     android:padding="5dp"
     tools:context="com.example.e4.MainActivity">
 
+    <!--    Category    -->
     <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scrollbars="vertical"
         tools:ignore="ScrollViewCount,UselessParent">
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
 
@@ -41,22 +42,15 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
-                android:id="@+id/vehicle"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="12dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/vehicle_details"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
+                android:layout_marginEnd="12dp"
+                android:text="@string/vehicle_details"
+                android:textSize="20sp"
+                android:textStyle="bold" />
             <!--    Make -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/main_make"
@@ -75,7 +69,6 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!--    Model  -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/main_model"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -418,14 +411,14 @@
             <!--    Vehicle Type -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/main_vehicle_type"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
                 android:hint="@string/vehicle_type">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/vehicle_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -513,38 +506,63 @@
                 android:textStyle="bold" />
 
             <!--    In Date -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/main_indate"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
-                android:hint="@string/in_date">
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <Button
+                    android:id="@+id/select_in_date"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="50"
+                    android:text="@string/select_in_date"
+                    android:textSize="15sp" />
+
+                <TextView
                     android:id="@+id/indate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="50"
+                    android:text=""
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-            </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
 
             <!--    Expected Delivery Date -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/main_expected_deliverydate"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
-                android:hint="@string/expected_delivery_date">
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/expected_deliverydate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/select_delivery_date"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="50"
+                    android:text="@string/delivery_date"
+                    android:textSize="15sp" />
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:id="@+id/delivery_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="50"
+                    android:text=""
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
             <!--     Photo       -->
             <TextView
@@ -569,6 +587,7 @@
                 android:text="@string/acccesories_received"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -686,6 +705,7 @@
 
             </LinearLayout>
 
+
             <!--    Diesel in Tank (Liters) -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/main_diesel_in_tank_liters"
@@ -705,6 +725,7 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+
             <!--     Deal Includes       -->
             <TextView
                 android:id="@+id/deal_includes"
@@ -717,133 +738,223 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <!--    Fire Extinguisher    -->
-            <RadioGroup
-                android:id="@+id/radioGroup_fire_extinguisher"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/fire_extinguisher"
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="50"
-                    android:text="@string/fire_extinguisher"
-                    android:textColor="@color/material_dynamic_neutral0"
-                    android:textSize="15sp" />
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
 
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/fire_extinguisher_yes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/yes" />
+                    <TextView
+                        android:id="@+id/fire_extinguisher"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/fire_extinguisher"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/fire_extinguisher_no"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/no" />
+                </LinearLayout>
 
-            </RadioGroup>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+
+                    <!--    Fire Extinguisher    -->
+                    <RadioGroup
+                        android:id="@+id/radioGroup_fire_extinguisher"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/fire_extinguisher_yes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/yes" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/fire_extinguisher_no"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/no" />
+
+
+                    </RadioGroup>
+                </LinearLayout>
+
+            </LinearLayout>
+
 
             <!--    Dip Rod    -->
-            <RadioGroup
-                android:id="@+id/radioGroup_dip_rod"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/dip_rod"
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="50"
-                    android:text="@string/dip_rod"
-                    android:textColor="@color/material_dynamic_neutral0"
-                    android:textSize="15sp" />
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
 
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/dip_rod_yes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/yes" />
+                    <TextView
+                        android:id="@+id/dip_rod"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/dip_rod"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/dip_rod_no"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/no" />
 
-            </RadioGroup>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+
+                    <RadioGroup
+                        android:id="@+id/radioGroup_dip_rod"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:orientation="horizontal">
+
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/dip_rod_yes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/yes" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/dip_rod_no"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/no" />
+
+                    </RadioGroup>
+                </LinearLayout>
+
+            </LinearLayout>
 
             <!--    Delivery Hose    -->
-            <RadioGroup
-                android:id="@+id/radioGroup_delivery_hose"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/delivery_hose"
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="50"
-                    android:text="@string/delivery_hose"
-                    android:textColor="@color/material_dynamic_neutral0"
-                    android:textSize="15sp" />
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
 
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/delivery_hose_yes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/yes" />
+                    <TextView
+                        android:id="@+id/delivery_hose"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/delivery_hose"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                </LinearLayout>
 
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/delivery_hose_no"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/no" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
 
-            </RadioGroup>
+                    <RadioGroup
+                        android:id="@+id/radioGroup_delivery_hose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/delivery_hose_yes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/yes" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/delivery_hose_no"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/no" />
+                    </RadioGroup>
+                </LinearLayout>
+
+            </LinearLayout>
 
             <!--    Parking Cone    -->
-            <RadioGroup
-                android:id="@+id/radioGroup_parking_cone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/parking_cone"
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="50"
-                    android:text="@string/parking_cone"
-                    android:textColor="@color/material_dynamic_neutral0"
-                    android:textSize="15sp" />
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
 
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/parking_cone_yes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/yes" />
+                    <TextView
+                        android:id="@+id/parking_cone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/parking_cone"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/parking_cone_no"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/no" />
+                </LinearLayout>
 
-            </RadioGroup>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+
+                    <RadioGroup
+                        android:id="@+id/radioGroup_parking_cone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/parking_cone_yes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/yes" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/parking_cone_no"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/no" />
+                    </RadioGroup>
+                </LinearLayout>
+
+            </LinearLayout>
 
             <!--     Additional Work (if any)       -->
             <TextView
@@ -857,6 +968,80 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
+            <!--    Cabin Color -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_cabin_color"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/cabin_color">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/cabin_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="TooManyViews" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--    Denting Painting -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_denting_painting"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/denting_painting">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/denting_painting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="TooManyViews" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--    Existing Fault -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_existing_fault"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/existing_fault">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/existing_fault"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="TooManyViews" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--    Remarks -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_remarks"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/remarks">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/remarks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="TooManyViews" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <Button
                 android:id="@+id/upload"
@@ -868,8 +1053,7 @@
                 android:drawableEnd="@android:drawable/ic_media_next"
                 android:padding="8dp"
                 android:shadowColor="@android:color/transparent"
-                android:text="@string/next"
-                android:visibility="invisible" />
+                android:text="@string/next" />
 
         </LinearLayout>
 

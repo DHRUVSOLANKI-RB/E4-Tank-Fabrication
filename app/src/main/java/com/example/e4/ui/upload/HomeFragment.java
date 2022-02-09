@@ -1,5 +1,6 @@
 package com.example.e4.ui.upload;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -26,6 +27,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.android.volley.RequestQueue;
 import com.example.e4.R;
 import com.example.e4.UserLoginActivity;
+import com.google.android.material.datepicker.MaterialDatePicker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,10 +39,12 @@ public class HomeFragment<array_uri> extends Fragment {
     EditText model;
     EditText wheelbase;
     EditText ladenwgt;
-    TextView filename;
+    TextView indate;
+    TextView delivery_date;
     String Directorate;
     AutoCompleteTextView category;
     AutoCompleteTextView bs_type;
+    AutoCompleteTextView vehicle_type;
     String User;
     Button select_file;
     Button upload;
@@ -64,10 +68,14 @@ public class HomeFragment<array_uri> extends Fragment {
     private ArrayList<HashMap<String, String>> arraylist;
     private RequestQueue rQueue;
 
+    private Button select_in_date;
+    private Button select_delivery_date;
+
     String[] arr_category = {"Bio MRO", "Mobile Bowser", "DD Bowser", "TL Tank", "BL Tank", "Tank Shifting", "Storage Tank"};
 
     String[] arr_bstype = {"BSIII", "BSIV", "BSVI"};
 
+    @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -82,6 +90,10 @@ public class HomeFragment<array_uri> extends Fragment {
         ladenwgt = root.findViewById(R.id.ladenwgt);
         unladenwgt = root.findViewById(R.id.unladenwgt);
         upload = root.findViewById(R.id.upload);
+        indate = root.findViewById(R.id.indate);
+        select_in_date = root.findViewById(R.id.select_in_date);
+        select_delivery_date = root.findViewById(R.id.select_delivery_date);
+        delivery_date = root.findViewById(R.id.delivery_date);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, arr_category);
         category = (AutoCompleteTextView) root.findViewById(R.id.category);
@@ -89,54 +101,47 @@ public class HomeFragment<array_uri> extends Fragment {
         category.setAdapter(adapter);
         category.setTextColor(Color.BLACK);
 
-//        ArrayAdapter<String> adapter_bs_type = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, arr_bstype);
-//        bs_type = (AutoCompleteTextView) root.findViewById(R.id.bs_type);
-//        bs_type.setThreshold(1);
-//        bs_type.setAdapter(adapter_bs_type);
-//        bs_type.setTextColor(Color.BLACK);
+        ArrayAdapter<String> adapter_bs_type = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, arr_bstype);
+        bs_type = (AutoCompleteTextView) root.findViewById(R.id.bs_type);
+        bs_type.setThreshold(1);
+        bs_type.setAdapter(adapter_bs_type);
+        bs_type.setTextColor(Color.BLACK);
 
+        ArrayAdapter<String> adapter_vehicle_type = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, arr_category);
+        vehicle_type = (AutoCompleteTextView) root.findViewById(R.id.vehicle_type);
+        vehicle_type.setThreshold(1);
+        vehicle_type.setAdapter(adapter_vehicle_type);
+        vehicle_type.setTextColor(Color.BLACK);
 
-//        ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, arr_category);
-//        dataAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        category.setAdapter(dataAdapter1);
+        MaterialDatePicker.Builder materialDateBuilder = MaterialDatePicker.Builder.datePicker();
+        materialDateBuilder.setTitleText("SELECT IN DATE");
+
+        final MaterialDatePicker materialDatePicker = materialDateBuilder.build();
+
+        select_in_date.setOnClickListener((View.OnClickListener) v -> {
+            materialDatePicker.show(getActivity().getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
+        });
+
+        materialDatePicker.addOnPositiveButtonClickListener(
+                selection -> indate.setText(materialDatePicker.getHeaderText()));
+
+        /*      Expected Delivery Date    */
+
+        MaterialDatePicker.Builder materialDateBuilder_deldt = MaterialDatePicker.Builder.datePicker();
+        materialDateBuilder_deldt.setTitleText("SELECT IN DATE");
+
+        final MaterialDatePicker materialDatePicker_deldt = materialDateBuilder.build();
+
+        select_delivery_date.setOnClickListener((View.OnClickListener) v -> {
+            materialDatePicker_deldt.show(getActivity().getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
+        });
+
+        materialDatePicker_deldt.addOnPositiveButtonClickListener(
+                selection -> delivery_date.setText(materialDatePicker_deldt.getHeaderText()));
+
 
         SharedPreferences sharedpreferences = getActivity().getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
 
-        //User = sharedpreferences.getString("User", "");
-        //Directorate = sharedpreferences.getString("Directorate", "");
-
-        make.setText(Directorate);
-
-        model.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                hideKeyboard(v);
-            }
-        });
-//        bs_type.setOnFocusChangeListener((v, hasFocus) -> {
-//            if (!hasFocus) {
-//                hideKeyboard(v);
-//            }
-//        });
-        wheelbase.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                hideKeyboard(v);
-            }
-        });
-        ladenwgt.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                hideKeyboard(v);
-            }
-        });
-        unladenwgt.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                hideKeyboard(v);
-            }
-        });
-//        category.setOnFocusChangeListener((v, hasFocus) -> {
-//            if (!hasFocus) {
-//                hideKeyboard(v);
-//            }
-//        });
 
         upload.setOnClickListener(view -> {
 
