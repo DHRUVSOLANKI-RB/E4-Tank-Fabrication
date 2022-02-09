@@ -1047,6 +1047,7 @@
                 android:id="@+id/upload"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
                 android:backgroundTint="@color/colorPrimaryDark"

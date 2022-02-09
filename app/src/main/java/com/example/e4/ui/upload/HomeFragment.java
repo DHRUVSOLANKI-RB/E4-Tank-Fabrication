@@ -129,7 +129,7 @@ public class HomeFragment<array_uri> extends Fragment {
         MaterialDatePicker.Builder materialDateBuilder_deldt = MaterialDatePicker.Builder.datePicker();
         materialDateBuilder_deldt.setTitleText("SELECT IN DATE");
 
-        final MaterialDatePicker materialDatePicker_deldt = materialDateBuilder.build();
+        final MaterialDatePicker materialDatePicker_deldt = materialDateBuilder_deldt.build();
 
         select_delivery_date.setOnClickListener((View.OnClickListener) v -> {
             materialDatePicker_deldt.show(getActivity().getSupportFragmentManager(), "MATERIAL_DATE_PICKER");

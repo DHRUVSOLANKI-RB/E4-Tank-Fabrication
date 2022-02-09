@@ -41,7 +41,7 @@
     <string name="die_availability">Die Availability</string>
     <string name="payment_confirmation">Payment Confirmation</string>
     <string name="procurement">Procurement</string>
-    <string name="cutting_bending_drawings">Cutting Bending Drawings</string>
+    <string name="cutting_bending_drawings">Cutting/Bending Drawings</string>
     <string name="registration_number">Registration Number</string>
     <string name="chessis_number">Chessis Number</string>
     <string name="engine_number">Engine Number</string>
@@ -90,5 +90,18 @@
     <string name="select_in_date">Select In Date</string>
     <string name="delivery_date">Delivery Date</string>
     <string name="planning_amp_procurement"><![CDATA[Planning & Procurement]]></string>
+    <string name="compartment">Compartment</string>
+    <string name="approval_letter_number">Approval Letter Number</string>
+    <string name="save">Save</string>
+    <string name="loading">Loading</string>
+    <string name="tank_fabrication">Tank Fabrication</string>
+    <string name="fittings">Fittings</string>
+    <string name="other_accessories">Other Accessories</string>
+    <string name="released">Released</string>
+    <string name="not_released">Not Released</string>
+    <string name="previous">Previous</string>
+    <string name="released_to_tank_team">Released to Tank Team</string>
+    <string name="team_name">Team name</string>
+    <string name="select_date">Select Date</string>
 
 </resources>

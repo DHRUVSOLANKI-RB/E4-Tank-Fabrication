@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_planning"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
@@ -10,147 +9,347 @@
     android:padding="5dp"
     tools:context="com.example.e4.MainActivity">
 
-    <LinearLayout
-        android:id="@+id/vehicle"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="12dp">
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        tools:ignore="ScrollViewCount,UselessParent">
 
-        <TextView
-
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/planning_procurement"
-            android:textSize="20sp"
-            android:textStyle="bold">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        </TextView>
-    </LinearLayout>
+            <TextView
 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="12dp"
+                android:text="@string/planning_procurement"
+                android:textSize="20sp"
+                android:textStyle="bold">
 
-    <!--    Drawing No -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/main_drawing_no"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/vehicle"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="12dp"
-        android:hint="@string/drawing_no">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/drawing_no"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!--    Vendor  -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/main_need_to_apply"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/main_drawing_no"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:hint="@string/need_to_apply">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/need_to_apply"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!--    Vendor id  -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/main_die_availability"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/main_need_to_apply"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:hint="@string/die_availability">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/die_availability"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!--    File No  -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/main_payment_confirmation"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/main_die_availability"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:hint="@string/payment_confirmation">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/payment_confirmation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!--    Item Name  -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/main_procurement"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/main_payment_confirmation"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:hint="@string/procurement">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/procurement"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!--    Item Name  -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/main_cutting_bending_drawings"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/main_procurement"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:hint="@string/cutting_bending_drawings">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/cutting_bending_drawings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+            </TextView>
 
 
-    <Button
-        android:id="@+id/upload"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:drawableEnd="@android:drawable/ic_media_next"
-        android:padding="8dp"
-        android:shadowColor="@android:color/transparent"
-        android:text="@string/next" />
+            <!--    Drawing No -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_drawing_no"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/drawing_no">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/drawing_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--    Need to Apply  -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_need_to_apply"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/need_to_apply">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/need_to_apply"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--    Die Availability  -->
+            <LinearLayout
+                android:id="@+id/die_aval"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/fire_extinguisher"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/die_availability"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+
+                    <RadioGroup
+                        android:id="@+id/radioGroup_die_availability"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/die_availability_yes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/yes" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/die_availability_no"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/no" />
+
+                    </RadioGroup>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--    Payment Confirmation  -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_payment_confirmation"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/payment_confirmation">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/payment_confirmation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="12dp"
+                android:text="@string/procurement"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--    Tank Fabrication -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/tank_fabrication"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/tank_fabrication" />
+
+                <!--    Fittings -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/fittings"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/fittings" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--    Battery Serial Number -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/other_accessories"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/other_accessories" />
+
+            </LinearLayout>
+
+            <!--    Cutting/Bending Drawings  -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="30">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/cutting_bending_drawings"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="50">
+
+                    <RadioGroup
+                        android:id="@+id/radioGroup_cutting_bending"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/cutting_bending_released"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/released" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/cutting_bending_not_released"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/not_released" />
+
+                    </RadioGroup>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--    Remarks  -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_cutting_remarks"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/remarks">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/cutting_remarks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="12dp"
+                android:text="@string/released_to_tank_team"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <!--    Team name  -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_team_name"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/team_name">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/team_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--    In Date -->
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="12dp"-->
+            <!--                android:layout_marginEnd="12dp"-->
+            <!--                android:orientation="horizontal">-->
+
+            <!--                <Button-->
+            <!--                    android:id="@+id/select_date"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="40dp"-->
+            <!--                    android:layout_weight="50"-->
+            <!--                    android:text="@string/select_date"-->
+            <!--                    android:textSize="15sp" />-->
+
+            <!--                <TextView-->
+            <!--                    android:id="@+id/team_date"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="12dp"-->
+            <!--                    android:layout_marginEnd="12dp"-->
+            <!--                    android:layout_weight="50"-->
+            <!--                    android:text=""-->
+            <!--                    android:textSize="20sp"-->
+            <!--                    android:textStyle="bold" />-->
+
+            <!--            </LinearLayout>-->
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--                <Button-->
+                <!--                    android:id="@+id/prev_proc"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_weight="50"-->
+                <!--                    android:backgroundTint="@color/material_dynamic_neutral40"-->
+                <!--                    android:drawableLeft="@android:drawable/ic_media_previous"-->
+                <!--                    android:shadowColor="@android:color/transparent"-->
+                <!--                    android:text="@string/previous"-->
+                <!--                    android:layout_marginEnd="10dp"/>-->
+
+                <Button
+                    android:id="@+id/next_proc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="50"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:drawableEnd="@android:drawable/ic_media_next"
+                    android:shadowColor="@android:color/transparent"
+                    android:text="@string/next" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
