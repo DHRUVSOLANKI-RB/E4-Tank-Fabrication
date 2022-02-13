@@ -103,5 +103,12 @@
     <string name="released_to_tank_team">Released to Tank Team</string>
     <string name="team_name">Team name</string>
     <string name="select_date">Select Date</string>
+    <string name="drawing_clear">Drawing Clear</string>
+    <string name="material_received">Material Received</string>
+    <string name="cardel_support_godi">Cardel Support (Godi)</string>
+    <string name="mounted_on_vehicle">Mounted on Vehicle</string>
+    <string name="gate_pass_to_fitting_team">Gate Pass to Fitting Team</string>
+    <string name="assigned_to">Assigned To</string>
+    <string name="assigned_date">Assigned Date</string>
 
 </resources>

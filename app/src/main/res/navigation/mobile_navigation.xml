@@ -23,4 +23,10 @@
         android:label="@string/planning_amp_procurement"
         tools:layout="@layout/fragment_drawing" />
 
+    <fragment
+        android:id="@+id/nav_tankfab"
+        android:name="com.example.e4.TankFabFragment"
+        android:label="@string/tank_fabrication"
+        tools:layout="@layout/fragment_tank_fab" />
+
 </navigation>

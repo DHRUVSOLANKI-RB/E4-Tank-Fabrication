@@ -19,5 +19,11 @@
             android:title="@string/planning_amp_procurement"
             android:visible="false" />
 
+        <item
+            android:id="@+id/nav_tankfab"
+            android:icon="@android:drawable/ic_input_add"
+            android:title="@string/tank_fabrication"
+            android:visible="false" />
+
     </group>
 </menu>
