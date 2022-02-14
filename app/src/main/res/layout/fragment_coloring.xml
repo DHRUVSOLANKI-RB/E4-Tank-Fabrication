@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:padding="5dp"
+    tools:context="com.example.e4.MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        tools:ignore="ScrollViewCount,UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="12dp"
+                android:text="@string/coloring"
+                android:textSize="20sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <!--    Team Name  -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_remarks"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/team_name">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/remarks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--    Grinding Check -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/grinding_check"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/grinding_check" />
+
+                <!--    Primer -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/primer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/primer" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--     Putty       -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/putty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/putty" />
+
+                <!--     Rubbing and Surface Check       -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/rubbing_and_surface_check"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/rubbing_and_surface_check" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--     Base Color        -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/base_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/base_color" />
+
+                <!--     Branding Color       -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/branding_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/branding_color" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--    Cabin Color -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/cabin_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cabin_color" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="12dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/prev_coloring"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="50"
+            android:backgroundTint="@color/yellow"
+            android:drawableLeft="@android:drawable/ic_media_previous"
+            android:text="@string/previous" />
+
+        <Button
+            android:id="@+id/next_coloring"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="50"
+            android:backgroundTint="@color/green"
+            android:drawableEnd="@android:drawable/ic_media_next"
+            android:shadowColor="@android:color/transparent"
+            android:text="@string/next" />
+
+    </LinearLayout>
+
+</RelativeLayout>

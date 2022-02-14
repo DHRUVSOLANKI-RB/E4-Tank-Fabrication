@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:padding="5dp"
+    tools:context="com.example.e4.MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        tools:ignore="ScrollViewCount,UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="12dp"
+                android:text="@string/touch_up_stage"
+                android:textSize="20sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--    Main Hole Cover -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/main_hole_cover"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/main_hole_cover" />
+
+                <!--    Safety Fittings -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/safety_fittings"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/safety_fittings" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--     Ladder       -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/ladder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/ladder" />
+
+                <!--     AL Top       -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/al_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/al_top" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--     Locking and Safety        -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/locking_and_safety"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/locking_and_safety" />
+
+                <!--     Accessories Installation       -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/accessories_installation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/accessories_installation" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--     Final Color        -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/final_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/final_color" />
+
+                <!--     Sticker       -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/sticker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/sticker" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="12dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/prev_touchup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="50"
+            android:backgroundTint="@color/yellow"
+            android:drawableLeft="@android:drawable/ic_media_previous"
+            android:text="@string/previous" />
+
+        <Button
+            android:id="@+id/next_touchup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="50"
+            android:backgroundTint="@color/green"
+            android:drawableEnd="@android:drawable/ic_media_next"
+            android:shadowColor="@android:color/transparent"
+            android:text="@string/next" />
+
+    </LinearLayout>
+
+</RelativeLayout>

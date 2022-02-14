@@ -120,39 +120,48 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!--    Laden Weight  -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/main_ladenwgt"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
-                android:hint="@string/ladenwgt">
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/ladenwgt"
+                <!--    Laden Weight  -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/main_ladenwgt"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="50"
+                    android:hint="@string/ladenwgt">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/ladenwgt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-            <!--    Unladen Weight  -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/main_unladenwgt"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp"
-                android:hint="@string/unladenwgt">
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/unladenwgt"
+                <!--    Unladen Weight  -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/main_unladenwgt"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="50"
+                    android:hint="@string/unladenwgt">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/unladenwgt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
 
             <!--    Engine Number  -->
             <com.google.android.material.textfield.TextInputLayout

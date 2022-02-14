@@ -41,4 +41,34 @@
         android:label="@string/leak_test"
         tools:layout="@layout/fragment_leak_test" />
 
+    <fragment
+        android:id="@+id/nav_post_test"
+        android:name="com.example.e4.PostTestFragment"
+        android:label="@string/post_test_fittings"
+        tools:layout="@layout/fragment_post_test" />
+
+    <fragment
+        android:id="@+id/nav_checklista"
+        android:name="com.example.e4.ChecklistAFragment"
+        android:label="@string/checklist_a"
+        tools:layout="@layout/fragment_checklist_a" />
+
+    <fragment
+        android:id="@+id/nav_coloring"
+        android:name="com.example.e4.ColoringFragment"
+        android:label="@string/coloring"
+        tools:layout="@layout/fragment_coloring" />
+
+    <fragment
+        android:id="@+id/nav_touchup"
+        android:name="com.example.e4.TouchupFragment"
+        android:label="@string/touch_up_stage"
+        tools:layout="@layout/fragment_touchup" />
+
+    <fragment
+        android:id="@+id/nav_checklistpredelivery"
+        android:name="com.example.e4.CheckistPreDeliveryFragment"
+        android:label="@string/checklist_pre_delivery"
+        tools:layout="@layout/fragment_checkist_pre_delivery" />
+
 </navigation>

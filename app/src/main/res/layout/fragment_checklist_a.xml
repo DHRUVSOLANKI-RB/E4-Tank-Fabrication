@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:padding="5dp"
+    tools:context="com.example.e4.MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        tools:ignore="ScrollViewCount,UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="12dp"
+                android:text="@string/outer_assembly"
+                android:textSize="20sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--    Line and Valve Box -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/line_and_valve_box"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/line_and_valve_box" />
+
+                <!--    Lever and Lever Box -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/lever_and_lever_box"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/lever_and_lever_box" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--     Fire Screen       -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/fire_screen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/fire_screen" />
+
+                <!--     U Bolts and Rubbers       -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/u_bolts_and_rubbers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/u_bolts_and_rubbers" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--     Side Mud Guards       -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/side_mud_guards"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/side_mud_guards" />
+
+                <!--     Hose Pipe Stand       -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/hose_pipe_stand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/hose_pipe_stand" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--     Fire Ext Stand       -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/fire_ext_stand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/fire_ext_stand" />
+
+                <!--     Hose Pipe Stand       -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/dip_rod_stand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/dip_rod_stand" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--     Earthing        -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/earthing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/earthing" />
+
+                <!--     Locking       -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/locking"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/locking" />
+
+            </LinearLayout>
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="12dp"
+                android:text="@string/inside_tank"
+                android:textSize="20sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--    DIP Plate -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/dip_plate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/dip_plate" />
+
+                <!--    Cleaning -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/tank_cleaning"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/tank_cleaning" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--    Shutoff Valve posotion -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/shutoff_valve_posotion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/shutoff_valve_posotion" />
+
+            </LinearLayout>
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="12dp"
+                android:text="@string/tank_top"
+                android:textSize="20sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--    Safety Fitting -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/safety_fitting"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/safety_fitting" />
+
+                <!--    Top Cover -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/top_cover"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:text="@string/top_cover" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--    Gasket -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/gasket"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gasket" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--    Grinding and Release to Color Team -->
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/grinding_release"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/grinding_and_release_to_color_team" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="12dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/prev_posttest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="50"
+            android:backgroundTint="@color/yellow"
+            android:drawableLeft="@android:drawable/ic_media_previous"
+            android:text="@string/previous" />
+
+        <Button
+            android:id="@+id/next_posttest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="50"
+            android:backgroundTint="@color/green"
+            android:drawableEnd="@android:drawable/ic_media_next"
+            android:shadowColor="@android:color/transparent"
+            android:text="@string/next" />
+
+    </LinearLayout>
+
+</RelativeLayout>

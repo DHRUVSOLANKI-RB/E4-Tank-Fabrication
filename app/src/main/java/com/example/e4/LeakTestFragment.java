@@ -46,7 +46,7 @@ public class LeakTestFragment extends Fragment {
 
         next_leaktest.setOnClickListener(view -> {
 
-            Navigation.findNavController(view).navigate(R.id.nav_leaktest);
+            Navigation.findNavController(view).navigate(R.id.nav_post_test);
         });
 
         return root;
