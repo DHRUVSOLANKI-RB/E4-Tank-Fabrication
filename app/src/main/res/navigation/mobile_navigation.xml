@@ -29,4 +29,16 @@
         android:label="@string/tank_fabrication"
         tools:layout="@layout/fragment_tank_fab" />
 
+    <fragment
+        android:id="@+id/nav_fitting"
+        android:name="com.example.e4.FittingFragment"
+        android:label="@string/fittings_pre_test"
+        tools:layout="@layout/fragment_fitting" />
+
+    <fragment
+        android:id="@+id/nav_leaktest"
+        android:name="com.example.e4.LeakTestFragment"
+        android:label="@string/leak_test"
+        tools:layout="@layout/fragment_leak_test" />
+
 </navigation>

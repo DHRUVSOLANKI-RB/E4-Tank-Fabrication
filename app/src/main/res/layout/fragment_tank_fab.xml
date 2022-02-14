@@ -342,41 +342,40 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="12dp"
-                android:orientation="horizontal">
-
-                <!--                <Button-->
-                <!--                    android:id="@+id/prev_proc"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_weight="50"-->
-                <!--                    android:backgroundTint="@color/material_dynamic_neutral40"-->
-                <!--                    android:drawableLeft="@android:drawable/ic_media_previous"-->
-                <!--                    android:shadowColor="@android:color/transparent"-->
-                <!--                    android:text="@string/previous"-->
-                <!--                    android:layout_marginEnd="10dp"/>-->
-
-                <Button
-                    android:id="@+id/next_tankfeb"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_weight="50"
-                    android:backgroundTint="@color/colorPrimaryDark"
-                    android:drawableEnd="@android:drawable/ic_media_next"
-                    android:shadowColor="@android:color/transparent"
-                    android:text="@string/next" />
-
-            </LinearLayout>
-
-
         </LinearLayout>
 
     </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="12dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/prev_tankfeb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="50"
+            android:backgroundTint="@color/yellow"
+            android:drawableLeft="@android:drawable/ic_media_previous"
+            android:text="@string/previous" />
+
+        <Button
+            android:id="@+id/next_tankfeb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="50"
+            android:backgroundTint="@color/green"
+            android:drawableEnd="@android:drawable/ic_media_next"
+            android:shadowColor="@android:color/transparent"
+            android:text="@string/next" />
+
+    </LinearLayout>
 
 </RelativeLayout>

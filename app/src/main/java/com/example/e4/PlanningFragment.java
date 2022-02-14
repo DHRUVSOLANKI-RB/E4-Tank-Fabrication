@@ -25,6 +25,7 @@ public class PlanningFragment extends Fragment {
         team_date = root.findViewById(R.id.team_date);
         Button select_date = root.findViewById(R.id.select_date);
         Button next_proc = root.findViewById(R.id.next_proc);
+        Button prev_proc = root.findViewById(R.id.prev_proc);
 
         MaterialDatePicker.Builder materialDateBuilder = MaterialDatePicker.Builder.datePicker();
         materialDateBuilder.setTitleText("SELECT DATE");
@@ -37,6 +38,12 @@ public class PlanningFragment extends Fragment {
 
         materialDatePicker.addOnPositiveButtonClickListener(
                 selection -> team_date.setText(materialDatePicker.getHeaderText()));
+
+        prev_proc.setOnClickListener(view -> {
+
+            //Toast.makeText(getActivity(), "Please fill all form fields.", Toast.LENGTH_LONG).show();
+            Navigation.findNavController(view).navigate(R.id.nav_home);
+        });
 
         next_proc.setOnClickListener(view -> {
 

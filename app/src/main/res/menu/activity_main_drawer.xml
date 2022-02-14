@@ -25,5 +25,17 @@
             android:title="@string/tank_fabrication"
             android:visible="false" />
 
+        <item
+            android:id="@+id/nav_fitting"
+            android:icon="@android:drawable/ic_input_add"
+            android:title="@string/fittings_pre_test"
+            android:visible="false" />
+
+        <item
+            android:id="@+id/nav_leaktest"
+            android:icon="@android:drawable/ic_input_add"
+            android:title="@string/leak_test"
+            android:visible="false" />
+
     </group>
 </menu>

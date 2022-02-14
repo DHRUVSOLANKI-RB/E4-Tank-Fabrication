@@ -27,6 +27,7 @@ public class TankFabFragment extends Fragment {
         assigned_date_text = root.findViewById(R.id.assigned_date_text);
         Button assigned_date = root.findViewById(R.id.assigned_date);
         Button next_tankfeb = root.findViewById(R.id.next_tankfeb);
+        Button prev_tankfeb = root.findViewById(R.id.prev_tankfeb);
 
         MaterialDatePicker.Builder materialDateBuilder_mounted = MaterialDatePicker.Builder.datePicker();
         materialDateBuilder_mounted.setTitleText("MOUNTED ON VEHICLE DATE");
@@ -54,9 +55,14 @@ public class TankFabFragment extends Fragment {
         materialDatePicker.addOnPositiveButtonClickListener(
                 selection -> assigned_date_text.setText(materialDatePicker.getHeaderText()));
 
+        prev_tankfeb.setOnClickListener(view -> {
+
+            Navigation.findNavController(view).navigate(R.id.nav_planning);
+        });
+
         next_tankfeb.setOnClickListener(view -> {
 
-            Navigation.findNavController(view).navigate(R.id.nav_tankfab);
+            Navigation.findNavController(view).navigate(R.id.nav_fitting);
         });
 
         return root;
