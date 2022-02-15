@@ -77,8 +77,16 @@ public class HomeFragment<array_uri> extends Fragment {
     AutoCompleteTextView vehicle_type;
     ImageView imageview_1;
     ImageView imageview_2;
+    ImageView imageview_3;
+    ImageView imageview_4;
+    ImageView imageview_5;
+    ImageView imageview_6;
     Button image_1;
     Button image_2;
+    Button image_3;
+    Button image_4;
+    Button image_5;
+    Button image_6;
     String vendor;
     String vendorid;
     String fileno;
@@ -107,6 +115,7 @@ public class HomeFragment<array_uri> extends Fragment {
 
     private final int GALLERY = 1;
     private final int CAMERA = 2;
+    String get_buttonid = "";
 
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -133,11 +142,28 @@ public class HomeFragment<array_uri> extends Fragment {
         image_2 = root.findViewById(R.id.image_2);
         imageview_2 = root.findViewById(R.id.imageview_2);
 
+        image_3 = root.findViewById(R.id.image_3);
+        imageview_3 = root.findViewById(R.id.imageview_3);
+
+        image_4 = root.findViewById(R.id.image_4);
+        imageview_4 = root.findViewById(R.id.imageview_4);
+
+        image_5 = root.findViewById(R.id.image_5);
+        imageview_5 = root.findViewById(R.id.imageview_5);
+
+        image_6 = root.findViewById(R.id.image_6);
+        imageview_6 = root.findViewById(R.id.imageview_6);
+
         requestMultiplePermissions();
 
         final Button upload = (Button) root.findViewById(R.id.upload);
 
-        image_1.setOnClickListener(v -> showPictureDialog());
+        image_1.setOnClickListener(v -> showPictureDialog(v.getId()));
+        image_2.setOnClickListener(v -> showPictureDialog(v.getId()));
+        image_3.setOnClickListener(v -> showPictureDialog(v.getId()));
+        image_4.setOnClickListener(v -> showPictureDialog(v.getId()));
+        image_5.setOnClickListener(v -> showPictureDialog(v.getId()));
+        image_6.setOnClickListener(v -> showPictureDialog(v.getId()));
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, arr_category);
         category = (AutoCompleteTextView) root.findViewById(R.id.category);
@@ -219,9 +245,44 @@ public class HomeFragment<array_uri> extends Fragment {
                 Uri contentURI = data.getData();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), contentURI);
-                    String path = saveImage(bitmap);
+                    //String path = saveImage(bitmap);
                     Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();
-                    imageview_1.setImageBitmap(bitmap);
+                    //imageview_1.setImageBitmap(bitmap);
+
+//                    if(get_buttonid.equals("image_1")){
+//                        imageview_1.setImageBitmap(bitmap);
+//                    }else if(get_buttonid.equals("image_2")){
+//                        imageview_2.setImageBitmap(bitmap);
+//                    }else if(get_buttonid.equals("image_3")){
+//                        imageview_3.setImageBitmap(bitmap);
+//                    }else if(get_buttonid.equals("image_4")){
+//                        imageview_4.setImageBitmap(bitmap);
+//                    }else if(get_buttonid.equals("image_5")){
+//                        imageview_5.setImageBitmap(bitmap);
+//                    }else if(get_buttonid.equals("image_6")){
+//                        imageview_6.setImageBitmap(bitmap);
+//                    }
+
+                    switch (get_buttonid){
+                        case "image_1":
+                            imageview_1.setImageBitmap(bitmap);
+                            break;
+                        case "image_2":
+                            imageview_2.setImageBitmap(bitmap);
+                            break;
+                        case "image_3":
+                            imageview_3.setImageBitmap(bitmap);
+                            break;
+                        case "image_4":
+                            imageview_4.setImageBitmap(bitmap);
+                            break;
+                        case "image_5":
+                            imageview_5.setImageBitmap(bitmap);
+                            break;
+                        case "image_6":
+                            imageview_6.setImageBitmap(bitmap);
+                            break;
+                    }
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -231,13 +292,74 @@ public class HomeFragment<array_uri> extends Fragment {
 
         } else if (requestCode == CAMERA) {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            imageview_1.setImageBitmap(thumbnail);
-            saveImage(thumbnail);
+            //imageview_1.setImageBitmap(thumbnail);
+//            if(get_buttonid.equals("image_1")){
+//                imageview_1.setImageBitmap(thumbnail);
+//            }else if(get_buttonid.equals("image_2")){
+//                imageview_2.setImageBitmap(thumbnail);
+//            }else if(get_buttonid.equals("image_3")){
+//                imageview_3.setImageBitmap(thumbnail);
+//            }else if(get_buttonid.equals("image_4")){
+//                imageview_4.setImageBitmap(thumbnail);
+//            }else if(get_buttonid.equals("image_5")){
+//                imageview_5.setImageBitmap(thumbnail);
+//            }else if(get_buttonid.equals("image_6")){
+//                imageview_6.setImageBitmap(thumbnail);
+//            }
+
+            switch (get_buttonid){
+                case "image_1":
+                    imageview_1.setImageBitmap(thumbnail);
+                    break;
+                case "image_2":
+                    imageview_2.setImageBitmap(thumbnail);
+                    break;
+                case "image_3":
+                    imageview_3.setImageBitmap(thumbnail);
+                    break;
+                case "image_4":
+                    imageview_4.setImageBitmap(thumbnail);
+                    break;
+                case "image_5":
+                    imageview_5.setImageBitmap(thumbnail);
+                    break;
+                case "image_6":
+                    imageview_6.setImageBitmap(thumbnail);
+                    break;
+            }
+
+            //saveImage(thumbnail);
             Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showPictureDialog(){
+    @SuppressLint("NonConstantResourceId")
+    private void showPictureDialog(int button_id){
+
+        switch(button_id)
+        {
+            case R.id.image_1:
+                get_buttonid = "image_1";
+                break;
+            case R.id.image_2:
+                get_buttonid = "image_2";
+                break;
+            case R.id.image_3:
+                get_buttonid = "image_3";
+                break;
+            case R.id.image_4:
+                get_buttonid = "image_4";
+                break;
+            case R.id.image_5:
+                get_buttonid = "image_5";
+                break;
+            case R.id.image_6:
+                get_buttonid = "image_6";
+                break;
+            default:
+                throw new RuntimeException("Unknow button ID");
+        }
+
         AlertDialog.Builder pictureDialog = new AlertDialog.Builder(getActivity());
         pictureDialog.setTitle("Select Action");
         String[] pictureDialogItems = {
