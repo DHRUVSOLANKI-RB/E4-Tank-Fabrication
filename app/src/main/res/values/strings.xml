@@ -170,5 +170,7 @@
     <string name="color">Color</string>
     <string name="number_plates">Number Plates</string>
     <string name="accessories">Accessories</string>
+    <string name="image_1">Image 1</string>
+    <string name="image_2">Image 2</string>
 
 </resources>

@@ -57,5 +57,6 @@ dependencies {
     implementation "org.apache.httpcomponents:httpcore:4.4.10"
     implementation "org.apache.httpcomponents:httpmime:4.5.6"
     implementation 'org.apache.commons:commons-lang3:3.9'
+    implementation 'com.karumi:dexter:5.0.0'
 
 }
