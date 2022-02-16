@@ -28,8 +28,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,11 +40,20 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+import com.example.e4.EndPoints;
 import com.example.e4.MainActivity;
 import com.example.e4.R;
 import com.example.e4.UserLoginActivity;
+import com.example.e4.VolleyMultipartRequest;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -52,70 +63,64 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
 
 public class HomeFragment<array_uri> extends Fragment {
 
-    EditText make;
-    EditText unladenwgt;
-    EditText model;
-    EditText wheelbase;
-    EditText ladenwgt;
-    TextView indate;
-    TextView delivery_date;
-    String Directorate;
-    AutoCompleteTextView category;
-    AutoCompleteTextView bs_type;
-    AutoCompleteTextView vehicle_type;
-    ImageView imageview_1;
-    ImageView imageview_2;
-    ImageView imageview_3;
-    ImageView imageview_4;
-    ImageView imageview_5;
-    ImageView imageview_6;
-    Button image_1;
-    Button image_2;
-    Button image_3;
-    Button image_4;
-    Button image_5;
-    Button image_6;
-    String vendor;
-    String vendorid;
-    String fileno;
-    String itemname;
-    String rdsospecs;
+    EditText make,unladenwgt,model,wheelbase,ladenwgt,engineno,chessisno,regno,delivername,deliverphone,receivername,receiverphone,customername,customeradd,
+            contactdetail,companyname,contactno,capacity,compdistri,oilcompany,depotname,diesel_tank,cabin_color,denting_painting,existing_fault,remarks;
+
+    RadioGroup rg_fire_extinguisher,rg_dip_rod,rg_delivery_hose,rg_parking_cone;
+
+    TextView indate,delivery_date;
+
+    AutoCompleteTextView category,bs_type,vehicle_type;
+
+    ImageView imageview_1,imageview_2,imageview_3,imageview_4,imageview_5,imageview_6;
+
+    Button image_1,image_2,image_3,image_4,image_5,image_6;
+
+    CheckBox spare_wheel,jack,jack_rod,tool_kit,back_sensors,reflector,cabin_fire_extingusher,rear_lights,battery_serial_number;
+
     Boolean CheckEditText;
     ProgressDialog progressDialog;
-    String get_filename = "";
-    String all_filename = "";
+
+    String get_filename = "",all_filename = "",count_loop = "",displayName = "",get_buttonid = "",txt_category = "",txt_make = "",txt_model = "",txt_bs_type = "",
+            txt_wheelbase = "",txt_ladenwgt = "",txt_unladenwgt = "",txt_engineno = "", txt_chessisno = "",txt_regno = "",txt_delivername = "",txt_deliverphone = "",
+            txt_receivername = "",txt_receiverphone = "",txt_customername = "",txt_customeradd = "",txt_contactdetail = "", txt_companyname = "",txt_contactno = "",
+            txt_vehicle_type = "",txt_capacity = "",txt_compdistri = "",txt_oilcompany = "",txt_depotname = "",txt_indate = "",txt_delivery_date = "",txt_spare_wheel = "",
+            txt_jack = "",txt_jack_rod = "",txt_tool_kit = "",txt_back_sensors = "",txt_reflector = "",txt_cabin_fire_extingusher = "",txt_rear_lights = "",
+            txt_battery_serial_number = "";
+
     Uri uri;
     HashMap<String, String> array_file_uri = new HashMap<>();
     float file_size = (float) 0.00;
     boolean file_alert = false;
-
-    String count_loop = "";
-
-    String displayName = null;
     private ArrayList<HashMap<String, String>> arraylist;
     private RequestQueue rQueue;
 
     String[] arr_category = {"Bio MRO", "Mobile Bowser", "DD Bowser", "TL Tank", "BL Tank", "Tank Shifting", "Storage Tank"};
-
     String[] arr_bstype = {"BSIII", "BSIV", "BSVI"};
 
-    private static final String IMAGE_DIRECTORY = "/E4-Tank-Fabrication";
-
+    private static final String IMAGE_DIRECTORY = "/E4TankFabrication";
     private final int GALLERY = 1;
     private final int CAMERA = 2;
-    String get_buttonid = "";
 
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -131,6 +136,23 @@ public class HomeFragment<array_uri> extends Fragment {
         wheelbase = root.findViewById(R.id.wheelbase);
         ladenwgt = root.findViewById(R.id.ladenwgt);
         unladenwgt = root.findViewById(R.id.unladenwgt);
+        engineno = root.findViewById(R.id.engineno);
+        chessisno = root.findViewById(R.id.chessisno);
+        regno = root.findViewById(R.id.regno);
+        delivername = root.findViewById(R.id.delivername);
+        deliverphone = root.findViewById(R.id.deliverphone);
+        receivername = root.findViewById(R.id.receivername);
+        receiverphone = root.findViewById(R.id.receiverphone);
+        customername = root.findViewById(R.id.customername);
+        customeradd = root.findViewById(R.id.customeradd);
+        contactdetail = root.findViewById(R.id.contactdetail);
+        companyname = root.findViewById(R.id.companyname);
+        contactno = root.findViewById(R.id.contactno);
+        vehicle_type = root.findViewById(R.id.vehicle_type);
+        capacity = root.findViewById(R.id.capacity);
+        compdistri = root.findViewById(R.id.compdistri);
+        oilcompany = root.findViewById(R.id.oilcompany);
+        depotname = root.findViewById(R.id.depotname);
         //upload = root.findViewById(R.id.upload);
         indate = root.findViewById(R.id.indate);
         Button select_in_date = root.findViewById(R.id.select_in_date);
@@ -138,21 +160,34 @@ public class HomeFragment<array_uri> extends Fragment {
         delivery_date = root.findViewById(R.id.delivery_date);
         image_1 = root.findViewById(R.id.image_1);
         imageview_1 = root.findViewById(R.id.imageview_1);
-
         image_2 = root.findViewById(R.id.image_2);
         imageview_2 = root.findViewById(R.id.imageview_2);
-
         image_3 = root.findViewById(R.id.image_3);
         imageview_3 = root.findViewById(R.id.imageview_3);
-
         image_4 = root.findViewById(R.id.image_4);
         imageview_4 = root.findViewById(R.id.imageview_4);
-
         image_5 = root.findViewById(R.id.image_5);
         imageview_5 = root.findViewById(R.id.imageview_5);
-
         image_6 = root.findViewById(R.id.image_6);
         imageview_6 = root.findViewById(R.id.imageview_6);
+        spare_wheel = root.findViewById(R.id.spare_wheel);
+        jack = root.findViewById(R.id.jack);
+        jack_rod = root.findViewById(R.id.jack_rod);
+        tool_kit = root.findViewById(R.id.tool_kit);
+        back_sensors = root.findViewById(R.id.back_sensors);
+        reflector = root.findViewById(R.id.reflector);
+        cabin_fire_extingusher = root.findViewById(R.id.cabin_fire_extingusher);
+        rear_lights = root.findViewById(R.id.rear_lights);
+        battery_serial_number = root.findViewById(R.id.battery_serial_number);
+        rg_fire_extinguisher = root.findViewById(R.id.rg_fire_extinguisher);
+        rg_dip_rod = root.findViewById(R.id.rg_dip_rod);
+        rg_delivery_hose = root.findViewById(R.id.rg_delivery_hose);
+        rg_parking_cone = root.findViewById(R.id.rg_parking_cone);
+        diesel_tank = root.findViewById(R.id.diesel_tank);
+        cabin_color = root.findViewById(R.id.cabin_color);
+        denting_painting = root.findViewById(R.id.denting_painting);
+        existing_fault = root.findViewById(R.id.existing_fault);
+        remarks = root.findViewById(R.id.remarks);
 
         requestMultiplePermissions();
 
@@ -192,8 +227,14 @@ public class HomeFragment<array_uri> extends Fragment {
             materialDatePicker.show(getActivity().getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
         });
 
-        materialDatePicker.addOnPositiveButtonClickListener(
-                selection -> indate.setText(materialDatePicker.getHeaderText()));
+        materialDatePicker.addOnPositiveButtonClickListener((MaterialPickerOnPositiveButtonClickListener<Long>) selection -> {
+
+            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+            calendar.setTimeInMillis(selection);
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            String formattedDate  = format.format(calendar.getTime());
+            indate.setText(formattedDate);
+        });
 
         /*      Expected Delivery Date    */
 
@@ -206,15 +247,87 @@ public class HomeFragment<array_uri> extends Fragment {
             materialDatePicker_deldt.show(getActivity().getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
         });
 
-        materialDatePicker_deldt.addOnPositiveButtonClickListener(
-                selection -> delivery_date.setText(materialDatePicker_deldt.getHeaderText()));
+        materialDatePicker_deldt.addOnPositiveButtonClickListener((MaterialPickerOnPositiveButtonClickListener<Long>) selection -> {
+
+            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+            calendar.setTimeInMillis(selection);
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            String formattedDate  = format.format(calendar.getTime());
+            delivery_date.setText(formattedDate);
+        });
 
 
-        SharedPreferences sharedpreferences = getActivity().getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+        //SharedPreferences sharedpreferences = getActivity().getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+
+
 
         upload.setOnClickListener(view -> {
 
-            //Toast.makeText(getActivity(), "Please fill all form fields.", Toast.LENGTH_LONG).show();
+            txt_category = category.getText().toString();
+            txt_make = make.getText().toString();
+            txt_model = model.getText().toString();
+            txt_bs_type = bs_type.getText().toString();
+            txt_wheelbase = wheelbase.getText().toString();
+            txt_ladenwgt = ladenwgt.getText().toString();
+            txt_unladenwgt = unladenwgt.getText().toString();
+            txt_engineno = engineno.getText().toString();
+            txt_chessisno = chessisno.getText().toString();
+            txt_regno = regno.getText().toString();
+            txt_delivername = delivername.getText().toString();
+            txt_deliverphone = deliverphone.getText().toString();
+            txt_receivername = receivername.getText().toString();
+            txt_receiverphone = receiverphone.getText().toString();
+            txt_customername = customername.getText().toString();
+            txt_customeradd = customeradd.getText().toString();
+            txt_contactdetail = contactdetail.getText().toString();
+            txt_companyname = companyname.getText().toString();
+            txt_contactno = contactno.getText().toString();
+            txt_vehicle_type = vehicle_type.getText().toString();
+            txt_capacity = capacity.getText().toString();
+            txt_compdistri = compdistri.getText().toString();
+            txt_oilcompany = oilcompany.getText().toString();
+            txt_depotname = depotname.getText().toString();
+            txt_indate = indate.getText().toString();
+            txt_delivery_date = delivery_date.getText().toString();
+
+            if(spare_wheel.isChecked())
+                txt_spare_wheel = spare_wheel.getText().toString();
+            if(jack.isChecked())
+                txt_jack = jack.getText().toString();
+            if(jack_rod.isChecked())
+                txt_jack_rod = jack_rod.getText().toString();
+            if(tool_kit.isChecked())
+                txt_tool_kit = tool_kit.getText().toString();
+            if(back_sensors.isChecked())
+                txt_back_sensors = back_sensors.getText().toString();
+            if(reflector.isChecked())
+                txt_reflector = reflector.getText().toString();
+            if(cabin_fire_extingusher.isChecked())
+                txt_cabin_fire_extingusher = cabin_fire_extingusher.getText().toString();
+            if(rear_lights.isChecked())
+                txt_rear_lights = rear_lights.getText().toString();
+            if(battery_serial_number.isChecked())
+                txt_battery_serial_number = battery_serial_number.getText().toString();
+
+            Toast.makeText(getActivity(), txt_indate, Toast.LENGTH_LONG).show();
+
+//            progressDialog = ProgressDialog.show(getContext(), "Loading Data", null, true, true);
+//
+//            Iterator it = array_file_uri.entrySet().iterator();
+//            while (it.hasNext()) {
+//
+//                Map.Entry pair = (Map.Entry) it.next();
+//
+//                if (!it.hasNext()) {
+//                    count_loop = "last";
+//                }
+//
+//                System.out.println("count_loop " + count_loop);
+//
+//                uploadPDF(pair.getKey().toString(), Uri.parse(pair.getValue().toString()));
+//                it.remove();
+//
+//            }
 
             Navigation.findNavController(view).navigate(R.id.nav_planning);
 
@@ -227,59 +340,45 @@ public class HomeFragment<array_uri> extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-//        if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null) {
-//
-//                uri = data.getData();
-//                String uriString = uri.toString();
-//                File myFile = new File(uriString);
-//                String path = myFile.getAbsolutePath();
-//
-//                System.out.println("file:-"+ uri.toString());
-//
-//                imageview_1.setImageURI(uri);
-//
-//        }
-
         if (requestCode == GALLERY) {
             if (data != null) {
                 Uri contentURI = data.getData();
+                uri = contentURI;
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), contentURI);
                     //String path = saveImage(bitmap);
                     Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();
                     //imageview_1.setImageBitmap(bitmap);
 
-//                    if(get_buttonid.equals("image_1")){
-//                        imageview_1.setImageBitmap(bitmap);
-//                    }else if(get_buttonid.equals("image_2")){
-//                        imageview_2.setImageBitmap(bitmap);
-//                    }else if(get_buttonid.equals("image_3")){
-//                        imageview_3.setImageBitmap(bitmap);
-//                    }else if(get_buttonid.equals("image_4")){
-//                        imageview_4.setImageBitmap(bitmap);
-//                    }else if(get_buttonid.equals("image_5")){
-//                        imageview_5.setImageBitmap(bitmap);
-//                    }else if(get_buttonid.equals("image_6")){
-//                        imageview_6.setImageBitmap(bitmap);
-//                    }
-
                     switch (get_buttonid){
                         case "image_1":
+                            imageview_1.setVisibility(View.VISIBLE);
+                            imageview_2.setVisibility(View.VISIBLE);
                             imageview_1.setImageBitmap(bitmap);
                             break;
                         case "image_2":
+                            imageview_1.setVisibility(View.VISIBLE);
+                            imageview_2.setVisibility(View.VISIBLE);
                             imageview_2.setImageBitmap(bitmap);
                             break;
                         case "image_3":
+                            imageview_3.setVisibility(View.VISIBLE);
+                            imageview_4.setVisibility(View.VISIBLE);
                             imageview_3.setImageBitmap(bitmap);
                             break;
                         case "image_4":
+                            imageview_3.setVisibility(View.VISIBLE);
+                            imageview_4.setVisibility(View.VISIBLE);
                             imageview_4.setImageBitmap(bitmap);
                             break;
                         case "image_5":
+                            imageview_5.setVisibility(View.VISIBLE);
+                            imageview_6.setVisibility(View.VISIBLE);
                             imageview_5.setImageBitmap(bitmap);
                             break;
                         case "image_6":
+                            imageview_5.setVisibility(View.VISIBLE);
+                            imageview_6.setVisibility(View.VISIBLE);
                             imageview_6.setImageBitmap(bitmap);
                             break;
                     }
@@ -288,48 +387,68 @@ public class HomeFragment<array_uri> extends Fragment {
                     e.printStackTrace();
                     Toast.makeText(getActivity(), "Failed!", Toast.LENGTH_SHORT).show();
                 }
+
+                Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null);
+                if (cursor != null && cursor.moveToFirst()) {
+                    displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+                Toast.makeText(getActivity(), displayName, Toast.LENGTH_SHORT).show();
+                array_file_uri.put(displayName, uri.toString());
             }
 
         } else if (requestCode == CAMERA) {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            String path = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), thumbnail, String.valueOf(Calendar.getInstance().getTimeInMillis()), null);
+            uri = Uri.parse(path);
+
+            System.out.println(uri);
             //imageview_1.setImageBitmap(thumbnail);
-//            if(get_buttonid.equals("image_1")){
-//                imageview_1.setImageBitmap(thumbnail);
-//            }else if(get_buttonid.equals("image_2")){
-//                imageview_2.setImageBitmap(thumbnail);
-//            }else if(get_buttonid.equals("image_3")){
-//                imageview_3.setImageBitmap(thumbnail);
-//            }else if(get_buttonid.equals("image_4")){
-//                imageview_4.setImageBitmap(thumbnail);
-//            }else if(get_buttonid.equals("image_5")){
-//                imageview_5.setImageBitmap(thumbnail);
-//            }else if(get_buttonid.equals("image_6")){
-//                imageview_6.setImageBitmap(thumbnail);
-//            }
 
             switch (get_buttonid){
                 case "image_1":
+                    imageview_1.setVisibility(View.VISIBLE);
+                    imageview_2.setVisibility(View.VISIBLE);
                     imageview_1.setImageBitmap(thumbnail);
                     break;
                 case "image_2":
+                    imageview_1.setVisibility(View.VISIBLE);
+                    imageview_2.setVisibility(View.VISIBLE);
                     imageview_2.setImageBitmap(thumbnail);
                     break;
                 case "image_3":
+                    imageview_3.setVisibility(View.VISIBLE);
+                    imageview_4.setVisibility(View.VISIBLE);
                     imageview_3.setImageBitmap(thumbnail);
                     break;
                 case "image_4":
+                    imageview_3.setVisibility(View.VISIBLE);
+                    imageview_4.setVisibility(View.VISIBLE);
                     imageview_4.setImageBitmap(thumbnail);
                     break;
                 case "image_5":
+                    imageview_5.setVisibility(View.VISIBLE);
+                    imageview_6.setVisibility(View.VISIBLE);
                     imageview_5.setImageBitmap(thumbnail);
                     break;
                 case "image_6":
+                    imageview_5.setVisibility(View.VISIBLE);
+                    imageview_6.setVisibility(View.VISIBLE);
                     imageview_6.setImageBitmap(thumbnail);
                     break;
             }
 
             //saveImage(thumbnail);
-            Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();
+
+            Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+            }
+            Toast.makeText(getActivity(), displayName, Toast.LENGTH_SHORT).show();
+
+            array_file_uri.put(displayName, uri.toString());
         }
     }
 
@@ -407,13 +526,13 @@ public class HomeFragment<array_uri> extends Fragment {
 
     public void CheckEditTextIsEmptyOrNot() {
 
-        vendor = model.getText().toString();
-        vendorid = bs_type.getText().toString();
-        fileno = wheelbase.getText().toString();
-        itemname = ladenwgt.getText().toString();
-        rdsospecs = unladenwgt.getText().toString();
-
-        CheckEditText = !TextUtils.isEmpty(vendor) && !TextUtils.isEmpty(vendorid) && !TextUtils.isEmpty(fileno) && !TextUtils.isEmpty(itemname) && !TextUtils.isEmpty(get_filename);
+//        vendor = model.getText().toString();
+//        vendorid = bs_type.getText().toString();
+//        fileno = wheelbase.getText().toString();
+//        itemname = ladenwgt.getText().toString();
+//        rdsospecs = unladenwgt.getText().toString();
+//
+//        CheckEditText = !TextUtils.isEmpty(vendor) && !TextUtils.isEmpty(vendorid) && !TextUtils.isEmpty(fileno) && !TextUtils.isEmpty(itemname) && !TextUtils.isEmpty(get_filename);
     }
 
     public void hideKeyboard(View view) {
@@ -432,8 +551,7 @@ public class HomeFragment<array_uri> extends Fragment {
         }
 
         try {
-            File f = new File(wallpaperDirectory, Calendar.getInstance()
-                    .getTimeInMillis() + ".jpg");
+            File f = new File(wallpaperDirectory, Calendar.getInstance().getTimeInMillis() + ".jpg");
             f.createNewFile();
             FileOutputStream fo = new FileOutputStream(f);
             fo.write(bytes.toByteArray());
@@ -484,6 +602,129 @@ public class HomeFragment<array_uri> extends Fragment {
                 })
                 .onSameThread()
                 .check();
+    }
+
+    private void uploadPDF(final String pdfname, Uri pdffile) {
+
+        InputStream iStream = null;
+        try {
+
+            iStream = getContext().getContentResolver().openInputStream(pdffile);
+
+            System.out.println("source path " + pdffile);
+
+            final byte[] inputData = getBytes(iStream);
+
+            VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, EndPoints.UPLOAD_URL, new Response.Listener<NetworkResponse>() {
+                @Override
+                public void onResponse(NetworkResponse response) {
+                    Log.d("ressssssoo", new String(response.data));
+                    rQueue.getCache().clear();
+
+                    //progressDialog.dismiss();
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(new String(response.data));
+
+                        new MaterialAlertDialogBuilder(getContext()).setTitle(jsonObject.getString("message")).setPositiveButton("Ok", (dialogInterface, i) -> {
+
+                            String error = null;
+                            try {
+                                error = jsonObject.getString("error");
+
+                                if (error.equals("false")) {
+
+                                    progressDialog.dismiss();
+
+//                                    filename.setText("");
+//                                    txt_rdsospecs.getText().clear();
+//                                    txt_vendor.getText().clear();
+//                                    txt_vendorid.getText().clear();
+//                                    txt_fileno.getText().clear();
+//                                    txt_itemname.getText().clear();
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }).show();
+
+                        //                                jsonObject.toString().replace("\\\\","");
+                        //
+                        //                                if (jsonObject.getString("status").equals("true")) {
+                        //                                    Log.d("come::: >>>  ","yessssss");
+                        //                                    arraylist = new ArrayList<HashMap<String, String>>();
+                        //                                    JSONArray dataArray = jsonObject.getJSONArray("data");
+                        //
+                        //
+                        //                                    for (int i = 0; i < dataArray.length(); i++) {
+                        //                                        JSONObject dataobj = dataArray.getJSONObject(i);
+                        //                                        url = dataobj.optString("pathToFile");
+                        //                                        //tv.setText(url);
+                        //                                    }
+                        //
+                        //
+                        //                                }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            },
+                    error -> Toast.makeText(getContext().getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show()) {
+
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+
+//                    params.put("vendor", vendor);
+//                    params.put("vendorid", vendorid);
+//                    params.put("fileno", fileno);
+//                    params.put("itemname", itemname);
+//                    params.put("rdsospecs", rdsospecs);
+//                    params.put("directorate", Directorate);
+//                    //params.put("user", User);
+//                    params.put("filename", get_filename);
+//                    params.put("count_loop", count_loop);
+
+                    return params;
+                }
+
+                @Override
+                protected Map<String, DataPart> getByteData() {
+                    Map<String, DataPart> params = new HashMap<>();
+
+                    params.put("file_data", new DataPart(pdfname, inputData));
+                    return params;
+                }
+            };
+
+
+            volleyMultipartRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    0,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            rQueue = Volley.newRequestQueue(HomeFragment.this.getContext());
+            rQueue.add(volleyMultipartRequest);
+
+            //progressDialog = ProgressDialog.show(getContext(), "Loading Data", null, true, true);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024 * 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
     }
 
 }

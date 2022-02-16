@@ -617,14 +617,16 @@
                     android:layout_width="fill_parent"
                     android:layout_height="100dp"
                     android:layout_weight="50"
-                    android:layout_marginEnd="5dp"/>
+                    android:layout_marginEnd="5dp"
+                    android:visibility="gone"/>
 
                 <ImageView
                     android:id="@+id/imageview_2"
                     android:layout_width="fill_parent"
                     android:layout_height="100dp"
                     android:layout_weight="50"
-                    android:layout_marginStart="5dp"/>
+                    android:layout_marginStart="5dp"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -671,14 +673,16 @@
                     android:layout_width="fill_parent"
                     android:layout_height="100dp"
                     android:layout_weight="50"
-                    android:layout_marginEnd="5dp"/>
+                    android:layout_marginEnd="5dp"
+                    android:visibility="gone"/>
 
                 <ImageView
                     android:id="@+id/imageview_4"
                     android:layout_width="fill_parent"
                     android:layout_height="100dp"
                     android:layout_weight="50"
-                    android:layout_marginStart="5dp"/>
+                    android:layout_marginStart="5dp"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -725,14 +729,16 @@
                     android:layout_width="fill_parent"
                     android:layout_height="100dp"
                     android:layout_weight="50"
-                    android:layout_marginEnd="5dp"/>
+                    android:layout_marginEnd="5dp"
+                    android:visibility="gone"/>
 
                 <ImageView
                     android:id="@+id/imageview_6"
                     android:layout_width="fill_parent"
                     android:layout_height="100dp"
                     android:layout_weight="50"
-                    android:layout_marginStart="5dp"/>
+                    android:layout_marginStart="5dp"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -878,7 +884,7 @@
                 android:hint="@string/diesel_in_tank_liters">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/diesel_in_tank_liters"
+                    android:id="@+id/diesel_tank"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:ignore="TooManyViews" />
@@ -929,7 +935,7 @@
 
                     <!--    Fire Extinguisher    -->
                     <RadioGroup
-                        android:id="@+id/radioGroup_fire_extinguisher"
+                        android:id="@+id/rg_fire_extinguisher"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -986,7 +992,7 @@
                     android:layout_weight="1">
 
                     <RadioGroup
-                        android:id="@+id/radioGroup_dip_rod"
+                        android:id="@+id/rg_dip_rod"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -1040,7 +1046,7 @@
                     android:layout_weight="1">
 
                     <RadioGroup
-                        android:id="@+id/radioGroup_delivery_hose"
+                        android:id="@+id/rg_delivery_hose"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -1093,7 +1099,7 @@
                     android:layout_weight="1">
 
                     <RadioGroup
-                        android:id="@+id/radioGroup_parking_cone"
+                        android:id="@+id/rg_parking_cone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
