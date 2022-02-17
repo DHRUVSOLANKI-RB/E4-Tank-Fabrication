@@ -62,6 +62,8 @@ public class VolleyMultipartRequest extends Request<NetworkResponse> {
                 dataParse(dos, data);
             }
 
+            //dataParse(dos, data);
+
             // close multipart form data after text and file data
             dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
 

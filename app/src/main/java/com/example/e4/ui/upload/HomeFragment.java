@@ -31,6 +31,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -88,6 +89,8 @@ public class HomeFragment<array_uri> extends Fragment {
 
     RadioGroup rg_fire_extinguisher,rg_dip_rod,rg_delivery_hose,rg_parking_cone;
 
+    RadioButton fire_extinguisher,dip_rod,delivery_hose,parking_cone;
+
     TextView indate,delivery_date;
 
     AutoCompleteTextView category,bs_type,vehicle_type;
@@ -101,12 +104,13 @@ public class HomeFragment<array_uri> extends Fragment {
     Boolean CheckEditText;
     ProgressDialog progressDialog;
 
-    String get_filename = "",all_filename = "",count_loop = "",displayName = "",get_buttonid = "",txt_category = "",txt_make = "",txt_model = "",txt_bs_type = "",
+    String get_filename = "",all_filename = "",displayName = "",get_buttonid = "",txt_category = "",txt_make = "",txt_model = "",txt_bs_type = "",
             txt_wheelbase = "",txt_ladenwgt = "",txt_unladenwgt = "",txt_engineno = "", txt_chessisno = "",txt_regno = "",txt_delivername = "",txt_deliverphone = "",
             txt_receivername = "",txt_receiverphone = "",txt_customername = "",txt_customeradd = "",txt_contactdetail = "", txt_companyname = "",txt_contactno = "",
             txt_vehicle_type = "",txt_capacity = "",txt_compdistri = "",txt_oilcompany = "",txt_depotname = "",txt_indate = "",txt_delivery_date = "",txt_spare_wheel = "",
             txt_jack = "",txt_jack_rod = "",txt_tool_kit = "",txt_back_sensors = "",txt_reflector = "",txt_cabin_fire_extingusher = "",txt_rear_lights = "",
-            txt_battery_serial_number = "";
+            txt_battery_serial_number = "",txt_fire_extinguisher = "",txt_dip_rod = "",txt_delivery_hose = "",txt_parking_cone = "",txt_cabin_color = "",
+            txt_denting_painting = "",txt_existing_fault = "",txt_remarks = "",txt_diesel_tank = "";
 
     Uri uri;
     HashMap<String, String> array_file_uri = new HashMap<>();
@@ -121,6 +125,7 @@ public class HomeFragment<array_uri> extends Fragment {
     private static final String IMAGE_DIRECTORY = "/E4TankFabrication";
     private final int GALLERY = 1;
     private final int CAMERA = 2;
+    int count_loop = 0;
 
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -189,6 +194,7 @@ public class HomeFragment<array_uri> extends Fragment {
         existing_fault = root.findViewById(R.id.existing_fault);
         remarks = root.findViewById(R.id.remarks);
 
+
         requestMultiplePermissions();
 
         final Button upload = (Button) root.findViewById(R.id.upload);
@@ -231,7 +237,7 @@ public class HomeFragment<array_uri> extends Fragment {
 
             Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
             calendar.setTimeInMillis(selection);
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
             String formattedDate  = format.format(calendar.getTime());
             indate.setText(formattedDate);
         });
@@ -251,7 +257,7 @@ public class HomeFragment<array_uri> extends Fragment {
 
             Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
             calendar.setTimeInMillis(selection);
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
             String formattedDate  = format.format(calendar.getTime());
             delivery_date.setText(formattedDate);
         });
@@ -309,27 +315,50 @@ public class HomeFragment<array_uri> extends Fragment {
             if(battery_serial_number.isChecked())
                 txt_battery_serial_number = battery_serial_number.getText().toString();
 
-            Toast.makeText(getActivity(), txt_indate, Toast.LENGTH_LONG).show();
+            txt_diesel_tank = diesel_tank.getText().toString();
 
-//            progressDialog = ProgressDialog.show(getContext(), "Loading Data", null, true, true);
-//
-//            Iterator it = array_file_uri.entrySet().iterator();
-//            while (it.hasNext()) {
-//
-//                Map.Entry pair = (Map.Entry) it.next();
-//
-//                if (!it.hasNext()) {
-//                    count_loop = "last";
-//                }
-//
-//                System.out.println("count_loop " + count_loop);
-//
-//                uploadPDF(pair.getKey().toString(), Uri.parse(pair.getValue().toString()));
-//                it.remove();
-//
-//            }
+            int fire_id = rg_fire_extinguisher.getCheckedRadioButtonId();
+            fire_extinguisher = (RadioButton) root.findViewById(fire_id);
+            txt_fire_extinguisher = fire_extinguisher.getText().toString();
 
-            Navigation.findNavController(view).navigate(R.id.nav_planning);
+            int diprod_id = rg_dip_rod.getCheckedRadioButtonId();
+            dip_rod = (RadioButton) root.findViewById(diprod_id);
+            txt_dip_rod = dip_rod.getText().toString();
+
+            int deliveryhose_id = rg_delivery_hose.getCheckedRadioButtonId();
+            delivery_hose = (RadioButton) root.findViewById(deliveryhose_id);
+            txt_delivery_hose = delivery_hose.getText().toString();
+
+            int parkingcone = rg_parking_cone.getCheckedRadioButtonId();
+            parking_cone = (RadioButton) root.findViewById(parkingcone);
+            txt_parking_cone = parking_cone.getText().toString();
+
+            txt_cabin_color = cabin_color.getText().toString();
+            txt_denting_painting = denting_painting.getText().toString();
+            txt_existing_fault = existing_fault.getText().toString();
+            txt_remarks = remarks.getText().toString();
+
+            Toast.makeText(getActivity(), txt_parking_cone, Toast.LENGTH_LONG).show();
+
+            progressDialog = ProgressDialog.show(getContext(), "Loading Data", null, true, true);
+
+            count_loop = 0;
+
+            Iterator it = array_file_uri.entrySet().iterator();
+            while (it.hasNext()) {
+
+                Map.Entry pair = (Map.Entry) it.next();
+
+                System.out.println("count_loop " + count_loop);
+
+                uploadPDF(pair.getKey().toString(), Uri.parse(pair.getValue().toString()));
+                it.remove();
+
+                count_loop++;
+
+            }
+
+            //Navigation.findNavController(view).navigate(R.id.nav_planning);
 
         });
 
@@ -339,6 +368,8 @@ public class HomeFragment<array_uri> extends Fragment {
     @SuppressLint("Range")
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        get_filename = "";
 
         if (requestCode == GALLERY) {
             if (data != null) {
@@ -615,7 +646,7 @@ public class HomeFragment<array_uri> extends Fragment {
 
             final byte[] inputData = getBytes(iStream);
 
-            VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, EndPoints.UPLOAD_URL, new Response.Listener<NetworkResponse>() {
+            VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, EndPoints.ROOT_URL, new Response.Listener<NetworkResponse>() {
                 @Override
                 public void onResponse(NetworkResponse response) {
                     Log.d("ressssssoo", new String(response.data));
@@ -626,13 +657,13 @@ public class HomeFragment<array_uri> extends Fragment {
                     try {
                         JSONObject jsonObject = new JSONObject(new String(response.data));
 
-                        new MaterialAlertDialogBuilder(getContext()).setTitle(jsonObject.getString("message")).setPositiveButton("Ok", (dialogInterface, i) -> {
+                        new MaterialAlertDialogBuilder(getContext()).setTitle(jsonObject.getString("statusMessage")).setPositiveButton("Ok", (dialogInterface, i) -> {
 
                             String error = null;
                             try {
-                                error = jsonObject.getString("error");
+                                error = jsonObject.getString("status");
 
-                                if (error.equals("false")) {
+                                if (error.equals("success")) {
 
                                     progressDialog.dismiss();
 
@@ -677,15 +708,52 @@ public class HomeFragment<array_uri> extends Fragment {
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
 
-//                    params.put("vendor", vendor);
-//                    params.put("vendorid", vendorid);
-//                    params.put("fileno", fileno);
-//                    params.put("itemname", itemname);
-//                    params.put("rdsospecs", rdsospecs);
-//                    params.put("directorate", Directorate);
-//                    //params.put("user", User);
-//                    params.put("filename", get_filename);
-//                    params.put("count_loop", count_loop);
+                    params.put("uname", "railbit");
+                    params.put("category", txt_category);
+                    params.put("make", txt_make);
+                    params.put("model", txt_model);
+                    params.put("wheelbase", txt_wheelbase);
+                    params.put("ladenwgt", txt_ladenwgt);
+                    params.put("unladenwgt", txt_unladenwgt);
+                    params.put("engineno", txt_engineno);
+                    params.put("chessisno", txt_chessisno);
+                    params.put("regno", txt_regno);
+                    params.put("delivername", txt_delivername);
+                    params.put("deliverphone", txt_deliverphone);
+                    params.put("receivername", txt_receivername);
+                    params.put("receiverphone", txt_receiverphone);
+                    params.put("customername", txt_customername);
+                    params.put("customeradd", txt_customeradd);
+                    params.put("contactdetail", txt_contactdetail);
+                    params.put("companyname", txt_companyname);
+                    params.put("contactno", txt_contactno);
+                    params.put("vehicle_type", txt_vehicle_type);
+                    params.put("capacity", txt_capacity);
+                    params.put("compdistri", txt_compdistri);
+                    params.put("oilcompany", txt_oilcompany);
+                    params.put("depotname", txt_depotname);
+
+                    params.put("indate", txt_indate);
+                    params.put("delivery_date", txt_delivery_date);
+                    params.put("spare_wheel", txt_spare_wheel);
+                    params.put("jack", txt_jack);
+                    params.put("jack_rod", txt_jack_rod);
+                    params.put("tool_kit", txt_tool_kit);
+                    params.put("back_sensors", txt_back_sensors);
+                    params.put("reflector", txt_reflector);
+                    params.put("cabin_fire_extingusher", txt_cabin_fire_extingusher);
+                    params.put("rear_lights", txt_rear_lights);
+                    params.put("battery_serial_number", txt_battery_serial_number);
+                    params.put("diesel_tank", txt_diesel_tank);
+                    params.put("fire_extinguisher", txt_fire_extinguisher);
+                    params.put("dip_rod", txt_dip_rod);
+                    params.put("delivery_hose", txt_delivery_hose);
+                    params.put("parking_cone", txt_parking_cone);
+                    params.put("cabin_color", txt_cabin_color);
+                    params.put("denting_painting", txt_denting_painting);
+                    params.put("existing_fault", txt_existing_fault);
+                    params.put("remarks", txt_remarks);
+                    params.put("count_loop", String.valueOf(count_loop));
 
                     return params;
                 }
