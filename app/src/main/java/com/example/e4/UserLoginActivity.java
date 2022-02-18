@@ -16,6 +16,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 public class UserLoginActivity extends AppCompatActivity {
@@ -109,27 +114,35 @@ public class UserLoginActivity extends AppCompatActivity {
 
                 //Toast.makeText(com.example.e4.UserLoginActivity.this,httpResponseMsg, Toast.LENGTH_LONG).show();
 
-                String get_response = httpResponseMsg.replaceAll("\"", "");
+                try {
+                    JSONObject jsonObject = new JSONObject(httpResponseMsg);
+                    String error = jsonObject.getString("status");
 
-                String[] response = get_response.split("-");
+                    if(error.equals("error")) {
 
-                if (response[0].equalsIgnoreCase("Response")) {
+                        progressDialog.dismiss();
 
-                    finish();
+                        new MaterialAlertDialogBuilder(com.example.e4.UserLoginActivity.this).setTitle(jsonObject.getString("statusMessage")).setPositiveButton("Ok", (dialogInterface, i) -> {
 
-                    SharedPreferences.Editor editor = sp_login.edit();
+                        }).show();
 
-                    editor.putBoolean("logged", true);
-                    //editor.putString("UserEmail", email);
-                    //editor.putString("Directorate", response[1]);
-                    //editor.putString("User", response[2]);
-                    editor.apply();
+                    }else if(error.equals("success")) {
 
-                    goToMainActivity();
+                        finish();
 
-                } else {
+                        SharedPreferences.Editor editor = sp_login.edit();
 
-                    Toast.makeText(com.example.e4.UserLoginActivity.this, httpResponseMsg, Toast.LENGTH_LONG).show();
+                        editor.putBoolean("logged", true);
+                        //editor.putString("UserEmail", email);
+                        //editor.putString("Directorate", response[1]);
+                        //editor.putString("User", response[2]);
+                        editor.apply();
+
+                        goToMainActivity();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
 
             }
