@@ -130,10 +130,16 @@ public class UserLoginActivity extends AppCompatActivity {
 
                         finish();
 
+                        String user_data = jsonObject.getString("data");
+
+                        JSONObject user_jsonObject = new JSONObject(user_data);
+
+                        //Toast.makeText(com.example.e4.UserLoginActivity.this,user_jsonObject.getString("uname"), Toast.LENGTH_LONG).show();
+
                         SharedPreferences.Editor editor = sp_login.edit();
 
                         editor.putBoolean("logged", true);
-                        //editor.putString("UserEmail", email);
+                        editor.putString("uname", user_jsonObject.getString("uname"));
                         //editor.putString("Directorate", response[1]);
                         //editor.putString("User", response[2]);
                         editor.apply();

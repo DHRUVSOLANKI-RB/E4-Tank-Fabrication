@@ -39,6 +39,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 
 import com.android.volley.AuthFailureError;
@@ -50,6 +52,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.e4.EndPoints;
 import com.example.e4.MainActivity;
+import com.example.e4.PlanningFragment;
 import com.example.e4.R;
 import com.example.e4.UserLoginActivity;
 import com.example.e4.VolleyMultipartRequest;
@@ -110,7 +113,7 @@ public class HomeFragment<array_uri> extends Fragment {
             txt_vehicle_type = "",txt_capacity = "",txt_compdistri = "",txt_oilcompany = "",txt_depotname = "",txt_indate = "",txt_delivery_date = "",txt_spare_wheel = "",
             txt_jack = "",txt_jack_rod = "",txt_tool_kit = "",txt_back_sensors = "",txt_reflector = "",txt_cabin_fire_extingusher = "",txt_rear_lights = "",
             txt_battery_serial_number = "",txt_fire_extinguisher = "",txt_dip_rod = "",txt_delivery_hose = "",txt_parking_cone = "",txt_cabin_color = "",
-            txt_denting_painting = "",txt_existing_fault = "",txt_remarks = "",txt_diesel_tank = "";
+            txt_denting_painting = "",txt_existing_fault = "",txt_remarks = "",txt_diesel_tank = "",uname = "";
 
     Uri uri;
     HashMap<String, String> array_file_uri = new HashMap<>();
@@ -263,9 +266,9 @@ public class HomeFragment<array_uri> extends Fragment {
         });
 
 
-        //SharedPreferences sharedpreferences = getActivity().getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = getActivity().getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
 
-
+        uname = sharedpreferences.getString("uname","");
 
         upload.setOnClickListener(view -> {
 
@@ -338,7 +341,7 @@ public class HomeFragment<array_uri> extends Fragment {
             txt_existing_fault = existing_fault.getText().toString();
             txt_remarks = remarks.getText().toString();
 
-            Toast.makeText(getActivity(), txt_parking_cone, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), txt_parking_cone, Toast.LENGTH_LONG).show();
 
             progressDialog = ProgressDialog.show(getContext(), "Loading Data", null, true, true);
 
@@ -351,7 +354,7 @@ public class HomeFragment<array_uri> extends Fragment {
 
                 System.out.println("count_loop " + count_loop);
 
-                uploadPDF(pair.getKey().toString(), Uri.parse(pair.getValue().toString()));
+                uploadPDF(pair.getKey().toString(), Uri.parse(pair.getValue().toString()), view);
                 it.remove();
 
                 count_loop++;
@@ -368,8 +371,6 @@ public class HomeFragment<array_uri> extends Fragment {
     @SuppressLint("Range")
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        get_filename = "";
 
         if (requestCode == GALLERY) {
             if (data != null) {
@@ -423,8 +424,17 @@ public class HomeFragment<array_uri> extends Fragment {
                 if (cursor != null && cursor.moveToFirst()) {
                     displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
                 }
+
+                if (get_filename.equals("")) {
+                    get_filename = displayName;
+                } else {
+                    get_filename = get_filename + "," + displayName;
+                }
+                Log.d("nameeeee>>>>  ", get_filename);
+
                 Toast.makeText(getActivity(), displayName, Toast.LENGTH_SHORT).show();
                 array_file_uri.put(displayName, uri.toString());
+                cursor.close();
             }
 
         } else if (requestCode == CAMERA) {
@@ -477,9 +487,18 @@ public class HomeFragment<array_uri> extends Fragment {
             if (cursor != null && cursor.moveToFirst()) {
                 displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
             }
+
+            if (get_filename.equals("")) {
+                get_filename = displayName;
+            } else {
+                get_filename = get_filename + "," + displayName;
+            }
+            Log.d("nameeeee>>>>  ", get_filename);
+
             Toast.makeText(getActivity(), displayName, Toast.LENGTH_SHORT).show();
 
             array_file_uri.put(displayName, uri.toString());
+            cursor.close();
         }
     }
 
@@ -635,7 +654,7 @@ public class HomeFragment<array_uri> extends Fragment {
                 .check();
     }
 
-    private void uploadPDF(final String pdfname, Uri pdffile) {
+    private void uploadPDF(final String pdfname, Uri pdffile, View view) {
 
         InputStream iStream = null;
         try {
@@ -667,6 +686,9 @@ public class HomeFragment<array_uri> extends Fragment {
 
                                     progressDialog.dismiss();
 
+                                    Navigation.findNavController(view).navigate(R.id.nav_planning);
+
+
 //                                    filename.setText("");
 //                                    txt_rdsospecs.getText().clear();
 //                                    txt_vendor.getText().clear();
@@ -681,22 +703,6 @@ public class HomeFragment<array_uri> extends Fragment {
 
                         }).show();
 
-                        //                                jsonObject.toString().replace("\\\\","");
-                        //
-                        //                                if (jsonObject.getString("status").equals("true")) {
-                        //                                    Log.d("come::: >>>  ","yessssss");
-                        //                                    arraylist = new ArrayList<HashMap<String, String>>();
-                        //                                    JSONArray dataArray = jsonObject.getJSONArray("data");
-                        //
-                        //
-                        //                                    for (int i = 0; i < dataArray.length(); i++) {
-                        //                                        JSONObject dataobj = dataArray.getJSONObject(i);
-                        //                                        url = dataobj.optString("pathToFile");
-                        //                                        //tv.setText(url);
-                        //                                    }
-                        //
-                        //
-                        //                                }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -708,7 +714,7 @@ public class HomeFragment<array_uri> extends Fragment {
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
 
-                    params.put("uname", "railbit");
+                    params.put("uname", uname);
                     params.put("category", txt_category);
                     params.put("make", txt_make);
                     params.put("model", txt_model);
@@ -754,6 +760,7 @@ public class HomeFragment<array_uri> extends Fragment {
                     params.put("existing_fault", txt_existing_fault);
                     params.put("remarks", txt_remarks);
                     params.put("count_loop", String.valueOf(count_loop));
+                    params.put("file_name", get_filename);
 
                     return params;
                 }

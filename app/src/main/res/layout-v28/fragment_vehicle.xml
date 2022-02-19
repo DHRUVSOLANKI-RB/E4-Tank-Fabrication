@@ -7,8 +7,7 @@
     android:clickable="true"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:padding="5dp"
-    tools:context="com.example.e4.MainActivity">
+    android:padding="5dp">
 
     <!--    Category    -->
     <ScrollView

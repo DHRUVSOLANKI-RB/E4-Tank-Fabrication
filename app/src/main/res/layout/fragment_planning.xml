@@ -7,7 +7,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:padding="5dp"
-    tools:context="com.example.e4.MainActivity">
+    android:id="@+id/fragment_planning">
 
     <ScrollView
         android:layout_width="match_parent"
