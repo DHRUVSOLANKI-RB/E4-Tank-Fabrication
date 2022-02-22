@@ -4,8 +4,13 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +21,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -24,10 +30,18 @@ import com.example.e4.ui.upload.HomeFragment;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Header;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -155,7 +169,9 @@ public class TankFabFragment extends Fragment {
 
             //Navigation.findNavController(view).navigate(R.id.nav_fitting);
 
-            UserLoginFunction(view);
+            //UserLoginFunction(view);
+
+            createPdf();
 
         });
 
@@ -195,7 +211,9 @@ public class TankFabFragment extends Fragment {
 
                                 progressDialog.dismiss();
 
-                                Navigation.findNavController(view).navigate(R.id.nav_fitting);
+                                //createPdf();
+
+                                //Navigation.findNavController(view).navigate(R.id.nav_fitting);
 
 
 //                                    filename.setText("");
@@ -245,4 +263,41 @@ public class TankFabFragment extends Fragment {
 
         userLoginClass.execute();
     }
+
+    private void createPdf(){
+
+        File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "E4/Gatepass");
+
+        if (!dir.exists()){
+            if(dir.mkdirs()){
+                System.out.println("done");
+            }else{
+                System.out.println("failed");
+            }
+        }
+
+
+        Document mDoc = new Document();
+
+        String mFileName = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis());
+
+        //String mFilePath = Environment.getExternalStorageDirectory() + "/" + mFileName + ".pdf";
+
+        try {
+
+            PdfWriter.getInstance(mDoc, new FileOutputStream(dir+ "/" + mFileName + ".pdf"));
+
+            mDoc.open();
+            //mDoc.addAuthor("Atif Pervaiz");
+            mDoc.add(new Paragraph("Text"));
+            mDoc.close();
+
+            Toast.makeText(getActivity(), mFileName +".pdf\nis saved to\n"+ dir, Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e){
+
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
