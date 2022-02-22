@@ -19,11 +19,6 @@
         android:usesCleartextTraffic="true">
 
         <activity
-            android:name="com.example.e4.MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
             android:name=".SplashScreenActivity"
             android:theme="@style/SplashTheme"
             android:exported="true">
@@ -32,6 +27,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.example.e4.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name="com.example.e4.UserLoginActivity"

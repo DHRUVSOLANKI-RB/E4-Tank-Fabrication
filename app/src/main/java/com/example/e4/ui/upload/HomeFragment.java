@@ -79,9 +79,11 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -113,7 +115,7 @@ public class HomeFragment<array_uri> extends Fragment {
             txt_vehicle_type = "",txt_capacity = "",txt_compdistri = "",txt_oilcompany = "",txt_depotname = "",txt_indate = "",txt_delivery_date = "",txt_spare_wheel = "",
             txt_jack = "",txt_jack_rod = "",txt_tool_kit = "",txt_back_sensors = "",txt_reflector = "",txt_cabin_fire_extingusher = "",txt_rear_lights = "",
             txt_battery_serial_number = "",txt_fire_extinguisher = "",txt_dip_rod = "",txt_delivery_hose = "",txt_parking_cone = "",txt_cabin_color = "",
-            txt_denting_painting = "",txt_existing_fault = "",txt_remarks = "",txt_diesel_tank = "",uname = "";
+            txt_denting_painting = "",txt_existing_fault = "",txt_remarks = "",txt_diesel_tank = "",user_id = "";
 
     Uri uri;
     HashMap<String, String> array_file_uri = new HashMap<>();
@@ -129,6 +131,8 @@ public class HomeFragment<array_uri> extends Fragment {
     private final int GALLERY = 1;
     private final int CAMERA = 2;
     int count_loop = 0;
+    public static final String MyPREFERENCES = "Vehicle";
+    SharedPreferences sp_vehicle;
 
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -138,6 +142,8 @@ public class HomeFragment<array_uri> extends Fragment {
 
         //getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        sp_vehicle = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         //select_file = root.findViewById(R.id.select_file);
         make = root.findViewById(R.id.make);
@@ -228,6 +234,12 @@ public class HomeFragment<array_uri> extends Fragment {
         vehicle_type.setAdapter(adapter_vehicle_type);
         vehicle_type.setTextColor(Color.BLACK);
 
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        String formattedDate1 = df.format(c);
+        indate.setText(formattedDate1);
+        delivery_date.setText(formattedDate1);
+
         MaterialDatePicker.Builder materialDateBuilder = MaterialDatePicker.Builder.datePicker();
         materialDateBuilder.setTitleText("SELECT IN DATE");
 
@@ -268,8 +280,7 @@ public class HomeFragment<array_uri> extends Fragment {
 
 
         SharedPreferences sharedpreferences = getActivity().getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
-
-        uname = sharedpreferences.getString("uname","");
+        user_id = sharedpreferences.getString("user_id","");
 
         upload.setOnClickListener(view -> {
 
@@ -687,6 +698,12 @@ public class HomeFragment<array_uri> extends Fragment {
 
                                     progressDialog.dismiss();
 
+                                    get_filename = "";
+
+                                    SharedPreferences.Editor editor = sp_vehicle.edit();
+                                    editor.putString("unid", jsonObject.getString("unid"));
+                                    editor.apply();
+
                                     Navigation.findNavController(view).navigate(R.id.nav_planning);
 
 
@@ -715,7 +732,7 @@ public class HomeFragment<array_uri> extends Fragment {
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
 
-                    params.put("uname", uname);
+                    params.put("user_id", user_id);
                     params.put("category", txt_category);
                     params.put("make", txt_make);
                     params.put("model", txt_model);

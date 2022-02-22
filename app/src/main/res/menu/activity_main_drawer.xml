@@ -17,55 +17,55 @@
             android:id="@+id/nav_planning"
             android:icon="@android:drawable/ic_input_add"
             android:title="@string/planning_amp_procurement"
-            android:visible="false" />
+            android:visible="true" />
 
         <item
             android:id="@+id/nav_tankfab"
             android:icon="@android:drawable/ic_input_add"
             android:title="@string/tank_fabrication"
-            android:visible="false" />
+            android:visible="true" />
 
         <item
             android:id="@+id/nav_fitting"
             android:icon="@android:drawable/ic_input_add"
             android:title="@string/fittings_pre_test"
-            android:visible="false" />
+            android:visible="true" />
 
         <item
             android:id="@+id/nav_leaktest"
             android:icon="@android:drawable/ic_input_add"
             android:title="@string/leak_test"
-            android:visible="false" />
+            android:visible="true" />
 
         <item
             android:id="@+id/nav_post_test"
             android:icon="@android:drawable/ic_input_add"
             android:title="@string/post_test_fittings"
-            android:visible="false" />
+            android:visible="true" />
 
         <item
             android:id="@+id/nav_checklista"
             android:icon="@android:drawable/ic_input_add"
             android:title="@string/checklist_a"
-            android:visible="false" />
+            android:visible="true" />
 
         <item
             android:id="@+id/nav_coloring"
             android:icon="@android:drawable/ic_input_add"
             android:title="@string/coloring"
-            android:visible="false" />
+            android:visible="true" />
 
         <item
             android:id="@+id/nav_touchup"
             android:icon="@android:drawable/ic_input_add"
             android:title="@string/touch_up_stage"
-            android:visible="false" />
+            android:visible="true" />
 
         <item
             android:id="@+id/nav_checklistpredelivery"
             android:icon="@android:drawable/ic_input_add"
             android:title="@string/checklist_pre_delivery"
-            android:visible="false" />
+            android:visible="true" />
 
     </group>
 </menu>

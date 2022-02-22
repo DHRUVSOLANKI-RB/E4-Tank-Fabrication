@@ -1,21 +1,53 @@
 package com.example.e4;
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.example.e4.ui.upload.HomeFragment;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class TankFabFragment extends Fragment {
 
-    TextView mounted_date_text;
-    TextView assigned_date_text;
+    TextView mounted_date_text,assigned_date_text;
+    EditText from,to,authorised_by,assigned_to,received_by;
+    RadioGroup rg_die_availability,rg_drawing_clear,rg_material_received,rg_cardel_support;
+    RadioButton die_availability,drawing_clear,material_received,cardel_support;
+    String txt_die_availability = "",txt_drawing_clear = "",txt_material_received = "",txt_cardel_support = "", txt_mounted_date = "",txt_assigned_date = "",
+            txt_from = "", txt_to = "",txt_authorised_by = "",txt_assigned_to = "",txt_received_by = "",user_id = "",vehicle_unid = "";
+    String HttpURL = "http://3.222.104.176/index.php/tankfab";
+    HashMap<String, String> hashMap = new HashMap<>();
+    com.example.e4.HttpParse httpParse = new com.example.e4.HttpParse();
+    ProgressDialog progressDialog;
+    String finalResult;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,6 +61,22 @@ public class TankFabFragment extends Fragment {
         Button next_tankfeb = root.findViewById(R.id.next_tankfeb);
         Button prev_tankfeb = root.findViewById(R.id.prev_tankfeb);
 
+        rg_die_availability = root.findViewById(R.id.rg_die_availability);
+        rg_drawing_clear = root.findViewById(R.id.rg_drawing_clear);
+        rg_material_received = root.findViewById(R.id.rg_material_received);
+        rg_cardel_support = root.findViewById(R.id.rg_cardel_support);
+        from = root.findViewById(R.id.from);
+        to = root.findViewById(R.id.to);
+        authorised_by = root.findViewById(R.id.authorised_by);
+        assigned_to = root.findViewById(R.id.assigned_to);
+        received_by = root.findViewById(R.id.received_by);
+
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        String formattedDate1 = df.format(c);
+        mounted_date_text.setText(formattedDate1);
+        assigned_date_text.setText(formattedDate1);
+
         MaterialDatePicker.Builder materialDateBuilder_mounted = MaterialDatePicker.Builder.datePicker();
         materialDateBuilder_mounted.setTitleText("MOUNTED ON VEHICLE DATE");
 
@@ -38,8 +86,14 @@ public class TankFabFragment extends Fragment {
             materialDatePicker_mounted.show(getActivity().getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
         });
 
-        materialDatePicker_mounted.addOnPositiveButtonClickListener(
-                selection -> mounted_date_text.setText(materialDatePicker_mounted.getHeaderText()));
+        materialDatePicker_mounted.addOnPositiveButtonClickListener((MaterialPickerOnPositiveButtonClickListener<Long>) selection -> {
+
+            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+            calendar.setTimeInMillis(selection);
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+            String formattedDate  = format.format(calendar.getTime());
+            mounted_date_text.setText(formattedDate);
+        });
 
         /*     Assigned Date     */
 
@@ -52,19 +106,143 @@ public class TankFabFragment extends Fragment {
             materialDatePicker.show(getActivity().getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
         });
 
-        materialDatePicker.addOnPositiveButtonClickListener(
-                selection -> assigned_date_text.setText(materialDatePicker.getHeaderText()));
+        materialDatePicker.addOnPositiveButtonClickListener((MaterialPickerOnPositiveButtonClickListener<Long>) selection -> {
+
+            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+            calendar.setTimeInMillis(selection);
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+            String formattedDate  = format.format(calendar.getTime());
+            assigned_date_text.setText(formattedDate);
+        });
+
 
         prev_tankfeb.setOnClickListener(view -> {
 
             Navigation.findNavController(view).navigate(R.id.nav_planning);
         });
 
+        SharedPreferences sharedpreferences = getActivity().getSharedPreferences(HomeFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+        vehicle_unid = sharedpreferences.getString("unid","");
+
+        SharedPreferences sharedpreferences_1 = getActivity().getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+        user_id = sharedpreferences_1.getString("user_id","");
+
         next_tankfeb.setOnClickListener(view -> {
 
-            Navigation.findNavController(view).navigate(R.id.nav_fitting);
+            txt_from = from.getText().toString();
+            txt_to = to.getText().toString();
+            txt_authorised_by = authorised_by.getText().toString();
+            txt_assigned_to = assigned_to.getText().toString();
+            txt_received_by = received_by.getText().toString();
+            txt_mounted_date = mounted_date_text.getText().toString();
+            txt_assigned_date = assigned_date_text.getText().toString();
+
+            int die_id = rg_die_availability.getCheckedRadioButtonId();
+            die_availability = (RadioButton) root.findViewById(die_id);
+            txt_die_availability = die_availability.getText().toString();
+
+            int drawing_id = rg_drawing_clear.getCheckedRadioButtonId();
+            drawing_clear = (RadioButton) root.findViewById(drawing_id);
+            txt_drawing_clear = drawing_clear.getText().toString();
+
+            int material_id = rg_material_received.getCheckedRadioButtonId();
+            material_received = (RadioButton) root.findViewById(material_id);
+            txt_material_received = material_received.getText().toString();
+
+            int cardel_id = rg_cardel_support.getCheckedRadioButtonId();
+            cardel_support = (RadioButton) root.findViewById(cardel_id);
+            txt_cardel_support = cardel_support.getText().toString();
+
+            //Navigation.findNavController(view).navigate(R.id.nav_fitting);
+
+            UserLoginFunction(view);
+
         });
 
         return root;
+    }
+
+    public void UserLoginFunction(View view) {
+
+        class UserLoginClass extends AsyncTask<String, Void, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                progressDialog = ProgressDialog.show(getActivity(), "Loading Data", null, true, true);
+            }
+
+            @Override
+            protected void onPostExecute(String httpResponseMsg) {
+
+                super.onPostExecute(httpResponseMsg);
+
+                progressDialog.dismiss();
+
+                //Toast.makeText(com.example.e4.UserLoginActivity.this,httpResponseMsg, Toast.LENGTH_LONG).show();
+
+                try {
+                    JSONObject jsonObject = new JSONObject(httpResponseMsg);
+
+                    new MaterialAlertDialogBuilder(getContext()).setTitle(jsonObject.getString("statusMessage")).setPositiveButton("Ok", (dialogInterface, i) -> {
+
+                        String error = null;
+                        try {
+                            error = jsonObject.getString("status");
+
+                            if (error.equals("success")) {
+
+                                progressDialog.dismiss();
+
+                                Navigation.findNavController(view).navigate(R.id.nav_fitting);
+
+
+//                                    filename.setText("");
+//                                    txt_rdsospecs.getText().clear();
+//                                    txt_vendor.getText().clear();
+//                                    txt_vendorid.getText().clear();
+//                                    txt_fileno.getText().clear();
+//                                    txt_itemname.getText().clear();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }).show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+
+                hashMap.put("die_availability", txt_die_availability);
+                hashMap.put("drawing_clear", txt_drawing_clear);
+                hashMap.put("material_received", txt_material_received);
+                hashMap.put("cardel_support", txt_cardel_support);
+                hashMap.put("mounted_date", txt_mounted_date);
+                hashMap.put("from", txt_from);
+                hashMap.put("to", txt_to);
+                hashMap.put("authorised_by", txt_authorised_by);
+                hashMap.put("assigned_to", txt_assigned_to);
+                hashMap.put("assigned_date", txt_assigned_date);
+                hashMap.put("received_by", txt_received_by);
+                hashMap.put("vehicle_unid", vehicle_unid);
+
+                finalResult = httpParse.postRequest(hashMap, HttpURL);
+
+                Log.d("doInBackground: ", finalResult);
+                return finalResult;
+            }
+        }
+
+        UserLoginClass userLoginClass = new UserLoginClass();
+
+        userLoginClass.execute();
     }
 }

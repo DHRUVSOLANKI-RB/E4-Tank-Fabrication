@@ -49,7 +49,7 @@ public class UserLoginActivity extends AppCompatActivity {
         sp_login = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         if (sp_login.getBoolean("logged", false)) {
-            goToMainActivity();
+            //goToMainActivity();
         }
 
         LogIn.setOnClickListener(view -> {
@@ -140,6 +140,7 @@ public class UserLoginActivity extends AppCompatActivity {
 
                         editor.putBoolean("logged", true);
                         editor.putString("uname", user_jsonObject.getString("uname"));
+                        editor.putString("user_id", user_jsonObject.getString("sno"));
                         //editor.putString("Directorate", response[1]);
                         //editor.putString("User", response[2]);
                         editor.apply();

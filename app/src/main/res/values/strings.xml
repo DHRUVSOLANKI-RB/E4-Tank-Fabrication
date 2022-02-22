@@ -176,5 +176,8 @@
     <string name="image_4">Image 4</string>
     <string name="image_5">Image 5</string>
     <string name="image_6">Image 6</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="authorised_by">Authorised by</string>
 
 </resources>

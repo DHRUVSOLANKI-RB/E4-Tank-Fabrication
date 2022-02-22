@@ -99,7 +99,7 @@
                     android:layout_weight="1">
 
                     <RadioGroup
-                        android:id="@+id/radioGroup_die_availability"
+                        android:id="@+id/rg_die_availability"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -116,7 +116,8 @@
                             android:id="@+id/die_availability_no"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/no" />
+                            android:text="@string/no"
+                            android:checked="true"/>
 
                     </RadioGroup>
                 </LinearLayout>
@@ -219,7 +220,7 @@
                     android:layout_weight="50">
 
                     <RadioGroup
-                        android:id="@+id/radioGroup_cutting_bending"
+                        android:id="@+id/rg_cutting_bending"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -234,7 +235,8 @@
                             android:id="@+id/cutting_bending_not_released"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/not_released" />
+                            android:text="@string/not_released"
+                            android:checked="true"/>
 
                     </RadioGroup>
                 </LinearLayout>

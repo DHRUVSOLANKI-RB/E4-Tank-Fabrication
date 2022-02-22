@@ -62,7 +62,7 @@
                     android:layout_weight="1">
 
                     <RadioGroup
-                        android:id="@+id/radioGroup_die_availability"
+                        android:id="@+id/rg_die_availability"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -79,7 +79,8 @@
                             android:id="@+id/die_availability_no"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/no" />
+                            android:text="@string/no"
+                            android:checked="true"/>
 
                     </RadioGroup>
                 </LinearLayout>
@@ -115,7 +116,7 @@
                     android:layout_weight="1">
 
                     <RadioGroup
-                        android:id="@+id/radioGroup_drawing_clear"
+                        android:id="@+id/rg_drawing_clear"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -132,7 +133,8 @@
                             android:id="@+id/drawing_clear_no"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/no" />
+                            android:text="@string/no"
+                            android:checked="true"/>
 
                     </RadioGroup>
                 </LinearLayout>
@@ -168,7 +170,7 @@
                     android:layout_weight="1">
 
                     <RadioGroup
-                        android:id="@+id/radioGroup_material_received"
+                        android:id="@+id/rg_material_received"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -185,7 +187,8 @@
                             android:id="@+id/material_received_no"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/no" />
+                            android:text="@string/no"
+                            android:checked="true"/>
 
                     </RadioGroup>
                 </LinearLayout>
@@ -221,7 +224,7 @@
                     android:layout_weight="1">
 
                     <RadioGroup
-                        android:id="@+id/radioGroup_cardel_support"
+                        android:id="@+id/rg_cardel_support"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -238,7 +241,8 @@
                             android:id="@+id/cardel_support_no"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/no" />
+                            android:text="@string/no"
+                            android:checked="true"/>
 
                     </RadioGroup>
                 </LinearLayout>
@@ -282,39 +286,79 @@
                 android:layout_marginEnd="12dp"
                 android:layout_weight="50"
                 android:text="@string/gate_pass_to_fitting_team"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:clickable="false"/>
 
-            <TextView
 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="12dp"
-                android:text="@string/assigned_to"
-                android:textSize="20sp"
-                android:textStyle="bold">
-
-            </TextView>
-
-            <!--    Remarks  -->
+            <!--    From   -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/main_remarks"
+                android:id="@+id/main_from"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
-                android:hint="@string/team_name">
+                android:hint="@string/from">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/remarks"
+                    android:id="@+id/from"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!--          In Date     -->
+            <!--    To   -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_to"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/to">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/to"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--    Authorised by   -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_authorised_by"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/authorised_by">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/authorised_by"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--    Assigned to   -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_assigned_to"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/assigned_to">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/assigned_to"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--          Assigned Date     -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -342,40 +386,57 @@
 
             </LinearLayout>
 
+            <!--    Received By   -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_received_by"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/received_by">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/received_by"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/prev_tankfeb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="50"
+                    android:backgroundTint="@color/yellow"
+                    android:drawableLeft="@android:drawable/ic_media_previous"
+                    android:text="@string/previous" />
+
+                <Button
+                    android:id="@+id/next_tankfeb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="50"
+                    android:backgroundTint="@color/green"
+                    android:drawableEnd="@android:drawable/ic_media_next"
+                    android:shadowColor="@android:color/transparent"
+                    android:text="@string/next" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </ScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="12dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/prev_tankfeb"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="50"
-            android:backgroundTint="@color/yellow"
-            android:drawableLeft="@android:drawable/ic_media_previous"
-            android:text="@string/previous" />
-
-        <Button
-            android:id="@+id/next_tankfeb"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_weight="50"
-            android:backgroundTint="@color/green"
-            android:drawableEnd="@android:drawable/ic_media_next"
-            android:shadowColor="@android:color/transparent"
-            android:text="@string/next" />
-
-    </LinearLayout>
 
 </RelativeLayout>
