@@ -53,7 +53,7 @@
             <!--    Make -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/main_make"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
@@ -61,7 +61,7 @@
                 android:layout_marginEnd="12dp"
                 android:hint="@string/make">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/make"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -102,29 +102,31 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!--    Wheel Base  -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/main_wheelbase"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp"
-                android:hint="@string/wheelbase">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/wheelbase"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
                 android:orientation="horizontal">
+
+                <!--    Wheel Base  -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/main_wheelbase"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:layout_marginEnd="5dp"
+                    android:hint="@string/wheelbase">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/wheelbase"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="4"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <!--    Laden Weight  -->
                 <com.google.android.material.textfield.TextInputLayout
@@ -139,7 +141,9 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/ladenwgt"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:maxLength="6"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -149,14 +153,15 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
                     android:layout_weight="50"
                     android:hint="@string/unladenwgt">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/unladenwgt"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:maxLength="6"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -209,7 +214,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/regno"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:maxLength="10"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -446,7 +452,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/capacity"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -463,21 +470,168 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/compdistri"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="1"/>
 
             </com.google.android.material.textfield.TextInputLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--    Compartment 1 -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/main_compartment_1"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:layout_marginEnd="5dp"
+                    android:hint="@string/compartment_1"
+                    tools:ignore="NestedWeights"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/compartment_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="1"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--    Compartment 2 -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/main_compartment_2"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:hint="@string/compartment_2"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/compartment_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="1"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--    Compartment 3 -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/main_compartment_3"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:layout_marginEnd="5dp"
+                    android:hint="@string/compartment_3"
+                    tools:ignore="NestedWeights"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/compartment_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="1"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--    Compartment 4 -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/main_compartment_4"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:hint="@string/compartment_4"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/compartment_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="1"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <!--    Compartment 5 -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/main_compartment_5"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:layout_marginEnd="5dp"
+                    android:hint="@string/compartment_5"
+                    tools:ignore="NestedWeights"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/compartment_5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="1"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--    Compartment 6 -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/main_compartment_6"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:hint="@string/compartment_6"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/compartment_6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="1"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
 
             <!--    Oil Company -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/main_oilcompany"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
                 android:hint="@string/oil_company">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/oilcompany"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -886,7 +1040,8 @@
                     android:id="@+id/diesel_tank"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:ignore="TooManyViews" />
+                    tools:ignore="TooManyViews"
+                    android:inputType="numberDecimal"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -1205,6 +1360,25 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/remarks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="TooManyViews" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--    Ownership -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_ownership"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/ownership">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ownership"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:ignore="TooManyViews" />

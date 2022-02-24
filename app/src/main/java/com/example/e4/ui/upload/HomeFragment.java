@@ -18,7 +18,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +62,7 @@ import com.example.e4.VolleyMultipartRequest;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputLayout;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -89,8 +93,11 @@ import java.util.TimeZone;
 
 public class HomeFragment<array_uri> extends Fragment {
 
-    EditText make,unladenwgt,model,wheelbase,ladenwgt,engineno,chessisno,regno,delivername,deliverphone,receivername,receiverphone,customername,customeradd,
-            contactdetail,companyname,contactno,capacity,compdistri,oilcompany,depotname,diesel_tank,cabin_color,denting_painting,existing_fault,remarks;
+    EditText unladenwgt,model,wheelbase,ladenwgt,engineno,chessisno,regno,delivername,deliverphone,receivername,receiverphone,customername,customeradd,
+            contactdetail,companyname,contactno,capacity,compdistri,depotname,diesel_tank,cabin_color,denting_painting,existing_fault,remarks,
+            compartment_1,compartment_2,compartment_3,compartment_4,compartment_5,compartment_6;
+
+    TextInputLayout layout_compartment_1,layout_compartment_2,layout_compartment_3,layout_compartment_4,layout_compartment_5,layout_compartment_6;
 
     RadioGroup rg_fire_extinguisher,rg_dip_rod,rg_delivery_hose,rg_parking_cone;
 
@@ -98,7 +105,7 @@ public class HomeFragment<array_uri> extends Fragment {
 
     TextView indate,delivery_date;
 
-    AutoCompleteTextView category,bs_type,vehicle_type;
+    AutoCompleteTextView category,bs_type,vehicle_type,make,oilcompany;
 
     ImageView imageview_1,imageview_2,imageview_3,imageview_4,imageview_5,imageview_6;
 
@@ -115,7 +122,8 @@ public class HomeFragment<array_uri> extends Fragment {
             txt_vehicle_type = "",txt_capacity = "",txt_compdistri = "",txt_oilcompany = "",txt_depotname = "",txt_indate = "",txt_delivery_date = "",txt_spare_wheel = "",
             txt_jack = "",txt_jack_rod = "",txt_tool_kit = "",txt_back_sensors = "",txt_reflector = "",txt_cabin_fire_extingusher = "",txt_rear_lights = "",
             txt_battery_serial_number = "",txt_fire_extinguisher = "",txt_dip_rod = "",txt_delivery_hose = "",txt_parking_cone = "",txt_cabin_color = "",
-            txt_denting_painting = "",txt_existing_fault = "",txt_remarks = "",txt_diesel_tank = "",user_id = "";
+            txt_denting_painting = "",txt_existing_fault = "",txt_remarks = "",txt_diesel_tank = "",user_id = "",txt_compartment_1 = "",txt_compartment_2 = "",
+            txt_compartment_3 = "",txt_compartment_4 = "",txt_compartment_5 = "",txt_compartment_6 = "";
 
     Uri uri;
     HashMap<String, String> array_file_uri = new HashMap<>();
@@ -126,6 +134,8 @@ public class HomeFragment<array_uri> extends Fragment {
 
     String[] arr_category = {"Bio MRO", "Mobile Bowser", "DD Bowser", "TL Tank", "BL Tank", "Tank Shifting", "Storage Tank"};
     String[] arr_bstype = {"BSIII", "BSIV", "BSVI"};
+    String[] arr_make = {"TATA", "ASHOK LEYLAND", "BHARATBENZ", "EICHER", "MAHINDRA"};
+    String[] arr_oil = {"HPCL", "Nayara", "BPCL", "IOCl", "Reliance"};
 
     private static final String IMAGE_DIRECTORY = "/E4TankFabrication";
     private final int GALLERY = 1;
@@ -203,7 +213,18 @@ public class HomeFragment<array_uri> extends Fragment {
         denting_painting = root.findViewById(R.id.denting_painting);
         existing_fault = root.findViewById(R.id.existing_fault);
         remarks = root.findViewById(R.id.remarks);
-
+        compartment_1 = root.findViewById(R.id.compartment_1);
+        compartment_2 = root.findViewById(R.id.compartment_2);
+        compartment_3 = root.findViewById(R.id.compartment_3);
+        compartment_4 = root.findViewById(R.id.compartment_4);
+        compartment_5 = root.findViewById(R.id.compartment_5);
+        compartment_6 = root.findViewById(R.id.compartment_6);
+        layout_compartment_1 = root.findViewById(R.id.main_compartment_1);
+        layout_compartment_2 = root.findViewById(R.id.main_compartment_2);
+        layout_compartment_3 = root.findViewById(R.id.main_compartment_3);
+        layout_compartment_4 = root.findViewById(R.id.main_compartment_4);
+        layout_compartment_5 = root.findViewById(R.id.main_compartment_5);
+        layout_compartment_6 = root.findViewById(R.id.main_compartment_6);
 
         requestMultiplePermissions();
 
@@ -220,25 +241,93 @@ public class HomeFragment<array_uri> extends Fragment {
         category = (AutoCompleteTextView) root.findViewById(R.id.category);
         category.setThreshold(1);
         category.setAdapter(adapter);
+        category.setInputType(InputType.TYPE_NULL);
         category.setTextColor(Color.BLACK);
+
+        ArrayAdapter<String> adapter_make = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, arr_make);
+        make = (AutoCompleteTextView) root.findViewById(R.id.make);
+        make.setThreshold(1);
+        make.setAdapter(adapter_make);
+        make.setInputType(InputType.TYPE_NULL);
+        make.setTextColor(Color.BLACK);
 
         ArrayAdapter<String> adapter_bs_type = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, arr_bstype);
         bs_type = (AutoCompleteTextView) root.findViewById(R.id.bs_type);
         bs_type.setThreshold(1);
         bs_type.setAdapter(adapter_bs_type);
+        bs_type.setInputType(InputType.TYPE_NULL);
         bs_type.setTextColor(Color.BLACK);
 
         ArrayAdapter<String> adapter_vehicle_type = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, arr_category);
         vehicle_type = (AutoCompleteTextView) root.findViewById(R.id.vehicle_type);
         vehicle_type.setThreshold(1);
         vehicle_type.setAdapter(adapter_vehicle_type);
+        vehicle_type.setInputType(InputType.TYPE_NULL);
         vehicle_type.setTextColor(Color.BLACK);
+
+        ArrayAdapter<String> adapter_oil = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, arr_oil);
+        oilcompany = (AutoCompleteTextView) root.findViewById(R.id.oilcompany);
+        oilcompany.setThreshold(1);
+        oilcompany.setAdapter(adapter_oil);
+        oilcompany.setInputType(InputType.TYPE_NULL);
+        oilcompany.setTextColor(Color.BLACK);
 
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         String formattedDate1 = df.format(c);
         indate.setText(formattedDate1);
         delivery_date.setText(formattedDate1);
+
+        compdistri.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if(s.toString().equals("1")){
+                    layout_compartment_1.setVisibility(View.VISIBLE);
+                }else if(s.toString().equals("2")){
+                    layout_compartment_1.setVisibility(View.VISIBLE);
+                    layout_compartment_2.setVisibility(View.VISIBLE);
+                }else if(s.toString().equals("3")){
+                    layout_compartment_1.setVisibility(View.VISIBLE);
+                    layout_compartment_2.setVisibility(View.VISIBLE);
+                    layout_compartment_3.setVisibility(View.VISIBLE);
+                }else if(s.toString().equals("4")){
+                    layout_compartment_1.setVisibility(View.VISIBLE);
+                    layout_compartment_2.setVisibility(View.VISIBLE);
+                    layout_compartment_3.setVisibility(View.VISIBLE);
+                    layout_compartment_4.setVisibility(View.VISIBLE);
+                }else if(s.toString().equals("5")){
+                    layout_compartment_1.setVisibility(View.VISIBLE);
+                    layout_compartment_2.setVisibility(View.VISIBLE);
+                    layout_compartment_3.setVisibility(View.VISIBLE);
+                    layout_compartment_4.setVisibility(View.VISIBLE);
+                    layout_compartment_5.setVisibility(View.VISIBLE);
+                }else if(s.toString().equals("6")){
+                    layout_compartment_1.setVisibility(View.VISIBLE);
+                    layout_compartment_2.setVisibility(View.VISIBLE);
+                    layout_compartment_3.setVisibility(View.VISIBLE);
+                    layout_compartment_4.setVisibility(View.VISIBLE);
+                    layout_compartment_5.setVisibility(View.VISIBLE);
+                    layout_compartment_6.setVisibility(View.VISIBLE);
+                }else{
+                    layout_compartment_1.setVisibility(View.GONE);
+                    layout_compartment_2.setVisibility(View.GONE);
+                    layout_compartment_3.setVisibility(View.GONE);
+                    layout_compartment_4.setVisibility(View.GONE);
+                    layout_compartment_5.setVisibility(View.GONE);
+                    layout_compartment_6.setVisibility(View.GONE);
+                }
+
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         MaterialDatePicker.Builder materialDateBuilder = MaterialDatePicker.Builder.datePicker();
         materialDateBuilder.setTitleText("SELECT IN DATE");
@@ -352,6 +441,13 @@ public class HomeFragment<array_uri> extends Fragment {
             txt_denting_painting = denting_painting.getText().toString();
             txt_existing_fault = existing_fault.getText().toString();
             txt_remarks = remarks.getText().toString();
+
+            txt_compartment_1 = compartment_1.getText().toString();
+            txt_compartment_2 = compartment_2.getText().toString();
+            txt_compartment_3 = compartment_3.getText().toString();
+            txt_compartment_4 = compartment_4.getText().toString();
+            txt_compartment_5 = compartment_5.getText().toString();
+            txt_compartment_6 = compartment_6.getText().toString();
 
             //Toast.makeText(getActivity(), txt_parking_cone, Toast.LENGTH_LONG).show();
 
@@ -779,6 +875,12 @@ public class HomeFragment<array_uri> extends Fragment {
                     params.put("remarks", txt_remarks);
                     params.put("count_loop", String.valueOf(count_loop));
                     params.put("file_name", get_filename);
+                    params.put("compartment_1", txt_compartment_1);
+                    params.put("compartment_2", txt_compartment_2);
+                    params.put("compartment_3", txt_compartment_3);
+                    params.put("compartment_4", txt_compartment_4);
+                    params.put("compartment_5", txt_compartment_5);
+                    params.put("compartment_6", txt_compartment_6);
 
                     return params;
                 }

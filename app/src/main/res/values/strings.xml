@@ -15,8 +15,8 @@
     <string name="model">Model</string>
     <string name="bs_type">BS Type</string>
     <string name="wheelbase">Wheel Base</string>
-    <string name="ladenwgt">Laden Weight</string>
-    <string name="unladenwgt">Unladen Weight</string>
+    <string name="ladenwgt">Laden Wt</string>
+    <string name="unladenwgt">Unladen Wt</string>
     <string name="select_file">Select FIle</string>
     <string name="title_activity_main">MainActivity2</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -119,7 +119,7 @@
     <string name="pending">Pending</string>
     <string name="done_by">Done By</string>
     <string name="safety_fitting_number">Safety Fitting Number</string>
-    <string name="safety_fitting_invoice_number">Safety Fitting Invoice Number</string>
+    <string name="safety_fitting_invoice_number">Safety Fitting Invoice Number/Supplier Name</string>
     <string name="safety_fittings_verified_by">Safety Fittings Verified By</string>
     <string name="gate_pass">Gate Pass</string>
     <string name="driver_name">Driver Name</string>
@@ -179,5 +179,21 @@
     <string name="from">From</string>
     <string name="to">To</string>
     <string name="authorised_by">Authorised by</string>
+    <string name="gate_pass_received_by">Gate Pass Received By</string>
+    <string name="gate_pass_assigned_to">Gate Pass Assigned to</string>
+    <string name="gate_pass_assigned_date">Gate Pass Assigned Date</string>
+    <string name="aluminium_material">Aluminium Material</string>
+    <string name="steel_material">Steel Material</string>
+    <string name="extra_accessories">Extra Accessories</string>
+    <string name="cutting_and_bending_material">Cutting and Bending Material</string>
+    <string name="ready_for_leak_test">Ready for Leak Test</string>
+    <string name="invoice_date">Invoice Date</string>
+    <string name="compartment_1">Compartment 1</string>
+    <string name="compartment_2">Compartment 2</string>
+    <string name="compartment_3">Compartment 3</string>
+    <string name="compartment_4">Compartment 4</string>
+    <string name="compartment_5">Compartment 5</string>
+    <string name="compartment_6">Compartment 6</string>
+    <string name="ownership">Ownership</string>
 
 </resources>

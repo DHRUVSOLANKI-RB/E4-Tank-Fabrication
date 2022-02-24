@@ -33,30 +33,7 @@
 
             </TextView>
 
-            <Button
-                android:id="@+id/gatepass"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp"
-                android:layout_weight="50"
-                android:text="@string/gate_pass_to_fitting_team"
-                android:textSize="15sp" />
-
-            <TextView
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="12dp"
-                android:text="@string/assigned_to"
-                android:textSize="20sp"
-                android:textStyle="bold">
-
-            </TextView>
-
-            <!--    Team Name  -->
+            <!--    Gate Pass Received By  -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/main_team_name"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -64,42 +41,50 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
-                android:hint="@string/team_name">
+                android:hint="@string/gate_pass_received_by">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/team_name"
+                    android:id="@+id/received_by"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!--          In Date     -->
-            <LinearLayout
+            <!--    Gate Pass Assigned to  -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_assigned_to"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
-                android:orientation="horizontal">
+                android:hint="@string/gate_pass_assigned_to">
 
-                <Button
-                    android:id="@+id/assigned_date"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="50"
-                    android:text="@string/assigned_date"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/assigned_date_text"
-                    android:layout_width="0dp"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/assigned_to"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_weight="50"
-                    android:text=""
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:editable="false"/>
 
-            </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--    Gate Pass Assigned Date  -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_assigned_date"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/gate_pass_assigned_date">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/assigned_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!--    Material Available  -->
             <LinearLayout
@@ -141,7 +126,8 @@
                             android:id="@+id/material_available_yes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/yes" />
+                            android:text="@string/yes"
+                            android:checked="true"/>
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:id="@+id/material_available_no"
@@ -155,40 +141,284 @@
             </LinearLayout>
 
             <!--    Safety Fittings  -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/main_safety_fittings"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
-                android:hint="@string/safety_fittings">
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/safety_fittings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <TextView
 
-            <!--    Pipe Line  -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/main_pipe_line"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/safety_fittings"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+
+                    <RadioGroup
+                        android:id="@+id/rg_safety_fittings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/safety_fittings_yes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/yes"
+                            android:checked="true"/>
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/safety_fittings_no"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/no" />
+
+                    </RadioGroup>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--    pipe_line  -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
-                android:hint="@string/pipe_line">
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/pipe_line"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/pipe_line"
+                        android:textSize="15sp" />
+                </LinearLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+                    <RadioGroup
+                        android:id="@+id/rg_pipe_line"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:orientation="horizontal">
 
-            <!--    Leak Test  -->
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/pipe_line_yes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/yes"
+                            android:checked="true"/>
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/pipe_line_no"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/no" />
+
+                    </RadioGroup>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--    Aluminium Material  -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/aluminium_material"
+                        android:textSize="15sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+                    <RadioGroup
+                        android:id="@+id/rg_aluminium_material"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:orientation="horizontal">
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/aluminium_material_yes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/yes"
+                            android:checked="true"/>
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/aluminium_material_no"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/no" />
+                    </RadioGroup>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--    Steel Material  -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/steel_material"
+                        android:textSize="15sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+                    <RadioGroup
+                        android:id="@+id/rg_steel_material"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:orientation="horizontal">
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/steel_material_yes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/yes"
+                            android:checked="true"/>
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/steel_material_no"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/no" />
+                    </RadioGroup>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--    Extra Accessories  -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/extra_accessories"
+                        android:textSize="15sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+                    <RadioGroup
+                        android:id="@+id/rg_extra_accessories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:orientation="horizontal">
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/extra_accessories_yes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/yes"
+                            android:checked="true"/>
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/extra_accessories_no"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/no" />
+                    </RadioGroup>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--    Cutting and Bending Material  -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/cutting_and_bending_material"
+                        android:textSize="15sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+                    <RadioGroup
+                        android:id="@+id/rg_cutting_bending"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:orientation="horizontal">
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/cutting_bending_yes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/yes"
+                            android:checked="true"/>
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/cutting_bending_no"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/no" />
+                    </RadioGroup>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--    Ready for Leak Test  -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -205,7 +435,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="@string/leak_test"
+                        android:text="@string/ready_for_leak_test"
                         android:textSize="15sp" />
 
                 </LinearLayout>
@@ -216,7 +446,7 @@
                     android:layout_weight="1">
 
                     <RadioGroup
-                        android:id="@+id/radioGroup_leak_test"
+                        android:id="@+id/rg_leak_test"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -224,38 +454,22 @@
                         android:orientation="horizontal">
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
-                            android:id="@+id/leak_test_done"
+                            android:id="@+id/leak_test_yes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/done" />
+                            android:text="@string/yes"
+                            android:checked="true"/>
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
-                            android:id="@+id/leak_test_pending"
+                            android:id="@+id/leak_test_no"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/pending" />
+                            android:text="@string/no" />
 
                     </RadioGroup>
                 </LinearLayout>
 
             </LinearLayout>
-
-            <!--    Done By  -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/main_done_by"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp"
-                android:hint="@string/done_by">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/done_by"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </com.google.android.material.textfield.TextInputLayout>
 
             <!--    Safety Fitting Number  -->
             <com.google.android.material.textfield.TextInputLayout
@@ -290,6 +504,31 @@
                     android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <!--          Assigned Date     -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/invoice_date"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="50"
+                    android:text="@string/invoice_date"
+                    android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/invoice_date_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="50"
+                    android:text=""
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <!--    Safety Fittings Verified By  -->
             <com.google.android.material.textfield.TextInputLayout
