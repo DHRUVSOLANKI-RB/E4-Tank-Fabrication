@@ -231,5 +231,8 @@
     <string name="compartment_2_of_6">2 of 6</string>
     <string name="compartment_3_of_6">3 of 6</string>
     <string name="compartment_4_of_6">4 of 6</string>
+    <string name="date">Test Date</string>
+    <string name="alluminium_work">Alluminium Work</string>
+    <string name="stainless_steel_work">Stainless Steel Work</string>
 
 </resources>

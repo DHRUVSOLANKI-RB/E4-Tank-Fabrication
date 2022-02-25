@@ -33,16 +33,6 @@
 
             </TextView>
 
-            <Button
-                android:id="@+id/gatepass"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp"
-                android:layout_weight="50"
-                android:text="@string/gate_pass"
-                android:textSize="15sp" />
-
             <!--    Driver Name  -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/main_driver_name"
@@ -73,7 +63,7 @@
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="50"
-                    android:text="@string/assigned_date"
+                    android:text="@string/date"
                     android:textSize="15sp" />
 
                 <TextView
@@ -133,7 +123,7 @@
                     android:layout_weight="1">
 
                     <RadioGroup
-                        android:id="@+id/radioGroup_leak_fix"
+                        android:id="@+id/rg_leak_fix"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
@@ -150,47 +140,91 @@
                             android:id="@+id/leak_fix_no"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/no" />
+                            android:text="@string/no"
+                            android:checked="true"/>
 
                     </RadioGroup>
                 </LinearLayout>
 
             </LinearLayout>
 
+            <Button
+                android:id="@+id/gatepass"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:text="@string/gate_pass"
+                android:textSize="15sp"
+                android:clickable="false"/>
+
+            <!--    From  -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_from"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/from">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/gp_from"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--    To  -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/main_to"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:hint="@string/to">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/gp_to"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/prev_leaktest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="50"
+                    android:backgroundTint="@color/yellow"
+                    android:drawableLeft="@android:drawable/ic_media_previous"
+                    android:text="@string/previous" />
+
+                <Button
+                    android:id="@+id/next_leaktest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="50"
+                    android:backgroundTint="@color/green"
+                    android:drawableEnd="@android:drawable/ic_media_next"
+                    android:shadowColor="@android:color/transparent"
+                    android:text="@string/next" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </ScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="12dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/prev_leaktest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="50"
-            android:backgroundTint="@color/yellow"
-            android:drawableLeft="@android:drawable/ic_media_previous"
-            android:text="@string/previous" />
-
-        <Button
-            android:id="@+id/next_leaktest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_weight="50"
-            android:backgroundTint="@color/green"
-            android:drawableEnd="@android:drawable/ic_media_next"
-            android:shadowColor="@android:color/transparent"
-            android:text="@string/next" />
-
-    </LinearLayout>
 
 </RelativeLayout>
