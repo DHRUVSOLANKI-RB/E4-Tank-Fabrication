@@ -169,9 +169,9 @@ public class TankFabFragment extends Fragment {
 
             //Navigation.findNavController(view).navigate(R.id.nav_fitting);
 
-            //UserLoginFunction(view);
+            UserLoginFunction(view);
 
-            createPdf();
+            //createPdf();
 
         });
 
@@ -211,9 +211,9 @@ public class TankFabFragment extends Fragment {
 
                                 progressDialog.dismiss();
 
-                                //createPdf();
+                                createPdf();
 
-                                //Navigation.findNavController(view).navigate(R.id.nav_fitting);
+                                Navigation.findNavController(view).navigate(R.id.nav_fitting);
 
 
 //                                    filename.setText("");

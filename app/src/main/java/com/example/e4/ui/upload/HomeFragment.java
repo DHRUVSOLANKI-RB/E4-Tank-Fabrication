@@ -487,7 +487,7 @@ public class HomeFragment<array_uri> extends Fragment {
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), contentURI);
                     //String path = saveImage(bitmap);
-                    Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();
                     //imageview_1.setImageBitmap(bitmap);
 
                     switch (get_buttonid){
@@ -540,7 +540,7 @@ public class HomeFragment<array_uri> extends Fragment {
                 }
                 Log.d("nameeeee>>>>  ", get_filename);
 
-                Toast.makeText(getActivity(), displayName, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), displayName, Toast.LENGTH_SHORT).show();
                 array_file_uri.put(displayName, uri.toString());
                 cursor.close();
             }
@@ -603,7 +603,7 @@ public class HomeFragment<array_uri> extends Fragment {
             }
             Log.d("nameeeee>>>>  ", get_filename);
 
-            Toast.makeText(getActivity(), displayName, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), displayName, Toast.LENGTH_SHORT).show();
 
             array_file_uri.put(displayName, uri.toString());
             cursor.close();
@@ -737,7 +737,7 @@ public class HomeFragment<array_uri> extends Fragment {
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         // check if all permissions are granted
                         if (report.areAllPermissionsGranted()) {
-                            Toast.makeText(getActivity().getApplicationContext(), "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getActivity().getApplicationContext(), "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
                         }
 
                         // check for permanent denial of any permission
@@ -798,7 +798,10 @@ public class HomeFragment<array_uri> extends Fragment {
 
                                     SharedPreferences.Editor editor = sp_vehicle.edit();
                                     editor.putString("unid", jsonObject.getString("unid"));
+                                    editor.putString("compdistri", txt_compdistri);
                                     editor.apply();
+
+                                    //Toast.makeText(getActivity(),txt_compdistri, Toast.LENGTH_LONG).show();
 
                                     Navigation.findNavController(view).navigate(R.id.nav_planning);
 

@@ -195,5 +195,41 @@
     <string name="compartment_5">Compartment 5</string>
     <string name="compartment_6">Compartment 6</string>
     <string name="ownership">Ownership</string>
+    <string name="safety_fitting_number_for_compartment_1">Safety Fitting Number for Compartment 1</string>
+    <string name="safety_fitting_number_for_compartment_2">Safety Fitting Number for Compartment 2</string>
+    <string name="safety_fitting_number_for_compartment_3">Safety Fitting Number for Compartment 3</string>
+    <string name="safety_fitting_number_for_compartment_4">Safety Fitting Number for Compartment 4</string>
+    <string name="safety_fitting_number_for_compartment_5">Safety Fitting Number for Compartment 5</string>
+    <string name="safety_fitting_number_for_compartment_6">Safety Fitting Number for Compartment 6</string>
+
+    <string name="compartment_1_of_1">1 of 1</string>
+    <string name="compartment_2_of_1">2 of 1</string>
+    <string name="compartment_3_of_1">3 of 1</string>
+    <string name="compartment_4_of_1">4 of 1</string>
+
+    <string name="compartment_1_of_2">1 of 2</string>
+    <string name="compartment_2_of_2">2 of 2</string>
+    <string name="compartment_3_of_2">3 of 2</string>
+    <string name="compartment_4_of_2">4 of 2</string>
+
+    <string name="compartment_1_of_3">1 of 3</string>
+    <string name="compartment_2_of_3">2 of 3</string>
+    <string name="compartment_3_of_3">3 of 3</string>
+    <string name="compartment_4_of_3">4 of 3</string>
+
+    <string name="compartment_1_of_4">1 of 4</string>
+    <string name="compartment_2_of_4">2 of 4</string>
+    <string name="compartment_3_of_4">3 of 4</string>
+    <string name="compartment_4_of_4">4 of 4</string>
+
+    <string name="compartment_1_of_5">1 of 5</string>
+    <string name="compartment_2_of_5">2 of 5</string>
+    <string name="compartment_3_of_5">3 of 5</string>
+    <string name="compartment_4_of_5">4 of 5</string>
+
+    <string name="compartment_1_of_6">1 of 6</string>
+    <string name="compartment_2_of_6">2 of 6</string>
+    <string name="compartment_3_of_6">3 of 6</string>
+    <string name="compartment_4_of_6">4 of 6</string>
 
 </resources>
