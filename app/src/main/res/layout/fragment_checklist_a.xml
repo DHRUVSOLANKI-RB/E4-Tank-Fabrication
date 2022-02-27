@@ -42,7 +42,7 @@
 
                 <!--    Line and Valve Box -->
                 <com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/line_and_valve_box"
+                    android:id="@+id/line_box"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="50"
@@ -50,7 +50,7 @@
 
                 <!--    Lever and Lever Box -->
                 <com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/lever_and_lever_box"
+                    android:id="@+id/lever_box"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="50"
@@ -75,7 +75,7 @@
 
                 <!--     U Bolts and Rubbers       -->
                 <com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/u_bolts_and_rubbers"
+                    android:id="@+id/u_bolts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="50"
@@ -92,7 +92,7 @@
 
                 <!--     Side Mud Guards       -->
                 <com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/side_mud_guards"
+                    android:id="@+id/mud_guards"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="50"
@@ -205,7 +205,7 @@
 
                 <!--    Shutoff Valve posotion -->
                 <com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/shutoff_valve_posotion"
+                    android:id="@+id/shutoff_valve"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/shutoff_valve_posotion" />

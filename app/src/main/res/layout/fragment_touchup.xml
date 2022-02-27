@@ -42,7 +42,7 @@
 
                 <!--    Main Hole Cover -->
                 <com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/main_hole_cover"
+                    android:id="@+id/main_hole"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="50"
@@ -92,7 +92,7 @@
 
                 <!--     Locking and Safety        -->
                 <com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/locking_and_safety"
+                    android:id="@+id/locking_safety"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="50"
@@ -100,7 +100,7 @@
 
                 <!--     Accessories Installation       -->
                 <com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/accessories_installation"
+                    android:id="@+id/accessories"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="50"
