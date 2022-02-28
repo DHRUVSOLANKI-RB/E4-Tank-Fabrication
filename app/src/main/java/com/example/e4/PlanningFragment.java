@@ -40,10 +40,10 @@ import java.util.TimeZone;
 public class PlanningFragment extends Fragment {
 
     TextView team_date;
-    EditText drawing_no,need_to_apply,payment_confirmation,cutting_remarks,team_name,remarks;
+    EditText drawing_no,payment_confirmation,cutting_remarks,team_name,remarks;
     RadioGroup rg_die_availability,rg_cutting_bending;
     RadioButton die_availability,cutting_bending;
-    CheckBox tank_fabrication,fittings,other_accessories;
+    CheckBox tank_fabrication,fittings,other_accessories,need_to_apply;
     String txt_drawing_no = "",txt_need_to_apply = "",txt_payment_confirmation = "",txt_cutting_remarks = "", txt_team_name = "",txt_remarks = "",txt_die_availability = "",
             txt_cutting_bending = "",txt_tank_fabrication = "",txt_fittings = "",txt_other_accessories = "",vehicle_unid = "",txt_team_date = "",user_id = "";
     String HttpURL = "http://3.222.104.176/index.php/planning";
@@ -99,7 +99,7 @@ public class PlanningFragment extends Fragment {
         prev_proc.setOnClickListener(view -> {
 
             //Toast.makeText(getActivity(), "Please fill all form fields.", Toast.LENGTH_LONG).show();
-            Navigation.findNavController(view).navigate(R.id.nav_home);
+            Navigation.findNavController(view).navigate(R.id.nav_vehiclein);
         });
 
         SharedPreferences sharedpreferences = getActivity().getSharedPreferences(HomeFragment.MyPREFERENCES, Context.MODE_PRIVATE);
@@ -113,7 +113,6 @@ public class PlanningFragment extends Fragment {
         next_proc.setOnClickListener(view -> {
 
             txt_drawing_no = drawing_no.getText().toString();
-            txt_need_to_apply = need_to_apply.getText().toString();
             txt_payment_confirmation = payment_confirmation.getText().toString();
             txt_cutting_remarks = cutting_remarks.getText().toString();
             txt_team_name = team_name.getText().toString();
@@ -126,6 +125,8 @@ public class PlanningFragment extends Fragment {
                 txt_fittings = fittings.getText().toString();
             if(other_accessories.isChecked())
                 txt_other_accessories = other_accessories.getText().toString();
+            if(need_to_apply.isChecked())
+                txt_need_to_apply = need_to_apply.getText().toString();
 
             int die_id = rg_die_availability.getCheckedRadioButtonId();
             die_availability = (RadioButton) root.findViewById(die_id);

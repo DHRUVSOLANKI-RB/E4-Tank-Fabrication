@@ -64,14 +64,22 @@ public class CheckistPreDeliveryFragment extends Fragment {
 
         next_predelivery.setOnClickListener(view -> {
 
-            txt_tank_mounting = tank_mounting.getText().toString();
-            txt_safety_fittings = safety_fittings.getText().toString();
-            txt_valve_lever = valve_lever.getText().toString();
-            txt_locking = locking.getText().toString();
-            txt_color = color.getText().toString();
-            txt_accessories = accessories.getText().toString();
-            txt_number_plates = number_plates.getText().toString();
-            txt_sticker = sticker.getText().toString();
+            if(tank_mounting.isChecked())
+                txt_tank_mounting = tank_mounting.getText().toString();
+            if(safety_fittings.isChecked())
+                txt_safety_fittings = safety_fittings.getText().toString();
+            if(valve_lever.isChecked())
+                txt_valve_lever = valve_lever.getText().toString();
+            if(locking.isChecked())
+                txt_locking = locking.getText().toString();
+            if(color.isChecked())
+                txt_color = color.getText().toString();
+            if(accessories.isChecked())
+                txt_accessories = accessories.getText().toString();
+            if(number_plates.isChecked())
+                txt_number_plates = number_plates.getText().toString();
+            if(sticker.isChecked())
+                txt_sticker = sticker.getText().toString();
 
             UserLoginFunction(view);
         });

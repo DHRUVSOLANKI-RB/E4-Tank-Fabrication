@@ -61,14 +61,22 @@ public class TouchupFragment extends Fragment {
 
         next_touchup.setOnClickListener(view -> {
 
-            txt_main_hole = main_hole.getText().toString();
-            txt_safety_fittings = safety_fittings.getText().toString();
-            txt_ladder = ladder.getText().toString();
-            txt_al_top = al_top.getText().toString();
-            txt_locking_safety = locking_safety.getText().toString();
-            txt_accessories = accessories.getText().toString();
-            txt_final_color = final_color.getText().toString();
-            txt_sticker = sticker.getText().toString();
+            if(main_hole.isChecked())
+                txt_main_hole = main_hole.getText().toString();
+            if(safety_fittings.isChecked())
+                txt_safety_fittings = safety_fittings.getText().toString();
+            if(ladder.isChecked())
+                txt_ladder = ladder.getText().toString();
+            if(al_top.isChecked())
+                txt_al_top = al_top.getText().toString();
+            if(locking_safety.isChecked())
+                txt_locking_safety = locking_safety.getText().toString();
+            if(accessories.isChecked())
+                txt_accessories = accessories.getText().toString();
+            if(final_color.isChecked())
+                txt_final_color = final_color.getText().toString();
+            if(sticker.isChecked())
+                txt_sticker = sticker.getText().toString();
 
             UserLoginFunction(view);
         });

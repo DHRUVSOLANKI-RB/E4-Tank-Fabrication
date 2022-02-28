@@ -66,13 +66,20 @@ public class ColoringFragment extends Fragment {
         next_coloring.setOnClickListener(view -> {
 
             txt_coloring_team = coloring_team.getText().toString();
-            txt_grinding_check = grinding_check.getText().toString();
-            txt_primer = primer.getText().toString();
-            txt_putty = putty.getText().toString();
-            txt_rubbing_check = rubbing_check.getText().toString();
-            txt_base_color = base_color.getText().toString();
-            txt_branding_color = branding_color.getText().toString();
-            txt_cabin_color = cabin_color.getText().toString();
+            if(grinding_check.isChecked())
+                txt_grinding_check = grinding_check.getText().toString();
+            if(primer.isChecked())
+                txt_primer = primer.getText().toString();
+            if(putty.isChecked())
+                txt_putty = putty.getText().toString();
+            if(rubbing_check.isChecked())
+                txt_rubbing_check = rubbing_check.getText().toString();
+            if(base_color.isChecked())
+                txt_base_color = base_color.getText().toString();
+            if(branding_color.isChecked())
+                txt_branding_color = branding_color.getText().toString();
+            if(cabin_color.isChecked())
+                txt_cabin_color = cabin_color.getText().toString();
 
             //Navigation.findNavController(view).navigate(R.id.nav_touchup);
 

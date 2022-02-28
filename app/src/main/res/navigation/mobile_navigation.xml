@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_vehiclein">
 
     <fragment
-        android:id="@+id/nav_home"
+        android:id="@+id/nav_vehiclein"
         android:name="com.example.e4.ui.upload.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_vehicle" />
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_drawing"
         android:name="com.example.e4.ui.report.AddDrawingFragment"
         android:label="@string/add_drawing"
         tools:layout="@layout/fragment_drawing" />

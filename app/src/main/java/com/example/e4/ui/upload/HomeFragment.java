@@ -451,22 +451,27 @@ public class HomeFragment<array_uri> extends Fragment {
 
             //Toast.makeText(getActivity(), txt_parking_cone, Toast.LENGTH_LONG).show();
 
-            progressDialog = ProgressDialog.show(getContext(), "Loading Data", null, true, true);
+            CheckEditTextIsEmptyOrNot();
 
-            count_loop = 0;
+            if (CheckEditText) {
 
-            Iterator it = array_file_uri.entrySet().iterator();
-            while (it.hasNext()) {
+                progressDialog = ProgressDialog.show(getContext(), "Loading Data", null, true, true);
 
-                Map.Entry pair = (Map.Entry) it.next();
+                count_loop = 0;
 
-                System.out.println("count_loop " + count_loop);
+                Iterator it = array_file_uri.entrySet().iterator();
+                while (it.hasNext()) {
 
-                uploadPDF(pair.getKey().toString(), Uri.parse(pair.getValue().toString()), view);
-                it.remove();
+                    Map.Entry pair = (Map.Entry) it.next();
 
-                count_loop++;
+                    uploadPDF(pair.getKey().toString(), Uri.parse(pair.getValue().toString()), view);
+                    it.remove();
 
+                }
+
+            } else {
+
+                Toast.makeText(getContext(), "Please select atleast 1 file.", Toast.LENGTH_LONG).show();
             }
 
             //Navigation.findNavController(view).navigate(R.id.nav_planning);
@@ -684,13 +689,7 @@ public class HomeFragment<array_uri> extends Fragment {
 
     public void CheckEditTextIsEmptyOrNot() {
 
-//        vendor = model.getText().toString();
-//        vendorid = bs_type.getText().toString();
-//        fileno = wheelbase.getText().toString();
-//        itemname = ladenwgt.getText().toString();
-//        rdsospecs = unladenwgt.getText().toString();
-//
-//        CheckEditText = !TextUtils.isEmpty(vendor) && !TextUtils.isEmpty(vendorid) && !TextUtils.isEmpty(fileno) && !TextUtils.isEmpty(itemname) && !TextUtils.isEmpty(get_filename);
+        CheckEditText = !TextUtils.isEmpty(get_filename);
     }
 
     public void hideKeyboard(View view) {

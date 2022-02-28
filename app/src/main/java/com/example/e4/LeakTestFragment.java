@@ -108,7 +108,7 @@ public class LeakTestFragment extends Fragment {
             txt_tank_team_member = tank_team_member.getText().toString();
             txt_gp_from = gp_from.getText().toString();
             txt_gp_to = gp_to.getText().toString();
-            txt_leak_date = leak_date.getText().toString();
+            txt_leak_date = leak_date_text.getText().toString();
 
             int leak_id = rg_leak_fix.getCheckedRadioButtonId();
             leak_fix = (RadioButton) root.findViewById(leak_id);

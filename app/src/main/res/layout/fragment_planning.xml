@@ -53,21 +53,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <!--    Need to Apply  -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/main_need_to_apply"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/need_to_apply"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
-                android:hint="@string/need_to_apply">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/need_to_apply"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/need_to_apply" />
 
             <!--    Die Availability  -->
             <LinearLayout

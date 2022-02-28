@@ -500,8 +500,7 @@
                         android:id="@+id/compartment_1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:maxLength="1"/>
+                        android:inputType="number" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -519,8 +518,7 @@
                         android:id="@+id/compartment_2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:maxLength="1"/>
+                        android:inputType="number" />
 
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -548,8 +546,7 @@
                         android:id="@+id/compartment_3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:maxLength="1"/>
+                        android:inputType="number" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -567,8 +564,7 @@
                         android:id="@+id/compartment_4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:maxLength="1"/>
+                        android:inputType="number" />
 
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -596,8 +592,7 @@
                         android:id="@+id/compartment_5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:maxLength="1"/>
+                        android:inputType="number" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -615,8 +610,7 @@
                         android:id="@+id/compartment_6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:maxLength="1"/>
+                        android:inputType="number" />
 
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>

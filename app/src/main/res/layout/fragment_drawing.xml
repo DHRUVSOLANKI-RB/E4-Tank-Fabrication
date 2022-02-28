@@ -49,7 +49,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!--    Vendor  -->
+    <!--    Compartment  -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/main_compartment"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -58,12 +58,13 @@
         android:layout_below="@+id/main_drawing_no"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        android:hint="@string/compartment">
+        android:hint="@string/compartment_distribution">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/compartment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="number"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,7 +80,7 @@
         android:hint="@string/approval_letter_number">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/approval_letter_number"
+            android:id="@+id/letter_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -100,6 +101,25 @@
             android:id="@+id/loading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--    approving capacity  -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/main_approving_capacity"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/main_loading"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:hint="@string/approving_capacity">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/approving_capacity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

@@ -234,5 +234,6 @@
     <string name="date">Test Date</string>
     <string name="alluminium_work">Alluminium Work</string>
     <string name="stainless_steel_work">Stainless Steel Work</string>
+    <string name="approving_capacity">Approving Capacity</string>
 
 </resources>

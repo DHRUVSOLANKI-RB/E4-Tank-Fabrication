@@ -74,23 +74,40 @@ public class ChecklistAFragment extends Fragment {
 
         next_posttest.setOnClickListener(view -> {
 
-            txt_line_box = line_box.getText().toString();
-            txt_lever_box = lever_box.getText().toString();
-            txt_fire_screen = fire_screen.getText().toString();
-            txt_u_bolts = u_bolts.getText().toString();
-            txt_mud_guards = mud_guards.getText().toString();
-            txt_hose_pipe_stand = hose_pipe_stand.getText().toString();
-            txt_fire_ext_stand = fire_ext_stand.getText().toString();
-            txt_dip_rod_stand = dip_rod_stand.getText().toString();
-            txt_earthing = earthing.getText().toString();
-            txt_locking = locking.getText().toString();
-            txt_dip_plate = dip_plate.getText().toString();
-            txt_tank_cleaning = tank_cleaning.getText().toString();
-            txt_shutoff_valve = shutoff_valve.getText().toString();
-            txt_safety_fitting = safety_fitting.getText().toString();
-            txt_top_cover = top_cover.getText().toString();
-            txt_gasket = gasket.getText().toString();
-            txt_grinding_release = grinding_release.getText().toString();
+            if(line_box.isChecked())
+                txt_line_box = line_box.getText().toString();
+            if(lever_box.isChecked())
+                txt_lever_box = lever_box.getText().toString();
+            if(fire_screen.isChecked())
+                txt_fire_screen = fire_screen.getText().toString();
+            if(u_bolts.isChecked())
+                txt_u_bolts = u_bolts.getText().toString();
+            if(mud_guards.isChecked())
+                txt_mud_guards = mud_guards.getText().toString();
+            if(hose_pipe_stand.isChecked())
+                txt_hose_pipe_stand = hose_pipe_stand.getText().toString();
+            if(fire_ext_stand.isChecked())
+                txt_fire_ext_stand = fire_ext_stand.getText().toString();
+            if(dip_rod_stand.isChecked())
+                txt_dip_rod_stand = dip_rod_stand.getText().toString();
+            if(earthing.isChecked())
+                txt_earthing = earthing.getText().toString();
+            if(locking.isChecked())
+                txt_locking = locking.getText().toString();
+            if(dip_plate.isChecked())
+                txt_dip_plate = dip_plate.getText().toString();
+            if(tank_cleaning.isChecked())
+                txt_tank_cleaning = tank_cleaning.getText().toString();
+            if(shutoff_valve.isChecked())
+                txt_shutoff_valve = shutoff_valve.getText().toString();
+            if(safety_fitting.isChecked())
+                txt_safety_fitting = safety_fitting.getText().toString();
+            if(top_cover.isChecked())
+                txt_top_cover = top_cover.getText().toString();
+            if(gasket.isChecked())
+                txt_gasket = gasket.getText().toString();
+            if(grinding_release.isChecked())
+                txt_grinding_release = grinding_release.getText().toString();
 
             UserLoginFunction(view);
             //Navigation.findNavController(view).navigate(R.id.nav_coloring);
