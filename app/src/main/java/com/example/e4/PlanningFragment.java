@@ -4,12 +4,16 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -26,13 +30,17 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -40,13 +48,15 @@ import java.util.TimeZone;
 public class PlanningFragment extends Fragment {
 
     TextView team_date;
-    EditText drawing_no,payment_confirmation,cutting_remarks,team_name,remarks;
+    AutoCompleteTextView drawing_no;
+    EditText payment_confirmation,cutting_remarks,team_name,remarks;
     RadioGroup rg_die_availability,rg_cutting_bending;
     RadioButton die_availability,cutting_bending;
     CheckBox tank_fabrication,fittings,other_accessories,need_to_apply;
     String txt_drawing_no = "",txt_need_to_apply = "",txt_payment_confirmation = "",txt_cutting_remarks = "", txt_team_name = "",txt_remarks = "",txt_die_availability = "",
             txt_cutting_bending = "",txt_tank_fabrication = "",txt_fittings = "",txt_other_accessories = "",vehicle_unid = "",txt_team_date = "",user_id = "";
     String HttpURL = "http://3.222.104.176/index.php/planning";
+    String HttpURLGet = "http://3.222.104.176/index.php/getdrawing";
     HashMap<String, String> hashMap = new HashMap<>();
     com.example.e4.HttpParse httpParse = new com.example.e4.HttpParse();
     ProgressDialog progressDialog;
@@ -108,6 +118,8 @@ public class PlanningFragment extends Fragment {
         SharedPreferences sharedpreferences_1 = getActivity().getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
         user_id = sharedpreferences_1.getString("user_id","");
 
+        GetDrawing();
+
         //Toast.makeText(getContext().getApplicationContext(), vehicle_unid, Toast.LENGTH_SHORT).show();
 
         next_proc.setOnClickListener(view -> {
@@ -143,6 +155,71 @@ public class PlanningFragment extends Fragment {
         });
 
         return root;
+    }
+
+    public void GetDrawing() {
+
+        class GetDrawingClass extends AsyncTask<String, Void, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                progressDialog = ProgressDialog.show(getActivity(), "Loading", null, true, true);
+            }
+
+            @Override
+            protected void onPostExecute(String httpResponseMsg) {
+
+                super.onPostExecute(httpResponseMsg);
+
+                progressDialog.dismiss();
+
+                //Toast.makeText(getActivity(),httpResponseMsg, Toast.LENGTH_LONG).show();
+
+                try {
+                    JSONObject jsonObject = new JSONObject(httpResponseMsg);
+
+                    if (jsonObject.getString("status").equals("success")){
+
+                        List<String> drawing_list = new ArrayList<String>();
+
+                        JSONArray json_data = new JSONArray(jsonObject.getString("data"));
+
+                        for(int i = 0; i<json_data.length(); i++){
+                            JSONObject obj_drawing = new JSONObject(json_data.getString(i));
+                            System.out.println(obj_drawing.getString("drawing_no"));
+                            drawing_list.add(obj_drawing.getString("drawing_no"));
+                        }
+
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, drawing_list);
+                        drawing_no.setThreshold(1);
+                        drawing_no.setAdapter(adapter);
+                        //drawing_no.setInputType(InputType.TYPE_NULL);
+                        drawing_no.setTextColor(Color.BLACK);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+
+                hashMap.put("user_id", user_id);
+
+                finalResult = httpParse.postRequest(hashMap, HttpURLGet);
+
+                System.out.println(finalResult);
+
+                return finalResult;
+            }
+        }
+
+        GetDrawingClass getDrawingClass = new GetDrawingClass();
+        getDrawingClass.execute();
     }
 
     public void UserLoginFunction(View view) {

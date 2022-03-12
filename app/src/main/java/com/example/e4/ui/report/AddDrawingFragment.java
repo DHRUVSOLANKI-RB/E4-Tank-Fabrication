@@ -1,6 +1,8 @@
 package com.example.e4.ui.report;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -20,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.e4.R;
+import com.example.e4.UserLoginActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.json.JSONException;
@@ -32,7 +36,7 @@ public class AddDrawingFragment extends Fragment {
     AutoCompleteTextView loading;
     EditText drawing_no,compartment,letter_number,approving_capacity;
     Button save;
-    String txt_drawing_no = "",txt_compartment = "",txt_letter_number = "",txt_approving_capacity = "",txt_loading = "";
+    String txt_drawing_no = "",txt_compartment = "",txt_letter_number = "",txt_approving_capacity = "",txt_loading = "",user_id = "";
     String[] arr_loading = {"Top", "Bottom"};
 
     String HttpURL = "http://3.222.104.176/index.php/drawing";
@@ -57,6 +61,11 @@ public class AddDrawingFragment extends Fragment {
         loading.setAdapter(adapter);
         loading.setInputType(InputType.TYPE_NULL);
         loading.setTextColor(Color.BLACK);
+
+        SharedPreferences sharedpreferences_1 = getActivity().getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+        user_id = sharedpreferences_1.getString("user_id","");
+
+        //Toast.makeText(getContext().getApplicationContext(), user_id, Toast.LENGTH_SHORT).show();
 
         save.setOnClickListener(view -> {
 
@@ -135,6 +144,7 @@ public class AddDrawingFragment extends Fragment {
                 hashMap.put("letter_number", txt_letter_number);
                 hashMap.put("loading", txt_loading);
                 hashMap.put("approving_capacity", txt_approving_capacity);
+                hashMap.put("user_id", user_id);
 
                 finalResult = httpParse.postRequest(hashMap, HttpURL);
 

@@ -235,5 +235,6 @@
     <string name="alluminium_work">Alluminium Work</string>
     <string name="stainless_steel_work">Stainless Steel Work</string>
     <string name="approving_capacity">Approving Capacity</string>
+    <string name="dashboard">Dashboard</string>
 
 </resources>
