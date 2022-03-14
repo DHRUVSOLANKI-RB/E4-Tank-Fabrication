@@ -12,6 +12,12 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
+        android:id="@+id/nav_steps"
+        android:name="com.example.e4.VehicleStepsFragment"
+        android:label="@string/vehicle_steps"
+        tools:layout="@layout/fragment_vehicle_steps" />
+
+    <fragment
         android:id="@+id/nav_vehiclein"
         android:name="com.example.e4.ui.upload.HomeFragment"
         android:label="@string/menu_home"

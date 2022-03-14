@@ -8,6 +8,12 @@
             android:id="@+id/nav_dashboard"
             android:icon="@drawable/ic_dashboard"
             android:title="@string/dashboard" />
+
+        <item
+            android:id="@+id/nav_steps"
+            android:icon="@drawable/ic_dashboard"
+            android:title="@string/vehicle_steps"
+            android:visible="false"/>
         <item
             android:id="@+id/nav_vehiclein"
             android:icon="@drawable/edit"

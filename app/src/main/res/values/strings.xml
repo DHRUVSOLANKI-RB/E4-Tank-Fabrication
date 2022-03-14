@@ -236,5 +236,8 @@
     <string name="stainless_steel_work">Stainless Steel Work</string>
     <string name="approving_capacity">Approving Capacity</string>
     <string name="dashboard">Dashboard</string>
+    <string name="vehicle_progress">Vehicle Serial No. -</string>
+    <string name="vehicle_steps">Vehicle Steps</string>
+    <string name="vehicle_in">Vehicle-In</string>
 
 </resources>
