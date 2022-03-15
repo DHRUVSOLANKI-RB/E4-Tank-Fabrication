@@ -43,18 +43,22 @@ public class FittingFragment extends Fragment {
             ,txt_comp22 = "",txt_comp23 = "",txt_comp24 = "",txt_comp31 = "",txt_comp32 = "",txt_comp33 = "",txt_comp34 = "",txt_comp41 = "",txt_comp42 = "",txt_comp43 = ""
             ,txt_comp44 = "",txt_comp51 = "",txt_comp52 = "",txt_comp53 = "",txt_comp54 = "",txt_comp61 = "",txt_comp62 = "", txt_comp63 = "",txt_comp64 = "",
             txt_safety_invoice_no = "",txt_safety_verified_by = "",txt_material_available = "",txt_safety_fittings = "",txt_pipe_line = "",txt_aluminium_material = ""
-            ,txt_steel_material = "",txt_extra_accessories = "",txt_cutting_bending = "",txt_leak_test = "",vehicle_unid = "",user_id = "",txt_invoice_date_text = "";
+            ,txt_steel_material = "",txt_extra_accessories = "",txt_cutting_bending = "",txt_leak_test = "",vehicle_unid = "",user_id = "",txt_invoice_date_text = ""
+            ,txt_sno = "",comp_sno = "";
     LinearLayout layout_1,layout_2,layout_3,layout_4,layout_5,layout_6;
     EditText received_by,assigned_to,assigned_date,comp11,comp12,comp13,comp14,comp21,comp22,comp23,comp24,comp31,comp32,comp33,comp34,comp41,comp42,comp43,comp44,comp51,
             comp52,comp53,comp54,comp61,comp62,comp63,comp64,safety_invoice_no,safety_verified_by;
     RadioGroup rg_material_available,rg_safety_fittings,rg_pipe_line,rg_aluminium_material,rg_steel_material,rg_extra_accessories,rg_cutting_bending,rg_leak_test;
-    RadioButton material_available,safety_fittings,pipe_line,aluminium_material,steel_material,extra_accessories,cutting_bending,leak_test;
+    RadioButton material_available,safety_fittings,pipe_line,aluminium_material,steel_material,extra_accessories,cutting_bending,leak_test,material_available_no,
+            safety_fittings_no,pipe_line_no,aluminium_material_no,steel_material_no,extra_accessories_no,cutting_bending_no,leak_test_no;
 
     String HttpURL = "http://3.222.104.176/index.php/fitting";
+    String HttpURLGetFitting = "http://3.222.104.176/index.php/getfittingdata";
     HashMap<String, String> hashMap = new HashMap<>();
     com.example.e4.HttpParse httpParse = new com.example.e4.HttpParse();
     ProgressDialog progressDialog;
     String finalResult;
+    String finalResult_GetFitting;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -109,6 +113,14 @@ public class FittingFragment extends Fragment {
         rg_extra_accessories = root.findViewById(R.id.rg_extra_accessories);
         rg_cutting_bending = root.findViewById(R.id.rg_cutting_bending);
         rg_leak_test = root.findViewById(R.id.rg_leak_test);
+        material_available_no = root.findViewById(R.id.material_available_no);
+        safety_fittings_no = root.findViewById(R.id.safety_fittings_no);
+        pipe_line_no = root.findViewById(R.id.pipe_line_no);
+        aluminium_material_no = root.findViewById(R.id.aluminium_material_no);
+        steel_material_no = root.findViewById(R.id.steel_material_no);
+        extra_accessories_no = root.findViewById(R.id.extra_accessories_no);
+        cutting_bending_no = root.findViewById(R.id.cutting_bending_no);
+        leak_test_no = root.findViewById(R.id.leak_test_no);
 
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
@@ -140,10 +152,20 @@ public class FittingFragment extends Fragment {
 
         SharedPreferences sharedpreferences = getActivity().getSharedPreferences(HomeFragment.MyPREFERENCES, Context.MODE_PRIVATE);
         compdistri = sharedpreferences.getString("compdistri","");
-        vehicle_unid = sharedpreferences.getString("unid","");
+        //vehicle_unid = sharedpreferences.getString("unid","");
 
         SharedPreferences sharedpreferences_1 = getActivity().getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
         user_id = sharedpreferences_1.getString("user_id","");
+
+        SharedPreferences sharedpreferences_2 = getActivity().getSharedPreferences(VehicleStepsFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+        vehicle_unid = sharedpreferences_2.getString("vehicle_unid","");
+
+        if(!vehicle_unid.equals("")){
+            //Toast.makeText(getActivity(),vehicle_unid, Toast.LENGTH_SHORT).show();
+            GetFittingData();
+        }else{
+            //Toast.makeText(getActivity(),"empty", Toast.LENGTH_SHORT).show();
+        }
 
         //Toast.makeText(getActivity(),compdistri, Toast.LENGTH_LONG).show();
 
@@ -258,6 +280,110 @@ public class FittingFragment extends Fragment {
         return root;
     }
 
+    public void GetFittingData() {
+
+        class GetFittingDataClass extends AsyncTask<String, Void, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                progressDialog = ProgressDialog.show(getActivity(), "Loading", null, true, true);
+            }
+
+            @Override
+            protected void onPostExecute(String httpResponseMsg) {
+
+                super.onPostExecute(httpResponseMsg);
+
+                //progressDialog.dismiss();
+
+                //Toast.makeText(getActivity(),httpResponseMsg, Toast.LENGTH_LONG).show();
+
+                try {
+                    JSONObject jsonObject = new JSONObject(httpResponseMsg);
+
+                    if (jsonObject.getString("status").equals("success")){
+
+                        JSONObject jsonObject_data = new JSONObject(jsonObject.getString("data"));
+
+                        System.out.println(jsonObject_data);
+
+                        received_by.setText(jsonObject_data.getString("received_by"));
+
+                        if(jsonObject_data.getString("material_available").equals("1"))
+                            material_available_no.setChecked(true);
+                        if(jsonObject_data.getString("safety_fittings").equals("1"))
+                            safety_fittings_no.setChecked(true);
+                        if(jsonObject_data.getString("pipe_line").equals("1"))
+                            pipe_line_no.setChecked(true);
+                        if(jsonObject_data.getString("aluminium_material").equals("1"))
+                            aluminium_material_no.setChecked(true);
+                        if(jsonObject_data.getString("steel_material").equals("1"))
+                            steel_material_no.setChecked(true);
+                        if(jsonObject_data.getString("extra_accessories").equals("1"))
+                            extra_accessories_no.setChecked(true);
+                        if(jsonObject_data.getString("cutting_bending").equals("1"))
+                            cutting_bending_no.setChecked(true);
+                        if(jsonObject_data.getString("leak_test").equals("1"))
+                            leak_test_no.setChecked(true);
+                        comp11.setText(jsonObject_data.getString("comp11"));
+                        comp12.setText(jsonObject_data.getString("comp12"));
+                        comp13.setText(jsonObject_data.getString("comp13"));
+                        comp14.setText(jsonObject_data.getString("comp14"));
+                        comp21.setText(jsonObject_data.getString("comp21"));
+                        comp22.setText(jsonObject_data.getString("comp22"));
+                        comp23.setText(jsonObject_data.getString("comp23"));
+                        comp24.setText(jsonObject_data.getString("comp24"));
+                        comp31.setText(jsonObject_data.getString("comp31"));
+                        comp32.setText(jsonObject_data.getString("comp32"));
+                        comp33.setText(jsonObject_data.getString("comp33"));
+                        comp34.setText(jsonObject_data.getString("comp34"));
+                        comp41.setText(jsonObject_data.getString("comp41"));
+                        comp42.setText(jsonObject_data.getString("comp42"));
+                        comp43.setText(jsonObject_data.getString("comp43"));
+                        comp44.setText(jsonObject_data.getString("comp44"));
+                        comp51.setText(jsonObject_data.getString("comp51"));
+                        comp52.setText(jsonObject_data.getString("comp52"));
+                        comp53.setText(jsonObject_data.getString("comp53"));
+                        comp54.setText(jsonObject_data.getString("comp54"));
+                        comp61.setText(jsonObject_data.getString("comp61"));
+                        comp62.setText(jsonObject_data.getString("comp62"));
+                        comp63.setText(jsonObject_data.getString("comp63"));
+                        comp64.setText(jsonObject_data.getString("comp64"));
+                        safety_invoice_no.setText(jsonObject_data.getString("safety_invoice_no"));
+                        invoice_date_text.setText(jsonObject_data.getString("invoice_date"));
+                        safety_verified_by.setText(jsonObject_data.getString("safety_verified_by"));
+                        txt_sno = jsonObject_data.getString("fitting_sno");
+                        comp_sno = jsonObject_data.getString("comp_sno");
+
+                        progressDialog.dismiss();
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+
+                hashMap.put("vehicle_unid", vehicle_unid);
+
+                finalResult_GetFitting = httpParse.postRequest(hashMap, HttpURLGetFitting);
+
+                System.out.println(finalResult_GetFitting);
+
+                return finalResult_GetFitting;
+            }
+        }
+
+        GetFittingDataClass getFittingDataClass = new GetFittingDataClass();
+        getFittingDataClass.execute();
+    }
+
     public void UserLoginFunction(View view) {
 
         class UserLoginClass extends AsyncTask<String, Void, String> {
@@ -353,6 +479,8 @@ public class FittingFragment extends Fragment {
                 hashMap.put("comp63", txt_comp63);
                 hashMap.put("comp64", txt_comp64);
                 hashMap.put("vehicle_unid", vehicle_unid);
+                hashMap.put("sno", txt_sno);
+                hashMap.put("comp_sno", comp_sno);
 
                 finalResult = httpParse.postRequest(hashMap, HttpURL);
 
