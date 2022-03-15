@@ -81,13 +81,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-
-        new MaterialAlertDialogBuilder(MainActivity.this).setTitle("Confirm Exit").setMessage("Are you sure you want to exit?").setPositiveButton("Exit", (dialogInterface, i) -> {
-            moveTaskToBack(true);
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(1);
-        }).setNegativeButton("CANCEL", null).show();
-    }
+//    @Override
+//    public void onBackPressed() {
+//
+//        new MaterialAlertDialogBuilder(MainActivity.this).setTitle("Confirm Exit").setMessage("Are you sure you want to exit?").setPositiveButton("Exit", (dialogInterface, i) -> {
+//            moveTaskToBack(true);
+//            android.os.Process.killProcess(android.os.Process.myPid());
+//            System.exit(1);
+//        }).setNegativeButton("CANCEL", null).show();
+//    }
 }

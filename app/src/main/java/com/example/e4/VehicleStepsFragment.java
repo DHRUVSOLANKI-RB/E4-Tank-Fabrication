@@ -38,11 +38,15 @@ public class VehicleStepsFragment extends Fragment {
     String finalResult;
     Button btn_vehicle_in,btn_planning,btn_tank_fabrication,btn_fittings_pre_test,btn_leak_test,btn_post_test_fittings,btn_checklist_a,btn_coloring,btn_touch_up_stage,btn_checklist_pre_delivery;
     LinearLayout layout_planning,layout_tank_fabrication,layout_fittings_pre_test,layout_leak_test,layout_post_test_fittings,layout_checklist_a,layout_coloring,layout_touch_up_stage,layout_checklist_pre_delivery;
+    SharedPreferences sp_vehicle;
+    public static final String MyPREFERENCES = "Vehicle";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_vehicle_steps, container, false);
+
+        sp_vehicle = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         txt_serial_no = root.findViewById(R.id.serial_no);
         btn_vehicle_in = root.findViewById(R.id.btn_vehicle_in);
@@ -136,6 +140,10 @@ public class VehicleStepsFragment extends Fragment {
 
                     if (jsonObject.getString("status").equals("success")){
 
+                        SharedPreferences.Editor editor = sp_vehicle.edit();
+                        editor.putString("vehicle_unid", jsonObject.getString("vehicle_unid"));
+                        editor.apply();
+
                         JSONArray json_data = new JSONArray(jsonObject.getString("data").split(","));
 
                         System.out.println(json_data);
@@ -172,6 +180,8 @@ public class VehicleStepsFragment extends Fragment {
                                 //System.out.println("checkpredelivery");
                                 layout_planning.setVisibility(View.VISIBLE);
                             }
+
+                            System.out.println(json_data.getString(i));
                         }
                     }
 
