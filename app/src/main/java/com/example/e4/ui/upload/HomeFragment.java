@@ -5,17 +5,21 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ClipData;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.text.Editable;
@@ -53,6 +57,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.example.e4.DashboardFragment;
 import com.example.e4.EndPoints;
 import com.example.e4.MainActivity;
 import com.example.e4.PlanningFragment;
@@ -71,6 +76,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -80,6 +86,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -101,7 +109,7 @@ public class HomeFragment<array_uri> extends Fragment {
 
     RadioGroup rg_fire_extinguisher,rg_dip_rod,rg_delivery_hose,rg_parking_cone;
 
-    RadioButton fire_extinguisher,dip_rod,delivery_hose,parking_cone;
+    RadioButton fire_extinguisher,dip_rod,delivery_hose,parking_cone,fire_extinguisher_yes,dip_rod_yes,delivery_hose_yes,parking_cone_yes;
 
     TextView indate,delivery_date;
 
@@ -123,7 +131,7 @@ public class HomeFragment<array_uri> extends Fragment {
             txt_jack = "",txt_jack_rod = "",txt_tool_kit = "",txt_back_sensors = "",txt_reflector = "",txt_cabin_fire_extingusher = "",txt_rear_lights = "",
             txt_battery_serial_number = "",txt_fire_extinguisher = "",txt_dip_rod = "",txt_delivery_hose = "",txt_parking_cone = "",txt_cabin_color = "",
             txt_denting_painting = "",txt_existing_fault = "",txt_remarks = "",txt_diesel_tank = "",user_id = "",txt_compartment_1 = "",txt_compartment_2 = "",
-            txt_compartment_3 = "",txt_compartment_4 = "",txt_compartment_5 = "",txt_compartment_6 = "";
+            txt_compartment_3 = "",txt_compartment_4 = "",txt_compartment_5 = "",txt_compartment_6 = "",serial_no = "",txt_sno = "",checklist_sno = "",compartment_sno = "";
 
     Uri uri;
     HashMap<String, String> array_file_uri = new HashMap<>();
@@ -143,6 +151,11 @@ public class HomeFragment<array_uri> extends Fragment {
     int count_loop = 0;
     public static final String MyPREFERENCES = "Vehicle";
     SharedPreferences sp_vehicle;
+
+    String HttpURLGet = "http://3.222.104.176/index.php/getvehicledata";
+    HashMap<String, String> hashMap = new HashMap<>();
+    com.example.e4.HttpParse httpParse = new com.example.e4.HttpParse();
+    String finalResult;
 
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -225,6 +238,10 @@ public class HomeFragment<array_uri> extends Fragment {
         layout_compartment_4 = root.findViewById(R.id.main_compartment_4);
         layout_compartment_5 = root.findViewById(R.id.main_compartment_5);
         layout_compartment_6 = root.findViewById(R.id.main_compartment_6);
+        fire_extinguisher_yes = root.findViewById(R.id.fire_extinguisher_yes);
+        dip_rod_yes = root.findViewById(R.id.dip_rod_yes);
+        delivery_hose_yes = root.findViewById(R.id.delivery_hose_yes);
+        parking_cone_yes = root.findViewById(R.id.parking_cone_yes);
 
         requestMultiplePermissions();
 
@@ -367,9 +384,18 @@ public class HomeFragment<array_uri> extends Fragment {
             delivery_date.setText(formattedDate);
         });
 
-
         SharedPreferences sharedpreferences = getActivity().getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
         user_id = sharedpreferences.getString("user_id","");
+
+        SharedPreferences sharedpreferences_1 = getActivity().getSharedPreferences(DashboardFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+        serial_no = sharedpreferences_1.getString("serial_no","");
+
+        if(!serial_no.equals("")){
+            Toast.makeText(getActivity(),serial_no, Toast.LENGTH_SHORT).show();
+            GetVehicleData();
+        }else{
+            Toast.makeText(getActivity(),"empty", Toast.LENGTH_SHORT).show();
+        }
 
         upload.setOnClickListener(view -> {
 
@@ -459,6 +485,13 @@ public class HomeFragment<array_uri> extends Fragment {
 
                 count_loop = 0;
 
+                if(array_file_uri.isEmpty()){
+                    System.out.println("empty");
+                    Uri uri = Uri.parse("android.resource://" + getActivity().getPackageName() + "/" + R.drawable.edit);
+                    array_file_uri.put("edit", uri.toString());
+                    System.out.println(uri);
+                }
+
                 Iterator it = array_file_uri.entrySet().iterator();
                 while (it.hasNext()) {
 
@@ -466,7 +499,6 @@ public class HomeFragment<array_uri> extends Fragment {
 
                     uploadPDF(pair.getKey().toString(), Uri.parse(pair.getValue().toString()), view);
                     it.remove();
-
                 }
 
             } else {
@@ -479,6 +511,188 @@ public class HomeFragment<array_uri> extends Fragment {
         });
 
         return root;
+    }
+
+    public void GetVehicleData() {
+
+        class GetVehicleDataClass extends AsyncTask<String, Void, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                progressDialog = ProgressDialog.show(getActivity(), "Loading", null, true, true);
+            }
+
+            @Override
+            protected void onPostExecute(String httpResponseMsg) {
+
+                super.onPostExecute(httpResponseMsg);
+
+                //progressDialog.dismiss();
+
+                //Toast.makeText(getActivity(),httpResponseMsg, Toast.LENGTH_LONG).show();
+
+                try {
+                    JSONObject jsonObject = new JSONObject(httpResponseMsg);
+
+                    if (jsonObject.getString("status").equals("success")){
+
+                        JSONObject jsonObject_data = new JSONObject(jsonObject.getString("data"));
+
+                        System.out.println(jsonObject_data);
+
+                        category.setText(jsonObject_data.getString("category"));
+                        make.setText(jsonObject_data.getString("make"));
+                        model.setText(jsonObject_data.getString("model"));
+                        bs_type.setText(jsonObject_data.getString("bs_type"));
+                        wheelbase.setText(jsonObject_data.getString("wheelbase"));
+                        ladenwgt.setText(jsonObject_data.getString("ladenwgt"));
+                        unladenwgt.setText(jsonObject_data.getString("unladenwgt"));
+                        engineno.setText(jsonObject_data.getString("engineno"));
+                        chessisno.setText(jsonObject_data.getString("chessisno"));
+                        regno.setText(jsonObject_data.getString("regno"));
+                        delivername.setText(jsonObject_data.getString("delivername"));
+                        deliverphone.setText(jsonObject_data.getString("deliverphone"));
+                        receivername.setText(jsonObject_data.getString("receivername"));
+                        receiverphone.setText(jsonObject_data.getString("receiverphone"));
+                        customername.setText(jsonObject_data.getString("customername"));
+                        customeradd.setText(jsonObject_data.getString("customeradd"));
+                        contactdetail.setText(jsonObject_data.getString("contactdetail"));
+                        companyname.setText(jsonObject_data.getString("companyname"));
+                        contactno.setText(jsonObject_data.getString("contactno"));
+                        vehicle_type.setText(jsonObject_data.getString("vehicle_type"));
+                        capacity.setText(jsonObject_data.getString("capacity"));
+                        compdistri.setText(jsonObject_data.getString("compdistri"));
+                        oilcompany.setText(jsonObject_data.getString("oilcompany"));
+                        depotname.setText(jsonObject_data.getString("depotname"));
+                        diesel_tank.setText(jsonObject_data.getString("diesel_tank"));
+                        cabin_color.setText(jsonObject_data.getString("cabin_color"));
+                        denting_painting.setText(jsonObject_data.getString("denting_painting"));
+                        existing_fault.setText(jsonObject_data.getString("existing_fault"));
+                        remarks.setText(jsonObject_data.getString("remarks"));
+                        compartment_1.setText(jsonObject_data.getString("compartment_1"));
+                        compartment_2.setText(jsonObject_data.getString("compartment_2"));
+                        compartment_3.setText(jsonObject_data.getString("compartment_3"));
+                        compartment_4.setText(jsonObject_data.getString("compartment_4"));
+                        compartment_5.setText(jsonObject_data.getString("compartment_5"));
+                        compartment_6.setText(jsonObject_data.getString("compartment_6"));
+                        indate.setText(jsonObject_data.getString("indate"));
+                        delivery_date.setText(jsonObject_data.getString("delivery_date"));
+                        if(jsonObject_data.getString("spare_wheel").equals("1"))
+                            spare_wheel.setChecked(true);
+                        if(jsonObject_data.getString("jack").equals("1"))
+                            jack.setChecked(true);
+                        if(jsonObject_data.getString("jack_rod").equals("1"))
+                            jack_rod.setChecked(true);
+                        if(jsonObject_data.getString("tool_kit").equals("1"))
+                            tool_kit.setChecked(true);
+                        if(jsonObject_data.getString("back_sensors").equals("1"))
+                            back_sensors.setChecked(true);
+                        if(jsonObject_data.getString("reflector").equals("1"))
+                            reflector.setChecked(true);
+                        if(jsonObject_data.getString("cabin_fire_extingusher").equals("1"))
+                            cabin_fire_extingusher.setChecked(true);
+                        if(jsonObject_data.getString("rear_lights").equals("1"))
+                            rear_lights.setChecked(true);
+                        if(jsonObject_data.getString("battery_serial_no").equals("1"))
+                            battery_serial_number.setChecked(true);
+                        if(jsonObject_data.getString("fire_extinguisher").equals("1"))
+                            fire_extinguisher_yes.setChecked(true);
+                        if(jsonObject_data.getString("dip_rod").equals("1"))
+                            dip_rod_yes.setChecked(true);
+                        if(jsonObject_data.getString("delivery_hose").equals("1"))
+                            delivery_hose_yes.setChecked(true);
+                        if(jsonObject_data.getString("parking_cone").equals("1"))
+                            parking_cone_yes.setChecked(true);
+                        String[] img_file = jsonObject_data.getString("img_file").split(",");
+                        get_filename = jsonObject_data.getString("img_file");
+                        txt_sno = jsonObject_data.getString("vehicle_sno");
+                        checklist_sno = jsonObject_data.getString("checklist");
+                        compartment_sno = jsonObject_data.getString("compartment_sno");
+                        //Toast.makeText(getActivity(),txt_sno, Toast.LENGTH_SHORT).show();
+
+                        for(int i=0; i< img_file.length; i++){
+
+                            if(i == 0){
+                                String url = "http://3.222.104.176/assets/vehiclein/" + img_file[0];
+                                imageview_1.setVisibility(View.VISIBLE);
+                                imageview_2.setVisibility(View.VISIBLE);
+                                imageview_1.setImageBitmap(getBitmapFromURL(url));
+                            }else if(i == 1){
+                                String url = "http://3.222.104.176/assets/vehiclein/" + img_file[1];
+                                imageview_1.setVisibility(View.VISIBLE);
+                                imageview_2.setVisibility(View.VISIBLE);
+                                imageview_2.setImageBitmap(getBitmapFromURL(url));
+                            }else if(i == 2){
+                                String url = "http://3.222.104.176/assets/vehiclein/" + img_file[2];
+                                imageview_3.setVisibility(View.VISIBLE);
+                                imageview_4.setVisibility(View.VISIBLE);
+                                imageview_3.setImageBitmap(getBitmapFromURL(url));
+                            }else if(i == 3){
+                                String url = "http://3.222.104.176/assets/vehiclein/" + img_file[3];
+                                imageview_3.setVisibility(View.VISIBLE);
+                                imageview_4.setVisibility(View.VISIBLE);
+                                imageview_4.setImageBitmap(getBitmapFromURL(url));
+                            }else if(i == 4){
+                                String url = "http://3.222.104.176/assets/vehiclein/" + img_file[4];
+                                imageview_5.setVisibility(View.VISIBLE);
+                                imageview_6.setVisibility(View.VISIBLE);
+                                imageview_5.setImageBitmap(getBitmapFromURL(url));
+                            }else if(i == 5){
+                                String url = "http://3.222.104.176/assets/vehiclein/" + img_file[5];
+                                imageview_5.setVisibility(View.VISIBLE);
+                                imageview_6.setVisibility(View.VISIBLE);
+                                imageview_6.setImageBitmap(getBitmapFromURL(url));
+                            }
+                        }
+
+                        progressDialog.dismiss();
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+
+                hashMap.put("serial_no", serial_no);
+                hashMap.put("user_id", user_id);
+
+                finalResult = httpParse.postRequest(hashMap, HttpURLGet);
+
+                System.out.println(finalResult);
+
+                return finalResult;
+            }
+        }
+
+        GetVehicleDataClass getVehicleDataClass = new GetVehicleDataClass();
+        getVehicleDataClass.execute();
+    }
+
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            Log.e("src",src);
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            Log.e("Bitmap","returned");
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("Exception",e.getMessage());
+            return null;
+        }
     }
 
     @SuppressLint("Range")
@@ -802,7 +1016,13 @@ public class HomeFragment<array_uri> extends Fragment {
 
                                     //Toast.makeText(getActivity(),txt_compdistri, Toast.LENGTH_LONG).show();
 
-                                    Navigation.findNavController(view).navigate(R.id.nav_planning);
+                                    if(!serial_no.equals("")){
+                                        Navigation.findNavController(view).navigate(R.id.nav_dashboard);
+                                    }else{
+                                        Navigation.findNavController(view).navigate(R.id.nav_planning);
+                                    }
+
+                                    //Navigation.findNavController(view).navigate(R.id.nav_planning);
 
 
 //                                    filename.setText("");
@@ -834,6 +1054,7 @@ public class HomeFragment<array_uri> extends Fragment {
                     params.put("category", txt_category);
                     params.put("make", txt_make);
                     params.put("model", txt_model);
+                    params.put("bs_type", txt_bs_type);
                     params.put("wheelbase", txt_wheelbase);
                     params.put("ladenwgt", txt_ladenwgt);
                     params.put("unladenwgt", txt_unladenwgt);
@@ -883,6 +1104,10 @@ public class HomeFragment<array_uri> extends Fragment {
                     params.put("compartment_4", txt_compartment_4);
                     params.put("compartment_5", txt_compartment_5);
                     params.put("compartment_6", txt_compartment_6);
+                    params.put("sno", txt_sno);
+                    params.put("serial_no", serial_no);
+                    params.put("checklist_sno", checklist_sno);
+                    params.put("compartment_sno", compartment_sno);
 
                     return params;
                 }

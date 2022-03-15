@@ -37,7 +37,7 @@ public class DashboardFragment extends Fragment {
     ProgressDialog progressDialog;
     String user_id = "";
     String finalResult;
-    public static final String MyPREFERENCES = "VehicleSteps";
+    public static final String MyPREFERENCES = "Dashboard";
     SharedPreferences sp_vehicle;
 
     @Override
@@ -46,6 +46,9 @@ public class DashboardFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
         sp_vehicle = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+        SharedPreferences preferences = getActivity().getSharedPreferences("Dashboard", 0);
+        preferences.edit().remove("serial_no").commit();
 
         serial_list = root.findViewById(R.id.list);
 
@@ -103,7 +106,7 @@ public class DashboardFragment extends Fragment {
 
                         for(int i = 0; i<json_data.length(); i++){
                             JSONObject obj_drawing = new JSONObject(json_data.getString(i));
-                            System.out.println(obj_drawing.getString("serial_no"));
+                            //System.out.println(obj_drawing.getString("serial_no"));
                             drawing_list.add(obj_drawing.getString("serial_no"));
                         }
 

@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,6 +76,37 @@ public class VehicleStepsFragment extends Fragment {
 
         txt_serial_no.setText(serial_no);
         //Toast.makeText(getActivity(),serial_no, Toast.LENGTH_SHORT).show();
+
+        btn_vehicle_in.setOnClickListener(view -> {
+            Navigation.findNavController(view).navigate(R.id.nav_vehiclein);
+        });
+        btn_planning.setOnClickListener(view -> {
+            Navigation.findNavController(view).navigate(R.id.nav_planning);
+        });
+        btn_tank_fabrication.setOnClickListener(view -> {
+            Navigation.findNavController(view).navigate(R.id.nav_tankfab);
+        });
+        btn_fittings_pre_test.setOnClickListener(view -> {
+            Navigation.findNavController(view).navigate(R.id.nav_fitting);
+        });
+        btn_leak_test.setOnClickListener(view -> {
+            Navigation.findNavController(view).navigate(R.id.nav_leaktest);
+        });
+        btn_post_test_fittings.setOnClickListener(view -> {
+            Navigation.findNavController(view).navigate(R.id.nav_post_test);
+        });
+        btn_checklist_a.setOnClickListener(view -> {
+            Navigation.findNavController(view).navigate(R.id.nav_checklista);
+        });
+        btn_coloring.setOnClickListener(view -> {
+            Navigation.findNavController(view).navigate(R.id.nav_coloring);
+        });
+        btn_touch_up_stage.setOnClickListener(view -> {
+            Navigation.findNavController(view).navigate(R.id.nav_touchup);
+        });
+        btn_checklist_pre_delivery.setOnClickListener(view -> {
+            Navigation.findNavController(view).navigate(R.id.nav_checklistpredelivery);
+        });
 
         return root;
     }
