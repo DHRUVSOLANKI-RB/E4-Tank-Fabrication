@@ -54,14 +54,16 @@ public class TankFabFragment extends Fragment {
     TextView mounted_date_text,assigned_date_text;
     EditText from,to,authorised_by,assigned_to,received_by;
     RadioGroup rg_die_availability,rg_drawing_clear,rg_material_received,rg_cardel_support;
-    RadioButton die_availability,drawing_clear,material_received,cardel_support;
+    RadioButton die_availability,drawing_clear,material_received,cardel_support,die_availability_yes,drawing_clear_yes,material_received_yes,cardel_support_yes;
     String txt_die_availability = "",txt_drawing_clear = "",txt_material_received = "",txt_cardel_support = "", txt_mounted_date = "",txt_assigned_date = "",
-            txt_from = "", txt_to = "",txt_authorised_by = "",txt_assigned_to = "",txt_received_by = "",user_id = "",vehicle_unid = "";
+            txt_from = "", txt_to = "",txt_authorised_by = "",txt_assigned_to = "",txt_received_by = "",user_id = "",vehicle_unid = "",txt_sno = "";
     String HttpURL = "http://3.222.104.176/index.php/tankfab";
+    String HttpURLGetPlanning = "http://3.222.104.176/index.php/gettankfabdata";
     HashMap<String, String> hashMap = new HashMap<>();
     com.example.e4.HttpParse httpParse = new com.example.e4.HttpParse();
     ProgressDialog progressDialog;
     String finalResult;
+    String finalResult_GetPlanning;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,6 +86,10 @@ public class TankFabFragment extends Fragment {
         authorised_by = root.findViewById(R.id.authorised_by);
         assigned_to = root.findViewById(R.id.assigned_to);
         received_by = root.findViewById(R.id.received_by);
+        die_availability_yes = root.findViewById(R.id.die_availability_yes);
+        drawing_clear_yes = root.findViewById(R.id.drawing_clear_yes);
+        material_received_yes = root.findViewById(R.id.material_received_yes);
+        cardel_support_yes = root.findViewById(R.id.cardel_support_yes);
 
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
@@ -135,11 +141,18 @@ public class TankFabFragment extends Fragment {
             Navigation.findNavController(view).navigate(R.id.nav_planning);
         });
 
-        SharedPreferences sharedpreferences = getActivity().getSharedPreferences(HomeFragment.MyPREFERENCES, Context.MODE_PRIVATE);
-        vehicle_unid = sharedpreferences.getString("unid","");
+        SharedPreferences sharedpreferences = getActivity().getSharedPreferences(VehicleStepsFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+        vehicle_unid = sharedpreferences.getString("vehicle_unid","");
 
         SharedPreferences sharedpreferences_1 = getActivity().getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
         user_id = sharedpreferences_1.getString("user_id","");
+
+        if(!vehicle_unid.equals("")){
+            //Toast.makeText(getActivity(),vehicle_unid, Toast.LENGTH_SHORT).show();
+            GetPlanningData();
+        }else{
+            //Toast.makeText(getActivity(),"empty", Toast.LENGTH_SHORT).show();
+        }
 
         next_tankfeb.setOnClickListener(view -> {
 
@@ -178,6 +191,79 @@ public class TankFabFragment extends Fragment {
         return root;
     }
 
+    public void GetPlanningData() {
+
+        class GetPlanningDataClass extends AsyncTask<String, Void, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                progressDialog = ProgressDialog.show(getActivity(), "Loading", null, true, true);
+            }
+
+            @Override
+            protected void onPostExecute(String httpResponseMsg) {
+
+                super.onPostExecute(httpResponseMsg);
+
+                //progressDialog.dismiss();
+
+                //Toast.makeText(getActivity(),httpResponseMsg, Toast.LENGTH_LONG).show();
+
+                try {
+                    JSONObject jsonObject = new JSONObject(httpResponseMsg);
+
+                    if (jsonObject.getString("status").equals("success")){
+
+                        JSONObject jsonObject_data = new JSONObject(jsonObject.getString("data"));
+
+                        System.out.println(jsonObject_data);
+
+                        if(jsonObject_data.getString("die_availability").equals("1"))
+                            die_availability_yes.setChecked(true);
+                        if(jsonObject_data.getString("drawing_clear").equals("1"))
+                            drawing_clear_yes.setChecked(true);
+                        if(jsonObject_data.getString("material_received").equals("1"))
+                            material_received_yes.setChecked(true);
+                        if(jsonObject_data.getString("cardel_support").equals("1"))
+                            cardel_support_yes.setChecked(true);
+                        mounted_date_text.setText(jsonObject_data.getString("mounted_date"));
+                        from.setText(jsonObject_data.getString("gp_from"));
+                        to.setText(jsonObject_data.getString("gp_to"));
+                        authorised_by.setText(jsonObject_data.getString("authorised_by"));
+                        assigned_to.setText(jsonObject_data.getString("assigned_to"));
+                        assigned_date_text.setText(jsonObject_data.getString("assigned_date"));
+                        received_by.setText(jsonObject_data.getString("received_by"));
+                        txt_sno = jsonObject_data.getString("sno");
+
+                        progressDialog.dismiss();
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+
+                hashMap.put("vehicle_unid", vehicle_unid);
+
+                finalResult_GetPlanning = httpParse.postRequest(hashMap, HttpURLGetPlanning);
+
+                System.out.println(finalResult_GetPlanning);
+
+                return finalResult_GetPlanning;
+            }
+        }
+
+        GetPlanningDataClass getPlanningDataClass = new GetPlanningDataClass();
+        getPlanningDataClass.execute();
+    }
+
     public void UserLoginFunction(View view) {
 
         class UserLoginClass extends AsyncTask<String, Void, String> {
@@ -213,7 +299,11 @@ public class TankFabFragment extends Fragment {
 
                                 createPdf();
 
-                                Navigation.findNavController(view).navigate(R.id.nav_fitting);
+                                if(!vehicle_unid.equals("")){
+                                    Navigation.findNavController(view).navigate(R.id.nav_dashboard);
+                                }else{
+                                    Navigation.findNavController(view).navigate(R.id.nav_fitting);
+                                }
 
 
 //                                    filename.setText("");
@@ -251,6 +341,7 @@ public class TankFabFragment extends Fragment {
                 hashMap.put("assigned_date", txt_assigned_date);
                 hashMap.put("received_by", txt_received_by);
                 hashMap.put("vehicle_unid", vehicle_unid);
+                hashMap.put("sno", txt_sno);
 
                 finalResult = httpParse.postRequest(hashMap, HttpURL);
 
