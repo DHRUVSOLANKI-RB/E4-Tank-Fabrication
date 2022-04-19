@@ -54,7 +54,8 @@ public class PlanningFragment extends Fragment {
     RadioButton die_availability,cutting_bending,die_availability_yes,cutting_bending_released;
     CheckBox tank_fabrication,fittings,other_accessories,need_to_apply;
     String txt_drawing_no = "",txt_need_to_apply = "",txt_payment_confirmation = "",txt_cutting_remarks = "", txt_team_name = "",txt_remarks = "",txt_die_availability = "",
-            txt_cutting_bending = "",txt_tank_fabrication = "",txt_fittings = "",txt_other_accessories = "",vehicle_unid = "",txt_team_date = "",user_id = "",txt_sno = "";
+            txt_cutting_bending = "",txt_tank_fabrication = "",txt_fittings = "",txt_other_accessories = "",vehicle_unid = "",txt_team_date = "",user_id = "",txt_sno = "",
+            serial_no = "";
     String HttpURL = "http://3.222.104.176/index.php/planning";
     String HttpURLGet = "http://3.222.104.176/index.php/getdrawing";
     String HttpURLGetPlanning = "http://3.222.104.176/index.php/getplanningdata";
@@ -122,13 +123,18 @@ public class PlanningFragment extends Fragment {
         SharedPreferences sharedpreferences_1 = getActivity().getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
         user_id = sharedpreferences_1.getString("user_id","");
 
+        SharedPreferences sharedpreferences_3 = getActivity().getSharedPreferences(DashboardFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+        serial_no = sharedpreferences_3.getString("serial_no","");
+
         GetDrawing();
 
-        if(!vehicle_unid.equals("")){
+        if(!serial_no.equals("")){
             //Toast.makeText(getActivity(),vehicle_unid, Toast.LENGTH_SHORT).show();
             GetPlanningData();
         }else{
             //Toast.makeText(getActivity(),"empty", Toast.LENGTH_SHORT).show();
+            SharedPreferences sharedpreferences2 = getActivity().getSharedPreferences(HomeFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+            vehicle_unid = sharedpreferences2.getString("unid","");
         }
 
         //Toast.makeText(getContext().getApplicationContext(), vehicle_unid, Toast.LENGTH_SHORT).show();
@@ -219,6 +225,9 @@ public class PlanningFragment extends Fragment {
 
                         progressDialog.dismiss();
 
+                    }else if (jsonObject.getString("status").equals("error")) {
+
+                        progressDialog.dismiss();
                     }
 
                 } catch (JSONException e) {
@@ -344,7 +353,7 @@ public class PlanningFragment extends Fragment {
 
                                 //Navigation.findNavController(view).navigate(R.id.nav_tankfab);
 
-                                if(!vehicle_unid.equals("")){
+                                if(!serial_no.equals("")){
                                     Navigation.findNavController(view).navigate(R.id.nav_dashboard);
                                 }else{
                                     Navigation.findNavController(view).navigate(R.id.nav_tankfab);

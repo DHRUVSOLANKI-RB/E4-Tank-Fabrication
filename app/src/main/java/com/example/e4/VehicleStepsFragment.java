@@ -3,6 +3,7 @@ package com.example.e4;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -148,40 +149,88 @@ public class VehicleStepsFragment extends Fragment {
 
                         System.out.println(json_data);
 
+                        String laststep = "";
+
                         for(int i = 0; i<json_data.length(); i++){
                             if (json_data.getString(i).equals("planning")){
-                                //System.out.println("planning");
+
+                                btn_planning.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                                btn_planning.setTextColor(Color.WHITE);
                                 layout_planning.setVisibility(View.VISIBLE);
-                            }else if (json_data.getString(i).equals("tankfab")){
-                                //System.out.println("tankfab");
                                 layout_tank_fabrication.setVisibility(View.VISIBLE);
-                            }else if (json_data.getString(i).equals("fitting")){
-                                //System.out.println("fitting");
+                                btn_tank_fabrication.setBackgroundColor(Color.LTGRAY);
+                                btn_tank_fabrication.setTextColor(Color.BLACK);
+                            }else if (json_data.getString(i).equals("tankfab")){
+
+                                btn_tank_fabrication.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                                btn_tank_fabrication.setTextColor(Color.WHITE);
+                                layout_tank_fabrication.setVisibility(View.VISIBLE);
                                 layout_fittings_pre_test.setVisibility(View.VISIBLE);
-                            }else if (json_data.getString(i).equals("leak_test")){
-                                //System.out.println("leak_test");
+                                btn_fittings_pre_test.setBackgroundColor(Color.LTGRAY);
+                                btn_fittings_pre_test.setTextColor(Color.BLACK);
+                            }else if (json_data.getString(i).equals("fitting")){
+
+                                btn_fittings_pre_test.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                                btn_fittings_pre_test.setTextColor(Color.WHITE);
+                                layout_fittings_pre_test.setVisibility(View.VISIBLE);
                                 layout_leak_test.setVisibility(View.VISIBLE);
-                            }else if (json_data.getString(i).equals("post_test")){
-                                //System.out.println("post_test");
+                                btn_leak_test.setBackgroundColor(Color.LTGRAY);
+                                btn_leak_test.setTextColor(Color.BLACK);
+                            }else if (json_data.getString(i).equals("leak_test")){
+
+                                btn_leak_test.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                                btn_leak_test.setTextColor(Color.WHITE);
+                                layout_leak_test.setVisibility(View.VISIBLE);
                                 layout_post_test_fittings.setVisibility(View.VISIBLE);
-                            }else if (json_data.getString(i).equals("checklist_a")){
-                                //System.out.println("checklist_a");
+                                btn_post_test_fittings.setBackgroundColor(Color.LTGRAY);
+                                btn_post_test_fittings.setTextColor(Color.BLACK);
+                            }else if (json_data.getString(i).equals("post_test")){
+
+                                btn_post_test_fittings.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                                btn_post_test_fittings.setTextColor(Color.WHITE);
+                                layout_post_test_fittings.setVisibility(View.VISIBLE);
                                 layout_checklist_a.setVisibility(View.VISIBLE);
-                            }else if (json_data.getString(i).equals("coloring")){
-                                //System.out.println("coloring");
+                                btn_checklist_a.setBackgroundColor(Color.LTGRAY);
+                                btn_checklist_a.setTextColor(Color.BLACK);
+                            }else if (json_data.getString(i).equals("checklist_a")){
+
+                                btn_checklist_a.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                                btn_checklist_a.setTextColor(Color.WHITE);
+                                layout_checklist_a.setVisibility(View.VISIBLE);
                                 layout_coloring.setVisibility(View.VISIBLE);
-                            }else if (json_data.getString(i).equals("touchup")){
-                                //System.out.println("touchup");
+                                btn_coloring.setBackgroundColor(Color.LTGRAY);
+                                btn_coloring.setTextColor(Color.BLACK);
+                            }else if (json_data.getString(i).equals("coloring")){
+
+                                btn_coloring.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                                btn_coloring.setTextColor(Color.WHITE);
+                                layout_coloring.setVisibility(View.VISIBLE);
                                 layout_touch_up_stage.setVisibility(View.VISIBLE);
+                                btn_touch_up_stage.setBackgroundColor(Color.LTGRAY);
+                                btn_touch_up_stage.setTextColor(Color.BLACK);
+                            }else if (json_data.getString(i).equals("touchup")){
+
+                                btn_touch_up_stage.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                                btn_touch_up_stage.setTextColor(Color.WHITE);
+                                layout_touch_up_stage.setVisibility(View.VISIBLE);
+                                layout_checklist_pre_delivery.setVisibility(View.VISIBLE);
+                                btn_checklist_pre_delivery.setBackgroundColor(Color.LTGRAY);
+                                btn_checklist_pre_delivery.setTextColor(Color.BLACK);
                             }else if (json_data.getString(i).equals("checkpredelivery")){
-                                //System.out.println("checkpredelivery");
+
+                                btn_checklist_pre_delivery.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                                btn_checklist_pre_delivery.setTextColor(Color.WHITE);
                                 layout_checklist_pre_delivery.setVisibility(View.VISIBLE);
                             }else if (json_data.getString(i).equals("")){
-                                //System.out.println("checkpredelivery");
+
                                 layout_planning.setVisibility(View.VISIBLE);
+                                btn_planning.setBackgroundColor(Color.LTGRAY);
+                                btn_planning.setTextColor(Color.BLACK);
                             }
 
                             System.out.println(json_data.getString(i));
+
+                            laststep = json_data.getString(i);
                         }
                     }
 

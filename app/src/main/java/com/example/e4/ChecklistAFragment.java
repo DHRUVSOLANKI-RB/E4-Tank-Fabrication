@@ -30,13 +30,15 @@ public class ChecklistAFragment extends Fragment {
 
     String txt_line_box = "",txt_lever_box = "",txt_fire_screen = "",txt_u_bolts = "",txt_mud_guards = "",txt_hose_pipe_stand = "",txt_fire_ext_stand = "",
             txt_dip_rod_stand = "",txt_earthing = "",txt_locking = "",txt_dip_plate = "",txt_tank_cleaning = "",txt_shutoff_valve = "",txt_safety_fitting = "",
-            txt_top_cover = "",txt_gasket = "",txt_grinding_release = "",vehicle_unid = "";
+            txt_top_cover = "",txt_gasket = "",txt_grinding_release = "",vehicle_unid = "",serial_no = "",txt_sno = "";
 
     String HttpURL = "http://3.222.104.176/index.php/checklista";
+    String HttpURLGetChecklistA = "http://3.222.104.176/index.php/getchecklistadata";
     HashMap<String, String> hashMap = new HashMap<>();
     com.example.e4.HttpParse httpParse = new com.example.e4.HttpParse();
     ProgressDialog progressDialog;
     String finalResult;
+    String finalResult_GetChecklistA;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,8 +71,20 @@ public class ChecklistAFragment extends Fragment {
             Navigation.findNavController(view).navigate(R.id.nav_post_test);
         });
 
-        SharedPreferences sharedpreferences = getActivity().getSharedPreferences(HomeFragment.MyPREFERENCES, Context.MODE_PRIVATE);
-        vehicle_unid = sharedpreferences.getString("unid","");
+        SharedPreferences sharedpreferences_2 = getActivity().getSharedPreferences(VehicleStepsFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+        vehicle_unid = sharedpreferences_2.getString("vehicle_unid","");
+
+        SharedPreferences sharedpreferences_1 = getActivity().getSharedPreferences(DashboardFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+        serial_no = sharedpreferences_1.getString("serial_no","");
+
+        if(!serial_no.equals("")){
+            //Toast.makeText(getActivity(),vehicle_unid, Toast.LENGTH_SHORT).show();
+            GetChecklistAData();
+        }else{
+            //Toast.makeText(getActivity(),"empty", Toast.LENGTH_SHORT).show();
+            SharedPreferences sharedpreferences = getActivity().getSharedPreferences(HomeFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+            vehicle_unid = sharedpreferences.getString("unid","");
+        }
 
         next_posttest.setOnClickListener(view -> {
 
@@ -116,6 +130,102 @@ public class ChecklistAFragment extends Fragment {
         return root;
     }
 
+    public void GetChecklistAData() {
+
+        class GetChecklistADataClass extends AsyncTask<String, Void, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                progressDialog = ProgressDialog.show(getActivity(), "Loading", null, true, true);
+            }
+
+            @Override
+            protected void onPostExecute(String httpResponseMsg) {
+
+                super.onPostExecute(httpResponseMsg);
+
+                //progressDialog.dismiss();
+
+                //Toast.makeText(getActivity(),httpResponseMsg, Toast.LENGTH_LONG).show();
+
+                try {
+                    JSONObject jsonObject = new JSONObject(httpResponseMsg);
+
+                    if (jsonObject.getString("status").equals("success")){
+
+                        JSONObject jsonObject_data = new JSONObject(jsonObject.getString("data"));
+
+                        System.out.println(jsonObject_data);
+
+                        if(jsonObject_data.getString("line_box").equals("1"))
+                            line_box.setChecked(true);
+                        if(jsonObject_data.getString("lever_box").equals("1"))
+                            lever_box.setChecked(true);
+                        if(jsonObject_data.getString("fire_screen").equals("1"))
+                            fire_screen.setChecked(true);
+                        if(jsonObject_data.getString("u_bolts").equals("1"))
+                            u_bolts.setChecked(true);
+                        if(jsonObject_data.getString("mud_guards").equals("1"))
+                            mud_guards.setChecked(true);
+                        if(jsonObject_data.getString("hose_pipe_stand").equals("1"))
+                            hose_pipe_stand.setChecked(true);
+                        if(jsonObject_data.getString("fire_ext_stand").equals("1"))
+                            fire_ext_stand.setChecked(true);
+                        if(jsonObject_data.getString("dip_rod_stand").equals("1"))
+                            dip_rod_stand.setChecked(true);
+                        if(jsonObject_data.getString("earthing").equals("1"))
+                            earthing.setChecked(true);
+                        if(jsonObject_data.getString("locking").equals("1"))
+                            locking.setChecked(true);
+                        if(jsonObject_data.getString("dip_plate").equals("1"))
+                            dip_plate.setChecked(true);
+                        if(jsonObject_data.getString("tank_cleaning").equals("1"))
+                            tank_cleaning.setChecked(true);
+                        if(jsonObject_data.getString("shutoff_valve").equals("1"))
+                            shutoff_valve.setChecked(true);
+                        if(jsonObject_data.getString("safety_fitting").equals("1"))
+                            safety_fitting.setChecked(true);
+                        if(jsonObject_data.getString("top_cover").equals("1"))
+                            top_cover.setChecked(true);
+                        if(jsonObject_data.getString("gasket").equals("1"))
+                            gasket.setChecked(true);
+                        if(jsonObject_data.getString("grinding_release").equals("1"))
+                            grinding_release.setChecked(true);
+
+                        txt_sno = jsonObject_data.getString("sno");
+
+                        progressDialog.dismiss();
+
+                    }else if (jsonObject.getString("status").equals("error")) {
+
+                        progressDialog.dismiss();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+
+                hashMap.put("vehicle_unid", vehicle_unid);
+
+                finalResult_GetChecklistA = httpParse.postRequest(hashMap, HttpURLGetChecklistA);
+
+                System.out.println(finalResult_GetChecklistA);
+
+                return finalResult_GetChecklistA;
+            }
+        }
+
+        GetChecklistADataClass getChecklistADataClass = new GetChecklistADataClass();
+        getChecklistADataClass.execute();
+    }
+
     public void UserLoginFunction(View view) {
 
         class UserLoginClass extends AsyncTask<String, Void, String> {
@@ -149,7 +259,11 @@ public class ChecklistAFragment extends Fragment {
 
                                 progressDialog.dismiss();
 
-                                Navigation.findNavController(view).navigate(R.id.nav_coloring);
+                                if(!serial_no.equals("")){
+                                    Navigation.findNavController(view).navigate(R.id.nav_dashboard);
+                                }else{
+                                    Navigation.findNavController(view).navigate(R.id.nav_coloring);
+                                }
 
 //                                    filename.setText("");
 //                                    txt_rdsospecs.getText().clear();
@@ -192,6 +306,7 @@ public class ChecklistAFragment extends Fragment {
                 hashMap.put("gasket", txt_gasket);
                 hashMap.put("grinding_release", txt_grinding_release);
                 hashMap.put("vehicle_unid", vehicle_unid);
+                hashMap.put("sno", txt_sno);
 
                 finalResult = httpParse.postRequest(hashMap, HttpURL);
 

@@ -80,7 +80,7 @@
     <fragment
         android:id="@+id/nav_checklistpredelivery"
         android:name="com.example.e4.CheckistPreDeliveryFragment"
-        android:label="@string/checklist_pre_delivery"
+        android:label=  "@string/checklist_pre_delivery"
         tools:layout="@layout/fragment_checkist_pre_delivery" />
 
 </navigation>

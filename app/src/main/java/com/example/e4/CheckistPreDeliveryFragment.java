@@ -27,14 +27,16 @@ import java.util.HashMap;
 public class CheckistPreDeliveryFragment extends Fragment {
 
     String HttpURL = "http://3.222.104.176/index.php/checklistpredelivery";
+    String HttpURLGetChecklistPre = "http://3.222.104.176/index.php/getchecklistpredeliverydata";
     HashMap<String, String> hashMap = new HashMap<>();
     com.example.e4.HttpParse httpParse = new com.example.e4.HttpParse();
     ProgressDialog progressDialog;
     String finalResult;
+    String finalResult_GetChecklistPre;
     
     CheckBox tank_mounting,safety_fittings,valve_lever,locking,color,sticker,number_plates,accessories;
     String txt_tank_mounting = "",txt_safety_fittings = "",txt_valve_lever = "",txt_locking = "",txt_color = "",txt_sticker = "",txt_number_plates = "",
-            txt_accessories = "",vehicle_unid = "";
+            txt_accessories = "",vehicle_unid = "",serial_no = "",txt_sno = "";
     
     
     @Override
@@ -59,8 +61,20 @@ public class CheckistPreDeliveryFragment extends Fragment {
             Navigation.findNavController(view).navigate(R.id.nav_touchup);
         });
 
-        SharedPreferences sharedpreferences = getActivity().getSharedPreferences(HomeFragment.MyPREFERENCES, Context.MODE_PRIVATE);
-        vehicle_unid = sharedpreferences.getString("unid","");
+        SharedPreferences sharedpreferences_2 = getActivity().getSharedPreferences(VehicleStepsFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+        vehicle_unid = sharedpreferences_2.getString("vehicle_unid","");
+
+        SharedPreferences sharedpreferences_1 = getActivity().getSharedPreferences(DashboardFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+        serial_no = sharedpreferences_1.getString("serial_no","");
+
+        if(!serial_no.equals("")){
+            //Toast.makeText(getActivity(),vehicle_unid, Toast.LENGTH_SHORT).show();
+            GetChecklistPreData();
+        }else{
+            //Toast.makeText(getActivity(),"empty", Toast.LENGTH_SHORT).show();
+            SharedPreferences sharedpreferences = getActivity().getSharedPreferences(HomeFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+            vehicle_unid = sharedpreferences.getString("unid","");
+        }
 
         next_predelivery.setOnClickListener(view -> {
 
@@ -85,6 +99,84 @@ public class CheckistPreDeliveryFragment extends Fragment {
         });
 
         return root;
+    }
+
+    public void GetChecklistPreData() {
+
+        class GetChecklistPreDataClass extends AsyncTask<String, Void, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                progressDialog = ProgressDialog.show(getActivity(), "Loading", null, true, true);
+            }
+
+            @Override
+            protected void onPostExecute(String httpResponseMsg) {
+
+                super.onPostExecute(httpResponseMsg);
+
+                //progressDialog.dismiss();
+
+                //Toast.makeText(getActivity(),httpResponseMsg, Toast.LENGTH_LONG).show();
+
+                try {
+                    JSONObject jsonObject = new JSONObject(httpResponseMsg);
+
+                    if (jsonObject.getString("status").equals("success")){
+
+                        JSONObject jsonObject_data = new JSONObject(jsonObject.getString("data"));
+
+                        System.out.println(jsonObject_data);
+
+                        if(jsonObject_data.getString("tank_mounting").equals("1"))
+                            tank_mounting.setChecked(true);
+                        if(jsonObject_data.getString("safety_fittings").equals("1"))
+                            safety_fittings.setChecked(true);
+                        if(jsonObject_data.getString("valve_lever").equals("1"))
+                            valve_lever.setChecked(true);
+                        if(jsonObject_data.getString("locking").equals("1"))
+                            locking.setChecked(true);
+                        if(jsonObject_data.getString("color").equals("1"))
+                            color.setChecked(true);
+                        if(jsonObject_data.getString("sticker").equals("1"))
+                            sticker.setChecked(true);
+                        if(jsonObject_data.getString("number_plates").equals("1"))
+                            number_plates.setChecked(true);
+                        if(jsonObject_data.getString("accessories").equals("1"))
+                            accessories.setChecked(true);
+
+                        txt_sno = jsonObject_data.getString("sno");
+
+                        progressDialog.dismiss();
+
+                    }else if (jsonObject.getString("status").equals("error")) {
+
+                        progressDialog.dismiss();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+
+                hashMap.put("vehicle_unid", vehicle_unid);
+
+                finalResult_GetChecklistPre = httpParse.postRequest(hashMap, HttpURLGetChecklistPre);
+
+                System.out.println(finalResult_GetChecklistPre);
+
+                return finalResult_GetChecklistPre;
+            }
+        }
+
+        GetChecklistPreDataClass getChecklistPreDataClass = new GetChecklistPreDataClass();
+        getChecklistPreDataClass.execute();
     }
 
     public void UserLoginFunction(View view) {
@@ -120,7 +212,12 @@ public class CheckistPreDeliveryFragment extends Fragment {
 
                                 progressDialog.dismiss();
 
-                                Navigation.findNavController(view).navigate(R.id.nav_checklistpredelivery);
+                                //Navigation.findNavController(view).navigate(R.id.nav_checklistpredelivery);
+                                if(!serial_no.equals("")){
+                                    Navigation.findNavController(view).navigate(R.id.nav_dashboard);
+                                }else{
+                                    Navigation.findNavController(view).navigate(R.id.nav_checklistpredelivery);
+                                }
 
 //                                    filename.setText("");
 //                                    txt_rdsospecs.getText().clear();
@@ -154,6 +251,7 @@ public class CheckistPreDeliveryFragment extends Fragment {
                 hashMap.put("number_plates", txt_number_plates);
                 hashMap.put("accessories", txt_accessories);
                 hashMap.put("vehicle_unid", vehicle_unid);
+                hashMap.put("sno", txt_sno);
 
                 finalResult = httpParse.postRequest(hashMap, HttpURL);
 

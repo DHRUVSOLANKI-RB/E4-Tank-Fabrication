@@ -156,6 +156,7 @@ public class HomeFragment<array_uri> extends Fragment {
     HashMap<String, String> hashMap = new HashMap<>();
     com.example.e4.HttpParse httpParse = new com.example.e4.HttpParse();
     String finalResult;
+    String loop_status = "";
 
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -391,10 +392,10 @@ public class HomeFragment<array_uri> extends Fragment {
         serial_no = sharedpreferences_1.getString("serial_no","");
 
         if(!serial_no.equals("")){
-            Toast.makeText(getActivity(),serial_no, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(),serial_no, Toast.LENGTH_SHORT).show();
             GetVehicleData();
         }else{
-            Toast.makeText(getActivity(),"empty", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(),"empty", Toast.LENGTH_SHORT).show();
         }
 
         upload.setOnClickListener(view -> {
@@ -483,7 +484,7 @@ public class HomeFragment<array_uri> extends Fragment {
 
                 progressDialog = ProgressDialog.show(getContext(), "Loading Data", null, true, true);
 
-                count_loop = 0;
+                count_loop = array_file_uri.size();
 
                 if(array_file_uri.isEmpty()){
                     System.out.println("empty");
@@ -497,8 +498,18 @@ public class HomeFragment<array_uri> extends Fragment {
 
                     Map.Entry pair = (Map.Entry) it.next();
 
+//                    if(count_loop == 1){
+//                        loop_status = "end";
+//                    }else{
+//                        loop_status = "start";
+//                    }
+//                    System.out.println(count_loop);
+//                    System.out.println(loop_status);
+
                     uploadPDF(pair.getKey().toString(), Uri.parse(pair.getValue().toString()), view);
                     it.remove();
+
+                    count_loop--;
                 }
 
             } else {
@@ -997,47 +1008,42 @@ public class HomeFragment<array_uri> extends Fragment {
                     try {
                         JSONObject jsonObject = new JSONObject(new String(response.data));
 
-                        new MaterialAlertDialogBuilder(getContext()).setTitle(jsonObject.getString("statusMessage")).setPositiveButton("Ok", (dialogInterface, i) -> {
+                        if(!jsonObject.getString("status").equals("skipping")){
 
-                            String error = null;
-                            try {
-                                error = jsonObject.getString("status");
+                            new MaterialAlertDialogBuilder(getContext()).setTitle(jsonObject.getString("statusMessage")).setPositiveButton("Ok", (dialogInterface, i) -> {
 
-                                if (error.equals("success")) {
+                                String error = null;
+                                try {
+                                    error = jsonObject.getString("status");
 
-                                    progressDialog.dismiss();
+                                    if (error.equals("success")) {
 
-                                    get_filename = "";
+                                        progressDialog.dismiss();
 
-                                    SharedPreferences.Editor editor = sp_vehicle.edit();
-                                    editor.putString("unid", jsonObject.getString("unid"));
-                                    editor.putString("compdistri", txt_compdistri);
-                                    editor.apply();
+                                        get_filename = "";
 
-                                    //Toast.makeText(getActivity(),txt_compdistri, Toast.LENGTH_LONG).show();
+                                        SharedPreferences.Editor editor = sp_vehicle.edit();
+                                        editor.putString("unid", jsonObject.getString("unid"));
+                                        editor.putString("compdistri", txt_compdistri);
+                                        editor.apply();
 
-                                    if(!serial_no.equals("")){
-                                        Navigation.findNavController(view).navigate(R.id.nav_dashboard);
-                                    }else{
-                                        Navigation.findNavController(view).navigate(R.id.nav_planning);
+                                        //Toast.makeText(getActivity(),txt_compdistri, Toast.LENGTH_LONG).show();
+
+                                        if(!serial_no.equals("")){
+                                            Navigation.findNavController(view).navigate(R.id.nav_dashboard);
+                                        }else{
+                                            Navigation.findNavController(view).navigate(R.id.nav_planning);
+                                        }
+
                                     }
 
-                                    //Navigation.findNavController(view).navigate(R.id.nav_planning);
-
-
-//                                    filename.setText("");
-//                                    txt_rdsospecs.getText().clear();
-//                                    txt_vendor.getText().clear();
-//                                    txt_vendorid.getText().clear();
-//                                    txt_fileno.getText().clear();
-//                                    txt_itemname.getText().clear();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                            }).show();
 
-                        }).show();
+                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -1096,7 +1102,16 @@ public class HomeFragment<array_uri> extends Fragment {
                     params.put("denting_painting", txt_denting_painting);
                     params.put("existing_fault", txt_existing_fault);
                     params.put("remarks", txt_remarks);
-                    params.put("count_loop", String.valueOf(count_loop));
+
+                    System.out.println(count_loop);
+                    if(count_loop == 0){
+                        params.put("loop_status", "end");
+                        System.out.println("loop_status end");
+                    }else{
+                        params.put("loop_status", "start");
+                        System.out.println("loop_status start");
+                    }
+
                     params.put("file_name", get_filename);
                     params.put("compartment_1", txt_compartment_1);
                     params.put("compartment_2", txt_compartment_2);

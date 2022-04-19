@@ -46,14 +46,16 @@ public class LeakTestFragment extends Fragment {
     TextView leak_date_text;
     EditText driver_name,tank_team_member,gp_from,gp_to;
     RadioGroup rg_leak_fix;
-    RadioButton leak_fix;
-    String txt_leak_date = "",txt_driver_name = "",txt_tank_team_member = "",txt_gp_from = "",txt_gp_to = "",txt_leak_fix = "",vehicle_unid = "";
+    RadioButton leak_fix,leak_fix_yes;
+    String txt_leak_date = "",txt_driver_name = "",txt_tank_team_member = "",txt_gp_from = "",txt_gp_to = "",txt_leak_fix = "",vehicle_unid = "",txt_sno = "",serial_no = "";
 
     String HttpURL = "http://3.222.104.176/index.php/leaktest";
+    String HttpURLGetLeak = "http://3.222.104.176/index.php/getleaktestdata";
     HashMap<String, String> hashMap = new HashMap<>();
     com.example.e4.HttpParse httpParse = new com.example.e4.HttpParse();
     ProgressDialog progressDialog;
     String finalResult;
+    String finalResult_GetLeak;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class LeakTestFragment extends Fragment {
         gp_from = root.findViewById(R.id.gp_from);
         gp_to = root.findViewById(R.id.gp_to);
         rg_leak_fix = root.findViewById(R.id.rg_leak_fix);
+        leak_fix_yes = root.findViewById(R.id.leak_fix_yes);
 
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
@@ -99,8 +102,20 @@ public class LeakTestFragment extends Fragment {
             Navigation.findNavController(view).navigate(R.id.nav_fitting);
         });
 
-        SharedPreferences sharedpreferences = getActivity().getSharedPreferences(HomeFragment.MyPREFERENCES, Context.MODE_PRIVATE);
-        vehicle_unid = sharedpreferences.getString("unid","");
+        SharedPreferences sharedpreferences_2 = getActivity().getSharedPreferences(VehicleStepsFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+        vehicle_unid = sharedpreferences_2.getString("vehicle_unid","");
+
+        SharedPreferences sharedpreferences_3 = getActivity().getSharedPreferences(DashboardFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+        serial_no = sharedpreferences_3.getString("serial_no","");
+
+        if(!serial_no.equals("")){
+            //Toast.makeText(getActivity(),vehicle_unid, Toast.LENGTH_SHORT).show();
+            GetLeakData();
+        }else{
+            //Toast.makeText(getActivity(),"empty", Toast.LENGTH_SHORT).show();
+            SharedPreferences sharedpreferences = getActivity().getSharedPreferences(HomeFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+            vehicle_unid = sharedpreferences.getString("unid","");
+        }
 
         next_leaktest.setOnClickListener(view -> {
 
@@ -118,6 +133,74 @@ public class LeakTestFragment extends Fragment {
         });
 
         return root;
+    }
+
+    public void GetLeakData() {
+
+        class GetLeakDataClass extends AsyncTask<String, Void, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                progressDialog = ProgressDialog.show(getActivity(), "Loading", null, true, true);
+            }
+
+            @Override
+            protected void onPostExecute(String httpResponseMsg) {
+
+                super.onPostExecute(httpResponseMsg);
+
+                //progressDialog.dismiss();
+
+                //Toast.makeText(getActivity(),httpResponseMsg, Toast.LENGTH_LONG).show();
+
+                try {
+                    JSONObject jsonObject = new JSONObject(httpResponseMsg);
+
+                    if (jsonObject.getString("status").equals("success")){
+
+                        JSONObject jsonObject_data = new JSONObject(jsonObject.getString("data"));
+
+                        System.out.println(jsonObject_data);
+
+                        driver_name.setText(jsonObject_data.getString("driver_name"));
+                        leak_date_text.setText(jsonObject_data.getString("leak_date"));
+                        tank_team_member.setText(jsonObject_data.getString("tank_team_member"));
+                        if(jsonObject_data.getString("leak_fix").equals("1"))
+                            leak_fix_yes.setChecked(true);
+                        gp_from.setText(jsonObject_data.getString("gp_from"));
+                        gp_to.setText(jsonObject_data.getString("gp_to"));
+                        txt_sno = jsonObject_data.getString("sno");
+
+                        progressDialog.dismiss();
+
+                    }else if (jsonObject.getString("status").equals("error")) {
+
+                        progressDialog.dismiss();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+
+                hashMap.put("vehicle_unid", vehicle_unid);
+
+                finalResult_GetLeak = httpParse.postRequest(hashMap, HttpURLGetLeak);
+
+                System.out.println(finalResult_GetLeak);
+
+                return finalResult_GetLeak;
+            }
+        }
+
+        GetLeakDataClass getLeakDataClass = new GetLeakDataClass();
+        getLeakDataClass.execute();
     }
 
     public void UserLoginFunction(View view) {
@@ -155,7 +238,13 @@ public class LeakTestFragment extends Fragment {
 
                                 createPdf();
 
-                                Navigation.findNavController(view).navigate(R.id.nav_post_test);
+                                //Navigation.findNavController(view).navigate(R.id.nav_post_test);
+
+                                if(!serial_no.equals("")){
+                                    Navigation.findNavController(view).navigate(R.id.nav_dashboard);
+                                }else{
+                                    Navigation.findNavController(view).navigate(R.id.nav_post_test);
+                                }
 
 //                                    filename.setText("");
 //                                    txt_rdsospecs.getText().clear();
@@ -187,6 +276,7 @@ public class LeakTestFragment extends Fragment {
                 hashMap.put("gp_from", txt_gp_from);
                 hashMap.put("gp_to", txt_gp_to);
                 hashMap.put("vehicle_unid", vehicle_unid);
+                hashMap.put("sno", txt_sno);
 
                 finalResult = httpParse.postRequest(hashMap, HttpURL);
 

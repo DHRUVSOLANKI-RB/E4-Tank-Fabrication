@@ -64,14 +64,14 @@
     <string name="compartment_distribution">Compartment Distribution</string>
     <string name="capacity">Capacity</string>
     <string name="photo">Photo</string>
-    <string name="acccesories_received">Acccesories Received</string>
+    <string name="acccesories_received">Accessories Received</string>
     <string name="spare_wheel">Spare Wheel</string>
     <string name="jack">Jack</string>
     <string name="jack_rod">Jack Rod</string>
     <string name="tool_kit">Tool Kit</string>
     <string name="back_sensors">Back Sensors</string>
     <string name="reflector">Reflector</string>
-    <string name="cabin_fire_extingusher">Cabin Fire Extingusher</string>
+    <string name="cabin_fire_extingusher">Cabin Fire Extinguisher</string>
     <string name="rear_lights">Rear Lights</string>
     <string name="battery_serial_number">Battery Serial Number</string>
     <string name="diesel_in_tank_liters">Diesel in Tank (Liters)</string>
@@ -144,7 +144,7 @@
     <string name="dip_rod_stand">Dip Rod Stand</string>
     <string name="earthing">Earthing</string>
     <string name="tank_cleaning">Tank Cleaning</string>
-    <string name="shutoff_valve_posotion">Shutoff Valve Posotion</string>
+    <string name="shutoff_valve_posotion">Shutoff Valve Position</string>
     <string name="safety_fitting">Safety Fitting</string>
     <string name="top_cover">Top Cover</string>
     <string name="gasket">Gasket</string>
@@ -232,7 +232,7 @@
     <string name="compartment_3_of_6">3 of 6</string>
     <string name="compartment_4_of_6">4 of 6</string>
     <string name="date">Test Date</string>
-    <string name="alluminium_work">Alluminium Work</string>
+    <string name="alluminium_work">Aluminium Work</string>
     <string name="stainless_steel_work">Stainless Steel Work</string>
     <string name="approving_capacity">Approving Capacity</string>
     <string name="dashboard">Dashboard</string>

@@ -44,7 +44,7 @@ public class FittingFragment extends Fragment {
             ,txt_comp44 = "",txt_comp51 = "",txt_comp52 = "",txt_comp53 = "",txt_comp54 = "",txt_comp61 = "",txt_comp62 = "", txt_comp63 = "",txt_comp64 = "",
             txt_safety_invoice_no = "",txt_safety_verified_by = "",txt_material_available = "",txt_safety_fittings = "",txt_pipe_line = "",txt_aluminium_material = ""
             ,txt_steel_material = "",txt_extra_accessories = "",txt_cutting_bending = "",txt_leak_test = "",vehicle_unid = "",user_id = "",txt_invoice_date_text = ""
-            ,txt_sno = "",comp_sno = "";
+            ,txt_sno = "",comp_sno = "",serial_no = "";
     LinearLayout layout_1,layout_2,layout_3,layout_4,layout_5,layout_6;
     EditText received_by,assigned_to,assigned_date,comp11,comp12,comp13,comp14,comp21,comp22,comp23,comp24,comp31,comp32,comp33,comp34,comp41,comp42,comp43,comp44,comp51,
             comp52,comp53,comp54,comp61,comp62,comp63,comp64,safety_invoice_no,safety_verified_by;
@@ -160,11 +160,16 @@ public class FittingFragment extends Fragment {
         SharedPreferences sharedpreferences_2 = getActivity().getSharedPreferences(VehicleStepsFragment.MyPREFERENCES, Context.MODE_PRIVATE);
         vehicle_unid = sharedpreferences_2.getString("vehicle_unid","");
 
-        if(!vehicle_unid.equals("")){
+        SharedPreferences sharedpreferences_3 = getActivity().getSharedPreferences(DashboardFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+        serial_no = sharedpreferences_3.getString("serial_no","");
+
+        if(!serial_no.equals("")){
             //Toast.makeText(getActivity(),vehicle_unid, Toast.LENGTH_SHORT).show();
             GetFittingData();
         }else{
             //Toast.makeText(getActivity(),"empty", Toast.LENGTH_SHORT).show();
+            SharedPreferences sharedpreferences3 = getActivity().getSharedPreferences(HomeFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+            vehicle_unid = sharedpreferences3.getString("unid","");
         }
 
         //Toast.makeText(getActivity(),compdistri, Toast.LENGTH_LONG).show();
@@ -359,6 +364,9 @@ public class FittingFragment extends Fragment {
 
                         progressDialog.dismiss();
 
+                    }else if (jsonObject.getString("status").equals("error")) {
+
+                        progressDialog.dismiss();
                     }
 
                 } catch (JSONException e) {
@@ -417,7 +425,13 @@ public class FittingFragment extends Fragment {
 
                                 progressDialog.dismiss();
 
-                                Navigation.findNavController(view).navigate(R.id.nav_leaktest);
+                                //Navigation.findNavController(view).navigate(R.id.nav_leaktest);
+
+                                if(!serial_no.equals("")){
+                                    Navigation.findNavController(view).navigate(R.id.nav_dashboard);
+                                }else{
+                                    Navigation.findNavController(view).navigate(R.id.nav_leaktest);
+                                }
 
 //                                    filename.setText("");
 //                                    txt_rdsospecs.getText().clear();

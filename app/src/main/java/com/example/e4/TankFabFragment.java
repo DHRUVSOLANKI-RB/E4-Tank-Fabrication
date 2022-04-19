@@ -56,7 +56,7 @@ public class TankFabFragment extends Fragment {
     RadioGroup rg_die_availability,rg_drawing_clear,rg_material_received,rg_cardel_support;
     RadioButton die_availability,drawing_clear,material_received,cardel_support,die_availability_yes,drawing_clear_yes,material_received_yes,cardel_support_yes;
     String txt_die_availability = "",txt_drawing_clear = "",txt_material_received = "",txt_cardel_support = "", txt_mounted_date = "",txt_assigned_date = "",
-            txt_from = "", txt_to = "",txt_authorised_by = "",txt_assigned_to = "",txt_received_by = "",user_id = "",vehicle_unid = "",txt_sno = "";
+            txt_from = "", txt_to = "",txt_authorised_by = "",txt_assigned_to = "",txt_received_by = "",user_id = "",vehicle_unid = "",txt_sno = "",serial_no = "";
     String HttpURL = "http://3.222.104.176/index.php/tankfab";
     String HttpURLGetPlanning = "http://3.222.104.176/index.php/gettankfabdata";
     HashMap<String, String> hashMap = new HashMap<>();
@@ -147,11 +147,16 @@ public class TankFabFragment extends Fragment {
         SharedPreferences sharedpreferences_1 = getActivity().getSharedPreferences(UserLoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
         user_id = sharedpreferences_1.getString("user_id","");
 
-        if(!vehicle_unid.equals("")){
+        SharedPreferences sharedpreferences_3 = getActivity().getSharedPreferences(DashboardFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+        serial_no = sharedpreferences_3.getString("serial_no","");
+
+        if(!serial_no.equals("")){
             //Toast.makeText(getActivity(),vehicle_unid, Toast.LENGTH_SHORT).show();
             GetPlanningData();
         }else{
             //Toast.makeText(getActivity(),"empty", Toast.LENGTH_SHORT).show();
+            SharedPreferences sharedpreferences2 = getActivity().getSharedPreferences(HomeFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+            vehicle_unid = sharedpreferences2.getString("unid","");
         }
 
         next_tankfeb.setOnClickListener(view -> {
@@ -239,6 +244,9 @@ public class TankFabFragment extends Fragment {
 
                         progressDialog.dismiss();
 
+                    }else if (jsonObject.getString("status").equals("error")) {
+
+                        progressDialog.dismiss();
                     }
 
                 } catch (JSONException e) {
@@ -299,7 +307,7 @@ public class TankFabFragment extends Fragment {
 
                                 createPdf();
 
-                                if(!vehicle_unid.equals("")){
+                                if(!serial_no.equals("")){
                                     Navigation.findNavController(view).navigate(R.id.nav_dashboard);
                                 }else{
                                     Navigation.findNavController(view).navigate(R.id.nav_fitting);

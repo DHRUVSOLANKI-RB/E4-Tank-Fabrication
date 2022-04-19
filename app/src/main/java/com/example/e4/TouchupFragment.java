@@ -26,13 +26,15 @@ import java.util.HashMap;
 public class TouchupFragment extends Fragment {
 
     String HttpURL = "http://3.222.104.176/index.php/touchup";
+    String HttpURLGetTouchup = "http://3.222.104.176/index.php/gettouchupdata";
     HashMap<String, String> hashMap = new HashMap<>();
     com.example.e4.HttpParse httpParse = new com.example.e4.HttpParse();
     ProgressDialog progressDialog;
     String finalResult;
+    String finalResult_GetTouchup;
     CheckBox main_hole,safety_fittings,ladder,al_top,locking_safety,accessories,final_color,sticker;
     String txt_main_hole = "",txt_safety_fittings = "",txt_ladder = "",txt_al_top = "",txt_locking_safety = "",txt_accessories = "",txt_final_color = "",
-            txt_sticker = "",vehicle_unid = "";
+            txt_sticker = "",vehicle_unid = "",serial_no = "",txt_sno = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,8 +58,20 @@ public class TouchupFragment extends Fragment {
             Navigation.findNavController(view).navigate(R.id.nav_coloring);
         });
 
-        SharedPreferences sharedpreferences = getActivity().getSharedPreferences(HomeFragment.MyPREFERENCES, Context.MODE_PRIVATE);
-        vehicle_unid = sharedpreferences.getString("unid","");
+        SharedPreferences sharedpreferences = getActivity().getSharedPreferences(VehicleStepsFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+        vehicle_unid = sharedpreferences.getString("vehicle_unid","");
+
+        SharedPreferences sharedpreferences_1 = getActivity().getSharedPreferences(DashboardFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+        serial_no = sharedpreferences_1.getString("serial_no","");
+
+        if(!serial_no.equals("")){
+            //Toast.makeText(getActivity(),vehicle_unid, Toast.LENGTH_SHORT).show();
+            GetTouchupData();
+        }else{
+            //Toast.makeText(getActivity(),"empty", Toast.LENGTH_SHORT).show();
+            SharedPreferences sharedpreferences2 = getActivity().getSharedPreferences(HomeFragment.MyPREFERENCES, Context.MODE_PRIVATE);
+            vehicle_unid = sharedpreferences2.getString("unid","");
+        }
 
         next_touchup.setOnClickListener(view -> {
 
@@ -82,6 +96,84 @@ public class TouchupFragment extends Fragment {
         });
 
         return root;
+    }
+
+    public void GetTouchupData() {
+
+        class GetTouchupDataClass extends AsyncTask<String, Void, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                progressDialog = ProgressDialog.show(getActivity(), "Loading", null, true, true);
+            }
+
+            @Override
+            protected void onPostExecute(String httpResponseMsg) {
+
+                super.onPostExecute(httpResponseMsg);
+
+                //progressDialog.dismiss();
+
+                //Toast.makeText(getActivity(),httpResponseMsg, Toast.LENGTH_LONG).show();
+
+                try {
+                    JSONObject jsonObject = new JSONObject(httpResponseMsg);
+
+                    if (jsonObject.getString("status").equals("success")){
+
+                        JSONObject jsonObject_data = new JSONObject(jsonObject.getString("data"));
+
+                        System.out.println(jsonObject_data);
+
+                        if(jsonObject_data.getString("main_hole").equals("1"))
+                            main_hole.setChecked(true);
+                        if(jsonObject_data.getString("safety_fittings").equals("1"))
+                            safety_fittings.setChecked(true);
+                        if(jsonObject_data.getString("ladder").equals("1"))
+                            ladder.setChecked(true);
+                        if(jsonObject_data.getString("al_top").equals("1"))
+                            al_top.setChecked(true);
+                        if(jsonObject_data.getString("locking_safety").equals("1"))
+                            locking_safety.setChecked(true);
+                        if(jsonObject_data.getString("accessories").equals("1"))
+                            accessories.setChecked(true);
+                        if(jsonObject_data.getString("final_color").equals("1"))
+                            final_color.setChecked(true);
+                        if(jsonObject_data.getString("sticker").equals("1"))
+                            sticker.setChecked(true);
+
+                        txt_sno = jsonObject_data.getString("sno");
+
+                        progressDialog.dismiss();
+
+                    }else if (jsonObject.getString("status").equals("error")) {
+
+                        progressDialog.dismiss();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+
+                hashMap.put("vehicle_unid", vehicle_unid);
+
+                finalResult_GetTouchup = httpParse.postRequest(hashMap, HttpURLGetTouchup);
+
+                System.out.println(finalResult_GetTouchup);
+
+                return finalResult_GetTouchup;
+            }
+        }
+
+        GetTouchupDataClass getTouchupDataClass = new GetTouchupDataClass();
+        getTouchupDataClass.execute();
     }
 
     public void UserLoginFunction(View view) {
@@ -117,7 +209,12 @@ public class TouchupFragment extends Fragment {
 
                                 progressDialog.dismiss();
 
-                                Navigation.findNavController(view).navigate(R.id.nav_checklistpredelivery);
+                                //Navigation.findNavController(view).navigate(R.id.nav_checklistpredelivery);
+                                if(!serial_no.equals("")){
+                                    Navigation.findNavController(view).navigate(R.id.nav_dashboard);
+                                }else{
+                                    Navigation.findNavController(view).navigate(R.id.nav_dashboard);
+                                }
 
 //                                    filename.setText("");
 //                                    txt_rdsospecs.getText().clear();
@@ -151,6 +248,7 @@ public class TouchupFragment extends Fragment {
                 hashMap.put("final_color", txt_final_color);
                 hashMap.put("sticker", txt_sticker);
                 hashMap.put("vehicle_unid", vehicle_unid);
+                hashMap.put("sno", txt_sno);
 
                 finalResult = httpParse.postRequest(hashMap, HttpURL);
 
